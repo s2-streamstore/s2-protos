@@ -1,0 +1,412 @@
+syntax = "proto3";
+
+package s2.v1alpha;
+
+import "google/protobuf/field_mask.proto";
+
+// Operate on an S2 account.
+service AccountService {
+  // List basins.
+  rpc ListBasins(ListBasinsRequest) returns (ListBasinsResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  // Create a new basin.
+  rpc CreateBasin(CreateBasinRequest) returns (CreateBasinResponse);
+
+  // Delete a basin.
+  rpc DeleteBasin(DeleteBasinRequest) returns (DeleteBasinResponse) {
+    option idempotency_level = IDEMPOTENT;
+  }
+
+  // Update basin configuration.
+  rpc ReconfigureBasin(ReconfigureBasinRequest) returns (ReconfigureBasinResponse) {
+    option idempotency_level = IDEMPOTENT;
+  }
+
+  // Get basin configuration.
+  rpc GetBasinConfig(GetBasinConfigRequest) returns (GetBasinConfigResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+}
+
+// Operate on an S2 basin.
+service BasinService {
+  // List streams.
+  rpc ListStreams(ListStreamsRequest) returns (ListStreamsResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  // Create a stream.
+  rpc CreateStream(CreateStreamRequest) returns (CreateStreamResponse);
+
+  // Delete a stream.
+  rpc DeleteStream(DeleteStreamRequest) returns (DeleteStreamResponse) {
+    option idempotency_level = IDEMPOTENT;
+  }
+
+  // Get stream configuration.
+  rpc GetStreamConfig(GetStreamConfigRequest) returns (GetStreamConfigResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  // Update stream configuration.
+  rpc ReconfigureStream(ReconfigureStreamRequest) returns (ReconfigureStreamResponse);
+}
+
+// Operate on an S2 stream.
+service StreamService {
+  // Check the sequence number that will be assigned to the next record on a stream.
+  rpc CheckTail(CheckTailRequest) returns (CheckTailResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  // Append a batch of records to a stream.
+  rpc Append(AppendRequest) returns (AppendResponse);
+
+  // Append batches of records to a stream continuously, while guaranteeing pipelined requests are processed in order.
+  // If any request fails, the session is terminated.
+  rpc AppendSession(stream AppendSessionRequest) returns (stream AppendSessionResponse);
+
+  // Retrieve a batch of records from a stream.
+  rpc Read(ReadRequest) returns (ReadResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  // Retrieve batches of records from a stream continuously.
+  rpc ReadSession(ReadSessionRequest) returns (stream ReadSessionResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+}
+
+/// AccountService ///
+
+message ListBasinsRequest {
+  // List basin names that begin with this prefix.
+  string prefix = 1;
+  // Only return basins names that lexicographically start after this name.
+  // This can be the last basin name seen in a previous listing, to continue from there.
+  // It must be greater than or equal to the prefix if specified.
+  string start_after = 2;
+  // Number of results, upto a maximum of 1000.
+  uint64 limit = 3;
+}
+
+message ListBasinsResponse {
+  // Matching basins.
+  repeated BasinMetadata basins = 1;
+  // If set, indicates there are more results that can be listed with `start_after`.
+  bool has_more = 2;
+}
+
+// Create a new basin.
+message CreateBasinRequest {
+  // Basin name, which must be globally unique. It can be omitted to let the service assign a unique name.
+  // The name must be between 8 and 48 characters, comprising lowercase letters, numbers and hyphens.
+  // It cannot begin or end with a hyphen.
+  string basin = 1;
+  // Basin configuration.
+  BasinConfig config = 2;
+  // Assignment of the basin to a cloud and region, or an explicit cell.
+  oneof assignment {
+    // Basin scope. It should be formatted as "{cloud}:{region}", e.g. "aws:us-east-1".
+    string scope = 3;
+    // Explicit cell assignment, if it is owned by the account.
+    string cell = 4;
+  }
+}
+
+message CreateBasinResponse {
+  // Metadata for the newly created basin.
+  BasinMetadata basin = 1;
+}
+
+message DeleteBasinRequest {
+  // Name of the basin to delete.
+  string basin = 1;
+}
+
+message DeleteBasinResponse {}
+
+message GetBasinConfigRequest {
+  // Basin name.
+  string basin = 1;
+}
+
+message GetBasinConfigResponse {
+  // Basin configuration.
+  BasinConfig config = 1;
+}
+
+message ReconfigureBasinRequest {
+  // Basin name.
+  string basin = 1;
+  // Basin configuration.
+  BasinConfig config = 2;
+  // Specifies the pieces of configuration being updated.
+  // See https://protobuf.dev/reference/protobuf/google.protobuf/#field-mask
+  google.protobuf.FieldMask mask = 3;
+}
+
+message ReconfigureBasinResponse {}
+
+/// BasinService ///
+
+message ListStreamsRequest {
+  // List stream names that begin with this prefix.
+  string prefix = 1;
+  // Only return stream names that lexicographically start after this name.
+  // This can be the last stream name seen in a previous listing, to continue from there.
+  // It must be greater than or equal to the prefix if specified.
+  string start_after = 2;
+  // Number of results, upto a maximum of 1000.
+  uint64 limit = 3;
+}
+
+message ListStreamsResponse {
+  // Stream names.
+  repeated string streams = 1;
+  // If set, indicates there are more results that can be listed with `start_after`.
+  bool has_more = 2;
+}
+
+message CreateStreamRequest {
+  // Stream name, which must be unique within the basin.
+  // It can be an arbitrary string upto 512 characters.
+  // Backslash (`/`) is recommended as a delimiter for hierarchical naming.
+  string stream = 1;
+  // Configuration for the new stream.
+  StreamConfig config = 2;
+}
+
+message CreateStreamResponse {}
+
+message DeleteStreamRequest {
+  // Stream name.
+  string stream = 1;
+}
+
+message DeleteStreamResponse {}
+
+message GetStreamConfigRequest {
+  // Stream name.
+  string stream = 1;
+}
+
+message GetStreamConfigResponse {
+  // Stream configuration.
+  StreamConfig config = 1;
+}
+
+message ReconfigureStreamRequest {
+  // Stream name.
+  string stream = 1;
+  // Stream configuration with updated values.
+  StreamConfig config = 2;
+  // Specifies the pieces of configuration being updated.
+  // See https://protobuf.dev/reference/protobuf/google.protobuf/#field-mask
+  google.protobuf.FieldMask mask = 3;
+}
+
+message ReconfigureStreamResponse {}
+
+/// StreamService ///
+
+message CheckTailRequest {
+  // Stream name.
+  string stream = 1;
+}
+
+message CheckTailResponse {
+  // Sequence number that will be assigned to the next record on the stream.
+  uint64 next_seq_num = 1;
+}
+
+message AppendInput {
+  // Stream name. Optional for subsequent requests in the session.
+  string stream = 1;
+  // Batch of records to append atomically, which must contain at least one record, and no more than 1000.
+  // The total size of a batch of records may not exceed 1MiB of metered bytes.
+  repeated AppendRecord records = 2;
+  // Enforce that the sequence number issued to the first record matches.
+  optional uint64 match_seq_num = 3;
+  // Enforce a fencing token which must have been previously set by a `fence` command record.
+  optional bytes fencing_token = 4;
+}
+
+message AppendOutput {
+  // Sequence number of first record appended.
+  uint64 start_seq_num = 1;
+  // Sequence number of last record appended + 1.
+  // `end_seq_num - start_seq_num` will be the number of records in the batch.
+  uint64 end_seq_num = 2;
+  // Sequence number of last durable record on the stream + 1.
+  // This can be greater than `end_seq_num` in case of concurrent appends.
+  uint64 next_seq_num = 3;
+}
+
+message AppendRequest {
+  // Request parameters for an append.
+  AppendInput input = 1;
+}
+
+message AppendResponse {
+  // Response details for an append.
+  AppendOutput output = 1;
+}
+
+message AppendSessionRequest {
+  // Request parameters for an append.
+  AppendInput input = 1;
+}
+
+message AppendSessionResponse {
+  // Response details for an append.
+  AppendOutput output = 1;
+}
+
+message ReadOutput {
+  // Reply which can be a batch of records, or a sequence number if the request could not be satisfied.
+  oneof output {
+    // Batch of records.
+    // This batch can be empty only if a `ReadLimit` was provided in the associated read request, but the first record
+    // that could have been returned would violate the limit.
+    SequencedRecordBatch batch = 1;
+    // Sequence number for the first record on this stream, in case the requested `start_seq_num` is smaller.
+    // If returned in a streaming read session, this will be a terminal reply, to signal that there is uncertainty about whether some records may be omitted.
+    // The client can re-establish the session starting at this sequence number.
+    uint64 first_seq_num = 2;
+    // Sequence number for the next record on this stream, in case the requested `start_seq_num` was larger.
+    // If returned in a streaming read session, this will be a terminal reply.
+    uint64 next_seq_num = 3;
+  }
+}
+
+message ReadRequest {
+  // Stream name.
+  string stream = 1;
+  // Starting sequence number (inclusive). If not specified, the latest record.
+  optional uint64 start_seq_num = 2;
+  // Limit on how many records can be returned upto a maximum of 1000, or 1MiB of metered bytes.
+  optional ReadLimit limit = 3;
+}
+
+message ReadResponse {
+  // Response details for a read.
+  ReadOutput output = 1;
+}
+
+// If both count and bytes are non-zero, either limit may be hit.
+message ReadLimit {
+  // A value of zero signifies no count limit.
+  uint64 count = 1;
+  // A value of zero signifies no bytes limit.
+  // Bytes are calculated using the "metered bytes" formula:
+  // ```python
+  // metered_bytes = lambda record: 8 + 2 * len(record.headers) + sum((len(h.key) + len(h.value)) for h in record.headers) + len(record.body)
+  // ````
+  uint64 bytes = 2;
+}
+
+message ReadSessionRequest {
+  // Stream name.
+  string stream = 1;
+  // Starting sequence number (inclusive). If not specified, the latest record.
+  optional uint64 start_seq_num = 2;
+  // Limit on how many records can be returned. When a limit is specified, the session will be terminated as soon as
+  // the limit is met, or when the current tail of the stream is reached -- whichever occurs first.
+  // If no limit is specified, the session will remain open after catching up to the tail, and continue tailing as
+  // new messages are written to the stream.
+  optional ReadLimit limit = 3;
+}
+
+message ReadSessionResponse {
+  // Response details for a read.
+  ReadOutput output = 1;
+}
+
+/// Common types ///
+
+enum StorageClass {
+  // Unspecified, which will be overridden by the service with a default choice.
+  STORAGE_CLASS_UNSPECIFIED = 0;
+  // Standard, which offers end-to-end latencies of under 500 ms for recent writes.
+  STORAGE_CLASS_STANDARD = 1;
+  // Express, which offers end-to-end latencies of under 50 ms for recent writes.
+  STORAGE_CLASS_EXPRESS = 2;
+}
+
+message StreamConfig {
+  // Storage class for recent writes. This is the main cost:performance knob in S2.
+  StorageClass storage_class = 1;
+  // Retention policy for the stream.
+  // Compaction on keys will be supported in future, by specifying a header name whose value corresponds to record key.
+  oneof retention_policy {
+    // Age threshold of oldest records in the stream, which can be automatically trimmed.
+    uint64 age_millis = 2;
+  }
+}
+
+message BasinConfig {
+  // Default stream configuration.
+  StreamConfig default_stream_config = 1;
+}
+
+enum BasinState {
+  // Unspecified.
+  BASIN_STATE_UNSPECIFIED = 0;
+  // Basin is active.
+  BASIN_STATE_ACTIVE = 1;
+  // Basin is being created.
+  BASIN_STATE_CREATING = 2;
+  // Basin is being deleted.
+  BASIN_STATE_DELETING = 3;
+}
+
+message BasinMetadata {
+  // Basin name.
+  string name = 1;
+  // Basin scope.
+  string scope = 2;
+  // Cell assignment.
+  string cell = 3;
+  // Basin state.
+  BasinState state = 4;
+}
+
+// Headers add structured information to a record as name-value pairs.
+//
+// Header names cannot be empty, with the exception of "command messages" that are interpreted by S2. A command message is signalled by a sole header with empty name. The header value represents an operation, and the record body acts as a payload for the command. S2 client SDKs provide high-level APIs for command messages, and advanced users may also create them directly.
+//
+// Valid operations are as follows:
+// - `fence` with an upto 16 byte payload to set a fencing token. An empty payload clears the token. Fencing is strongly consistent, and subsequent appends that specify a fencing token will be rejected if it does not match.
+// - `trim` with exactly 8 big-endian bytes as payload representing the desired earliest sequence number. This sequence number is only allowed to advance, and any regression will be ignored. Trimming is eventually consistent, and trimmed records may be visible for a brief period.
+message Header {
+  // Header name blob.
+  bytes name = 1;
+  // Header value blob.
+  bytes value = 2;
+}
+
+// Record to be appended to a stream.
+message AppendRecord {
+  // Series of name-value pairs for this record.
+  repeated Header headers = 1;
+  // Body of this record.
+  bytes body = 2;
+}
+
+// Record retrieved from a stream.
+message SequencedRecord {
+  // Sequence number for this record.
+  uint64 seq_num = 1;
+  // Series of name-value pairs for this record.
+  repeated Header headers = 2;
+  // Body of this record.
+  bytes body = 3;
+}
+
+message SequencedRecordBatch {
+  // Batch of sequenced records.
+  repeated SequencedRecord records = 1;
+}

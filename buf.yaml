@@ -1,0 +1,12 @@
+version: v2
+name: buf.build/bandar/s2
+lint:
+  use:
+    - STANDARD
+    - COMMENTS
+  except:
+    - COMMENT_ENUM
+    - COMMENT_MESSAGE
+breaking:
+  use:
+    - FILE
