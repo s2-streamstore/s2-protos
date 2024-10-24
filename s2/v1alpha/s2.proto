@@ -304,7 +304,7 @@ message ReadLimit {
   // Bytes are calculated using the "metered bytes" formula:
   // ```python
   // metered_bytes = lambda record: 8 + 2 * len(record.headers) + sum((len(h.key) + len(h.value)) for h in record.headers) + len(record.body)
-  // ````
+  // ```
   uint64 bytes = 2;
 }
 
