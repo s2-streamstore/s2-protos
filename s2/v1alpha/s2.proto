@@ -12,9 +12,11 @@ service AccountService {
   }
 
   // Create a new basin.
+  // Provide a client request token with the `S2-Request-Token` header to allow idempotent retries.
   rpc CreateBasin(CreateBasinRequest) returns (CreateBasinResponse);
 
   // Delete a basin.
+  // Basin deletion is asynchronous, and may take a few minutes to complete.
   rpc DeleteBasin(DeleteBasinRequest) returns (DeleteBasinResponse) {
     option idempotency_level = IDEMPOTENT;
   }
@@ -38,9 +40,13 @@ service BasinService {
   }
 
   // Create a stream.
-  rpc CreateStream(CreateStreamRequest) returns (CreateStreamResponse);
+  // Provide a client request token with the `S2-Request-Token` header to allow idempotent retries.
+  rpc CreateStream(CreateStreamRequest) returns (CreateStreamResponse) {
+    option idempotency_level = IDEMPOTENT;
+  }
 
   // Delete a stream.
+  // Stream deletion is asynchronous, and may take a few minutes to complete.
   rpc DeleteStream(DeleteStreamRequest) returns (DeleteStreamResponse) {
     option idempotency_level = IDEMPOTENT;
   }
@@ -51,7 +57,9 @@ service BasinService {
   }
 
   // Update stream configuration.
-  rpc ReconfigureStream(ReconfigureStreamRequest) returns (ReconfigureStreamResponse);
+  rpc ReconfigureStream(ReconfigureStreamRequest) returns (ReconfigureStreamResponse) {
+    option idempotency_level = IDEMPOTENT;
+  }
 }
 
 // Operate on an S2 stream.
@@ -94,7 +102,7 @@ message ListBasinsRequest {
 
 message ListBasinsResponse {
   // Matching basins.
-  repeated BasinMetadata basins = 1;
+  repeated BasinInfo basins = 1;
   // If set, indicates there are more results that can be listed with `start_after`.
   bool has_more = 2;
 }
@@ -117,8 +125,8 @@ message CreateBasinRequest {
 }
 
 message CreateBasinResponse {
-  // Metadata for the newly created basin.
-  BasinMetadata basin = 1;
+  // Information about the newly created basin.
+  BasinInfo info = 1;
 }
 
 message DeleteBasinRequest {
@@ -155,6 +163,15 @@ message ReconfigureBasinResponse {
 
 /// BasinService ///
 
+message StreamInfo {
+  // Stream name.
+  string name = 1;
+  // Creation time in seconds since Unix epoch.
+  uint32 created_at = 2;
+  // Deletion time in seconds since Unix epoch, if the stream is being deleted.
+  optional uint32 deleted_at = 3;
+}
+
 message ListStreamsRequest {
   // List stream names that begin with this prefix.
   string prefix = 1;
@@ -167,8 +184,8 @@ message ListStreamsRequest {
 }
 
 message ListStreamsResponse {
-  // Stream names.
-  repeated string streams = 1;
+  // Matching streams.
+  repeated StreamInfo streams = 1;
   // If set, indicates there are more results that can be listed with `start_after`.
   bool has_more = 2;
 }
@@ -182,7 +199,9 @@ message CreateStreamRequest {
   StreamConfig config = 2;
 }
 
-message CreateStreamResponse {}
+message CreateStreamResponse {
+  StreamInfo info = 1;
+}
 
 message DeleteStreamRequest {
   // Stream name.
@@ -366,7 +385,7 @@ enum BasinState {
   BASIN_STATE_DELETING = 3;
 }
 
-message BasinMetadata {
+message BasinInfo {
   // Basin name.
   string name = 1;
   // Basin scope.
