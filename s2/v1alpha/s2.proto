@@ -148,7 +148,10 @@ message ReconfigureBasinRequest {
   google.protobuf.FieldMask mask = 3;
 }
 
-message ReconfigureBasinResponse {}
+message ReconfigureBasinResponse {
+  // Basin configuration.
+  BasinConfig config = 1;
+}
 
 /// BasinService ///
 
