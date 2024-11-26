@@ -200,6 +200,7 @@ message CreateStreamRequest {
 }
 
 message CreateStreamResponse {
+  // Information about the newly created stream.
   StreamInfo info = 1;
 }
 
