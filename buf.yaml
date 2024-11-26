@@ -1,5 +1,7 @@
 version: v2
-name: buf.build/bandar/s2
+modules:
+  - path: .
+    name: buf.build/streamstore/s2
 lint:
   use:
     - STANDARD
