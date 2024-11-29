@@ -13,7 +13,9 @@ service AccountService {
 
   // Create a new basin.
   // Provide a client request token with the `S2-Request-Token` header to allow idempotent retries.
-  rpc CreateBasin(CreateBasinRequest) returns (CreateBasinResponse);
+  rpc CreateBasin(CreateBasinRequest) returns (CreateBasinResponse) {
+    option idempotency_level = IDEMPOTENT;
+  }
 
   // Delete a basin.
   // Basin deletion is asynchronous, and may take a few minutes to complete.
