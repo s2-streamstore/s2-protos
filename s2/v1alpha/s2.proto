@@ -233,7 +233,10 @@ message ReconfigureStreamRequest {
   google.protobuf.FieldMask mask = 3;
 }
 
-message ReconfigureStreamResponse {}
+message ReconfigureStreamResponse {
+  // Stream configuration.
+  StreamConfig config = 1;
+}
 
 /// StreamService ///
 
