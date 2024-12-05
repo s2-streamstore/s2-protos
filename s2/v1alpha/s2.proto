@@ -313,8 +313,8 @@ message ReadOutput {
 message ReadRequest {
   // Stream name.
   string stream = 1;
-  // Starting sequence number (inclusive). If not specified, the latest record.
-  optional uint64 start_seq_num = 2;
+  // Starting sequence number (inclusive).
+  uint64 start_seq_num = 2;
   // Limit on how many records can be returned upto a maximum of 1000, or 1MiB of metered bytes.
   optional ReadLimit limit = 3;
 }
@@ -339,8 +339,8 @@ message ReadLimit {
 message ReadSessionRequest {
   // Stream name.
   string stream = 1;
-  // Starting sequence number (inclusive). If not specified, the latest record.
-  optional uint64 start_seq_num = 2;
+  // Starting sequence number (inclusive).
+  uint64 start_seq_num = 2;
   // Limit on how many records can be returned. When a limit is specified, the session will be terminated as soon as
   // the limit is met, or when the current tail of the stream is reached -- whichever occurs first.
   // If no limit is specified, the session will remain open after catching up to the tail, and continue tailing as
