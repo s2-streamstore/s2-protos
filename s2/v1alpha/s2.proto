@@ -91,6 +91,7 @@ service StreamService {
 
 /// AccountService ///
 
+// List basins request.
 message ListBasinsRequest {
   // List basin names that begin with this prefix.
   string prefix = 1;
@@ -102,6 +103,7 @@ message ListBasinsRequest {
   uint64 limit = 3;
 }
 
+// List basins response.
 message ListBasinsResponse {
   // Matching basins.
   repeated BasinInfo basins = 1;
@@ -109,7 +111,7 @@ message ListBasinsResponse {
   bool has_more = 2;
 }
 
-// Create a new basin.
+// Create basin request.
 message CreateBasinRequest {
   // Basin name, which must be globally unique. It can be omitted to let the service assign a unique name.
   // The name must be between 8 and 48 characters, comprising lowercase letters, numbers and hyphens.
@@ -126,28 +128,34 @@ message CreateBasinRequest {
   }
 }
 
+// Create basin response.
 message CreateBasinResponse {
   // Information about the newly created basin.
   BasinInfo info = 1;
 }
 
+// Delete basin request.
 message DeleteBasinRequest {
   // Name of the basin to delete.
   string basin = 1;
 }
 
+// Delete basin response.
 message DeleteBasinResponse {}
 
+// Get basin configuration request.
 message GetBasinConfigRequest {
   // Basin name.
   string basin = 1;
 }
 
+// Get basin configuration response.
 message GetBasinConfigResponse {
   // Basin configuration.
   BasinConfig config = 1;
 }
 
+// Reconfigure basin request.
 message ReconfigureBasinRequest {
   // Basin name.
   string basin = 1;
@@ -158,6 +166,7 @@ message ReconfigureBasinRequest {
   google.protobuf.FieldMask mask = 3;
 }
 
+// Reconfigure basin response.
 message ReconfigureBasinResponse {
   // Basin configuration.
   BasinConfig config = 1;
@@ -165,6 +174,7 @@ message ReconfigureBasinResponse {
 
 /// BasinService ///
 
+// Stream information.
 message StreamInfo {
   // Stream name.
   string name = 1;
@@ -174,6 +184,7 @@ message StreamInfo {
   optional uint32 deleted_at = 3;
 }
 
+// List streams request.
 message ListStreamsRequest {
   // List stream names that begin with this prefix.
   string prefix = 1;
@@ -185,6 +196,7 @@ message ListStreamsRequest {
   uint64 limit = 3;
 }
 
+// List streams response.
 message ListStreamsResponse {
   // Matching streams.
   repeated StreamInfo streams = 1;
@@ -192,6 +204,7 @@ message ListStreamsResponse {
   bool has_more = 2;
 }
 
+// Create stream request.
 message CreateStreamRequest {
   // Stream name, which must be unique within the basin.
   // It can be an arbitrary string upto 512 characters.
@@ -201,28 +214,34 @@ message CreateStreamRequest {
   StreamConfig config = 2;
 }
 
+// Create stream response.
 message CreateStreamResponse {
   // Information about the newly created stream.
   StreamInfo info = 1;
 }
 
+// Delete stream request.
 message DeleteStreamRequest {
   // Stream name.
   string stream = 1;
 }
 
+// Delete stream response.
 message DeleteStreamResponse {}
 
+// Get stream configuration request.
 message GetStreamConfigRequest {
   // Stream name.
   string stream = 1;
 }
 
+// Get stream configuration response.
 message GetStreamConfigResponse {
   // Stream configuration.
   StreamConfig config = 1;
 }
 
+// Reconfigure stream request.
 message ReconfigureStreamRequest {
   // Stream name.
   string stream = 1;
@@ -233,6 +252,7 @@ message ReconfigureStreamRequest {
   google.protobuf.FieldMask mask = 3;
 }
 
+// Reconfigure stream response.
 message ReconfigureStreamResponse {
   // Stream configuration.
   StreamConfig config = 1;
@@ -240,16 +260,19 @@ message ReconfigureStreamResponse {
 
 /// StreamService ///
 
+// Check tail request.
 message CheckTailRequest {
   // Stream name.
   string stream = 1;
 }
 
+// Check tail response.
 message CheckTailResponse {
   // Sequence number that will be assigned to the next record on the stream.
   uint64 next_seq_num = 1;
 }
 
+// Input for append requests.
 message AppendInput {
   // Stream name. Optional for subsequent requests in the session.
   string stream = 1;
@@ -262,6 +285,7 @@ message AppendInput {
   optional bytes fencing_token = 4;
 }
 
+// Output from append response.
 message AppendOutput {
   // Sequence number of first record appended.
   uint64 start_seq_num = 1;
@@ -273,26 +297,31 @@ message AppendOutput {
   uint64 next_seq_num = 3;
 }
 
+// Append request.
 message AppendRequest {
   // Request parameters for an append.
   AppendInput input = 1;
 }
 
+// Append response.
 message AppendResponse {
   // Response details for an append.
   AppendOutput output = 1;
 }
 
+// Append session request.
 message AppendSessionRequest {
   // Request parameters for an append.
   AppendInput input = 1;
 }
 
+// Append session response.
 message AppendSessionResponse {
   // Response details for an append.
   AppendOutput output = 1;
 }
 
+// Output from read response.
 message ReadOutput {
   // Reply which can be a batch of records, or a sequence number if the request could not be satisfied.
   oneof output {
@@ -310,6 +339,7 @@ message ReadOutput {
   }
 }
 
+// Read request.
 message ReadRequest {
   // Stream name.
   string stream = 1;
@@ -319,6 +349,7 @@ message ReadRequest {
   optional ReadLimit limit = 3;
 }
 
+// Read response.
 message ReadResponse {
   // Response details for a read.
   ReadOutput output = 1;
@@ -336,6 +367,7 @@ message ReadLimit {
   uint64 bytes = 2;
 }
 
+// Read session request.
 message ReadSessionRequest {
   // Stream name.
   string stream = 1;
@@ -348,6 +380,7 @@ message ReadSessionRequest {
   optional ReadLimit limit = 3;
 }
 
+// Read session response.
 message ReadSessionResponse {
   // Response details for a read.
   ReadOutput output = 1;
@@ -355,6 +388,7 @@ message ReadSessionResponse {
 
 /// Common types ///
 
+// Storage class for recent writes.
 enum StorageClass {
   // Unspecified, which currently overridden to `STORAGE_CLASS_EXPRESS`.
   STORAGE_CLASS_UNSPECIFIED = 0;
@@ -364,6 +398,7 @@ enum StorageClass {
   STORAGE_CLASS_EXPRESS = 2;
 }
 
+// Stream configuration.
 message StreamConfig {
   // Storage class for recent writes. This is the main cost:performance knob in S2.
   StorageClass storage_class = 1;
@@ -377,11 +412,13 @@ message StreamConfig {
   }
 }
 
+/// Basin configuration.
 message BasinConfig {
   // Default stream configuration.
   StreamConfig default_stream_config = 1;
 }
 
+// Current state of the basin.
 enum BasinState {
   // Unspecified.
   BASIN_STATE_UNSPECIFIED = 0;
@@ -393,6 +430,7 @@ enum BasinState {
   BASIN_STATE_DELETING = 3;
 }
 
+/// Basin information.
 message BasinInfo {
   // Basin name.
   string name = 1;
@@ -436,6 +474,7 @@ message SequencedRecord {
   bytes body = 3;
 }
 
+// A batch of sequenced records.
 message SequencedRecordBatch {
   // Batch of sequenced records.
   repeated SequencedRecord records = 1;
