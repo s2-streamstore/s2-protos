@@ -12,7 +12,7 @@ service AccountService {
   }
 
   // Create a new basin.
-  // Provide a client request token with the `S2-Request-Token` header to allow idempotent retries.
+  // Provide a client request token with the `S2-Request-Token` header for idempotent retry behaviour.
   rpc CreateBasin(CreateBasinRequest) returns (CreateBasinResponse) {
     option idempotency_level = IDEMPOTENT;
   }
@@ -42,7 +42,7 @@ service BasinService {
   }
 
   // Create a stream.
-  // Provide a client request token with the `S2-Request-Token` header to allow idempotent retries.
+  // Provide a client request token with the `S2-Request-Token` header for idempotent retry behaviour.
   rpc CreateStream(CreateStreamRequest) returns (CreateStreamResponse) {
     option idempotency_level = IDEMPOTENT;
   }
@@ -360,10 +360,7 @@ message ReadLimit {
   // A value of zero signifies no count limit.
   uint64 count = 1;
   // A value of zero signifies no bytes limit.
-  // Bytes are calculated using the "metered bytes" formula:
-  // ```python
-  // metered_bytes = lambda record: 8 + 2 * len(record.headers) + sum((len(h.key) + len(h.value)) for h in record.headers) + len(record.body)
-  // ```
+  // Record sizes are calculated as metered bytes.
   uint64 bytes = 2;
 }
 
@@ -390,7 +387,7 @@ message ReadSessionResponse {
 
 // Storage class for recent writes.
 enum StorageClass {
-  // Unspecified, which currently overridden to `STORAGE_CLASS_EXPRESS`.
+  // Unspecified, which is currently overridden to `STORAGE_CLASS_EXPRESS`.
   STORAGE_CLASS_UNSPECIFIED = 0;
   // Standard, which offers end-to-end latencies under 500 ms.
   STORAGE_CLASS_STANDARD = 1;
@@ -407,12 +404,11 @@ message StreamConfig {
   oneof retention_policy {
     // Age in seconds for automatic trimming of records older than this threshold.
     // If set to 0, the stream will have infinite retention.
-    // Currently, a maximum retention of 28 days is allowed. This limit will be lifted in future.
     uint64 age = 2;
   }
 }
 
-/// Basin configuration.
+// Basin configuration.
 message BasinConfig {
   // Default stream configuration.
   StreamConfig default_stream_config = 1;
@@ -430,7 +426,7 @@ enum BasinState {
   BASIN_STATE_DELETING = 3;
 }
 
-/// Basin information.
+// Basin information.
 message BasinInfo {
   // Basin name.
   string name = 1;
