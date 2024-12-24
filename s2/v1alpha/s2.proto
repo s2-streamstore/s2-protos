@@ -440,7 +440,7 @@ message BasinInfo {
 
 // Headers add structured information to a record as name-value pairs.
 //
-// Header names cannot be empty, with the exception of "command messages" that are interpreted by S2. A command message is signalled by a sole header with empty name. The header value represents an operation, and the record body acts as a payload for the command. S2 client SDKs provide high-level APIs for command messages, and advanced users may also create them directly.
+// Header names cannot be empty, with the exception of "command records" that are interpreted by S2. A command records is signalled by a sole header with empty name. The header value represents an operation, and the record body acts as a payload for the command. S2 client SDKs provide high-level APIs for command records, and advanced users may also create them directly.
 //
 // Valid operations are as follows:
 // - `fence` with an upto 16 byte payload to set a fencing token. An empty payload clears the token. Fencing is strongly consistent, and subsequent appends that specify a fencing token will be rejected if it does not match.
