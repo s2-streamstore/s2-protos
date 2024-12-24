@@ -441,7 +441,7 @@ message BasinInfo {
 // Headers add structured information to a record as name-value pairs.
 message Header {
   // Header name blob.
-  // The name may not be empty, with the exception of an operation supported as an S2 command record.
+  // The name cannot be empty, with the exception of an S2 command record.
   bytes name = 1;
   // Header value blob.
   bytes value = 2;
