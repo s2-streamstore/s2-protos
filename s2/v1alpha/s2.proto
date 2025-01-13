@@ -346,7 +346,7 @@ message ReadRequest {
   // Starting sequence number (inclusive).
   uint64 start_seq_num = 2;
   // Limit on how many records can be returned upto a maximum of 1000, or 1MiB of metered bytes.
-  optional ReadLimit limit = 3;
+  ReadLimit limit = 3;
 }
 
 // Read response.
@@ -355,13 +355,12 @@ message ReadResponse {
   ReadOutput output = 1;
 }
 
-// If both count and bytes are non-zero, either limit may be hit.
+// If both count and bytes are specified, either limit may be hit.
 message ReadLimit {
-  // A value of zero signifies no count limit.
-  uint64 count = 1;
-  // A value of zero signifies no bytes limit.
-  // Record sizes are calculated as metered bytes.
-  uint64 bytes = 2;
+  // Record count limit.
+  optional uint64 count = 1;
+  // Metered bytes limit.
+  optional uint64 bytes = 2;
 }
 
 // Read session request.
@@ -374,7 +373,7 @@ message ReadSessionRequest {
   // the limit is met, or when the current tail of the stream is reached -- whichever occurs first.
   // If no limit is specified, the session will remain open after catching up to the tail, and continue tailing as
   // new messages are written to the stream.
-  optional ReadLimit limit = 3;
+  ReadLimit limit = 3;
 }
 
 // Read session response.

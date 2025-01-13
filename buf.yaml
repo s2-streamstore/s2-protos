@@ -11,4 +11,4 @@ lint:
     - COMMENT_MESSAGE
 breaking:
   use:
-    - FILE
+    - WIRE
