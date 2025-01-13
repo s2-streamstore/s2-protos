@@ -4,6 +4,9 @@ package s2.v1alpha;
 
 import "google/protobuf/field_mask.proto";
 
+option java_multiple_files = true;
+option java_package = "s2.v1alpha";
+
 // Operate on an S2 account.
 service AccountService {
   // List basins.
