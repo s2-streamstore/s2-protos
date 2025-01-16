@@ -13,7 +13,7 @@ jobs:
   dispatch:
     strategy:
       matrix:
-        repo: ['s2/s2-sdk-python', 's2/s2-sdk-java', 's2/s2-sdk-go', 's2/s2-sdk-rust', 's2/docs']
+        repo: ['s2-streamstore/s2-sdk-python', 's2-streamstore/s2-sdk-java', 's2-streamstore/s2-sdk-go', 's2-streamstore/s2-sdk-rust', 's2-streamstore/docs']
     runs-on: ubuntu-latest
     steps:
       - uses: actions/create-github-app-token@v1
