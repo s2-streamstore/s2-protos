@@ -2,7 +2,10 @@ name: Trigger s2-proto-update for downstream repos
 
 on:
   push:
+    branches:
+     - 'repository_dispatch'
     paths:
+      - '**'
       - 's2/**'
 
 
