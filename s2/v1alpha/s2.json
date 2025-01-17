@@ -407,15 +407,6 @@
               "format": "int64",
               "minimum": 0
             }
-          },
-          {
-            "name": "s2-basin",
-            "in": "header",
-            "description": "Only required when basin is not part of the endpoint.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -472,9 +463,6 @@
         },
         "servers": [
           {
-            "url": "https://aws.s2.dev/v1alpha"
-          },
-          {
             "url": "https://{basin}.b.aws.s2.dev/v1alpha",
             "description": "Directly access the basin",
             "variables": {
@@ -517,15 +505,6 @@
             "in": "path",
             "description": "Name of the stream.",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "s2-basin",
-            "in": "header",
-            "description": "Only required when basin is not part of the endpoint.",
-            "required": false,
             "schema": {
               "type": "string"
             }
@@ -585,9 +564,6 @@
         },
         "servers": [
           {
-            "url": "https://aws.s2.dev/v1alpha"
-          },
-          {
             "url": "https://{basin}.b.aws.s2.dev/v1alpha",
             "description": "Directly access the basin",
             "variables": {
@@ -610,15 +586,6 @@
             "in": "path",
             "description": "Name of the stream.",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "s2-basin",
-            "in": "header",
-            "description": "Only required when basin is not part of the endpoint.",
-            "required": false,
             "schema": {
               "type": "string"
             }
@@ -696,9 +663,6 @@
         },
         "servers": [
           {
-            "url": "https://aws.s2.dev/v1alpha"
-          },
-          {
             "url": "https://{basin}.b.aws.s2.dev/v1alpha",
             "description": "Directly access the basin",
             "variables": {
@@ -721,15 +685,6 @@
             "in": "path",
             "description": "Name of the stream.",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "s2-basin",
-            "in": "header",
-            "description": "Only required when basin is not part of the endpoint.",
-            "required": false,
             "schema": {
               "type": "string"
             }
@@ -781,9 +736,6 @@
           }
         },
         "servers": [
-          {
-            "url": "https://aws.s2.dev/v1alpha"
-          },
           {
             "url": "https://{basin}.b.aws.s2.dev/v1alpha",
             "description": "Directly access the basin",
@@ -870,15 +822,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "s2-basin",
-            "in": "header",
-            "description": "Only required when basin is not part of the endpoint.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -935,9 +878,6 @@
         },
         "servers": [
           {
-            "url": "https://aws.s2.dev/v1alpha"
-          },
-          {
             "url": "https://{basin}.b.aws.s2.dev/v1alpha",
             "description": "Directly access the basin",
             "variables": {
@@ -978,15 +918,6 @@
             "in": "path",
             "description": "Name of the stream.",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "s2-basin",
-            "in": "header",
-            "description": "Only required when basin is not part of the endpoint.",
-            "required": false,
             "schema": {
               "type": "string"
             }
@@ -1056,9 +987,6 @@
         },
         "servers": [
           {
-            "url": "https://aws.s2.dev/v1alpha"
-          },
-          {
             "url": "https://{basin}.b.aws.s2.dev/v1alpha",
             "description": "Directly access the basin",
             "variables": {
@@ -1083,15 +1011,6 @@
             "in": "path",
             "description": "Name of the stream.",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "s2-basin",
-            "in": "header",
-            "description": "Only required when basin is not part of the endpoint.",
-            "required": false,
             "schema": {
               "type": "string"
             }
@@ -1150,9 +1069,6 @@
           }
         },
         "servers": [
-          {
-            "url": "https://aws.s2.dev/v1alpha"
-          },
           {
             "url": "https://{basin}.b.aws.s2.dev/v1alpha",
             "description": "Directly access the basin",
