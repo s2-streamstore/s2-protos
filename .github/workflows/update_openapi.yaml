@@ -1,13 +1,13 @@
-name: Trigger grpc p2-proto-update for downstream sdks
+name: Trigger openapi s2-proto-update for downstream sdks
 on:
   push:
     paths:
-      - 's2/**/*.proto'
+      - 's2/**/*.json'
 jobs:
   dispatch:
     strategy:
       matrix:
-        repo: ['s2-streamstore/s2-sdk-python', 's2-streamstore/s2-sdk-java', 's2-streamstore/s2-sdk-go', 's2-streamstore/s2-sdk-rust']
+        repo: ['s2-streamstore/s2-sdk-typescript']
     runs-on: ubuntu-latest
     steps:
       - uses: actions/create-github-app-token@v1
