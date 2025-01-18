@@ -999,7 +999,7 @@
       }
     },
     "/streams/{stream}/records/tail": {
-      "head": {
+      "get": {
         "tags": [
           "stream"
         ],
