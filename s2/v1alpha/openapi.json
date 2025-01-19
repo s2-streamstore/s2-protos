@@ -1263,13 +1263,20 @@
             "description": "Basin scope."
           },
           "state": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Basin state.",
-            "maximum": 3,
-            "minimum": 0
+            "$ref": "#/components/schemas/BasinState",
+            "description": "Basin state."
           }
         }
+      },
+      "BasinState": {
+        "type": "string",
+        "description": "Current state of the basin.",
+        "enum": [
+          "unspecified",
+          "active",
+          "creating",
+          "deleting"
+        ]
       },
       "CheckTailResponse": {
         "type": "object",
@@ -1550,6 +1557,15 @@
           }
         }
       },
+      "StorageClass": {
+        "type": "string",
+        "description": "Storage class for recent writes.",
+        "enum": [
+          "unspecified",
+          "standard",
+          "express"
+        ]
+      },
       "StreamConfig": {
         "type": "object",
         "description": "Stream configuration.",
@@ -1569,11 +1585,8 @@
             ]
           },
           "storage_class": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Storage class for recent writes. This is the main cost:performance knob in S2.",
-            "maximum": 3,
-            "minimum": 0
+            "$ref": "#/components/schemas/StorageClass",
+            "description": "Storage class for recent writes. This is the main cost:performance knob in S2."
           }
         }
       },
