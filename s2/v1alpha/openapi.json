@@ -369,6 +369,46 @@
             }
           }
         }
+      },
+      "patch": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Update basin configuration.",
+        "operationId": "reconfigure_basin",
+        "parameters": [
+          {
+            "name": "basin",
+            "in": "path",
+            "description": "Name of the basin.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BasinConfig"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReconfigureBasinResponse"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/streams": {
@@ -464,7 +504,7 @@
         "servers": [
           {
             "url": "https://{basin}.b.aws.s2.dev/v1alpha",
-            "description": "Directly access the basin",
+            "description": "Endpoint for the basin",
             "variables": {
               "basin": {
                 "default": "my-favorite-basin"
@@ -565,7 +605,7 @@
         "servers": [
           {
             "url": "https://{basin}.b.aws.s2.dev/v1alpha",
-            "description": "Directly access the basin",
+            "description": "Endpoint for the basin",
             "variables": {
               "basin": {
                 "default": "my-favorite-basin"
@@ -664,7 +704,7 @@
         "servers": [
           {
             "url": "https://{basin}.b.aws.s2.dev/v1alpha",
-            "description": "Directly access the basin",
+            "description": "Endpoint for the basin",
             "variables": {
               "basin": {
                 "default": "my-favorite-basin"
@@ -738,7 +778,68 @@
         "servers": [
           {
             "url": "https://{basin}.b.aws.s2.dev/v1alpha",
-            "description": "Directly access the basin",
+            "description": "Endpoint for the basin",
+            "variables": {
+              "basin": {
+                "default": "my-favorite-basin"
+              }
+            }
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "basin"
+        ],
+        "summary": "Update stream configuration.",
+        "operationId": "reconfigure_stream",
+        "parameters": [
+          {
+            "name": "stream",
+            "in": "path",
+            "description": "Name of the stream.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StreamConfig"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReconfigureStreamResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "https://{basin}.b.aws.s2.dev/v1alpha",
+            "description": "Endpoint for the basin",
             "variables": {
               "basin": {
                 "default": "my-favorite-basin"
@@ -1492,6 +1593,36 @@
           }
         ],
         "description": "Reply which can be a batch of records, or a sequence number if the request could not be satisfied."
+      },
+      "ReconfigureBasinResponse": {
+        "type": "object",
+        "description": "Reconfigure basin response.",
+        "required": [
+          "config"
+        ],
+        "properties": {
+          "config": {
+            "$ref": "#/components/schemas/BasinConfig",
+            "description": "Basin configuration."
+          }
+        }
+      },
+      "ReconfigureStreamResponse": {
+        "type": "object",
+        "description": "Reconfigure stream response.",
+        "properties": {
+          "config": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/StreamConfig",
+                "description": "Stream configuration."
+              }
+            ]
+          }
+        }
       },
       "RetentionPolicy": {
         "oneOf": [
