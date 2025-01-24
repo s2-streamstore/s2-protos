@@ -933,6 +933,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/Output"
                 }
+              },
+              "text/event-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadResponse"
+                }
               }
             }
           },
@@ -980,7 +985,7 @@
         "servers": [
           {
             "url": "https://{basin}.b.aws.s2.dev/v1alpha",
-            "description": "Directly access the basin",
+            "description": "Endpoint for the basin",
             "variables": {
               "basin": {
                 "default": "my-favorite-basin"
@@ -1089,7 +1094,7 @@
         "servers": [
           {
             "url": "https://{basin}.b.aws.s2.dev/v1alpha",
-            "description": "Directly access the basin",
+            "description": "Endpoint for the basin",
             "variables": {
               "basin": {
                 "default": "my-favorite-basin"
@@ -1172,7 +1177,7 @@
         "servers": [
           {
             "url": "https://{basin}.b.aws.s2.dev/v1alpha",
-            "description": "Directly access the basin",
+            "description": "Endpoint for the basin",
             "variables": {
               "basin": {
                 "default": "my-favorite-basin"
@@ -1593,6 +1598,40 @@
           }
         ],
         "description": "Reply which can be a batch of records, or a sequence number if the request could not be satisfied."
+      },
+      "ReadResponse": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "event",
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/Output"
+              },
+              "event": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "event",
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "type": "string"
+              },
+              "event": {
+                "type": "string"
+              }
+            }
+          }
+        ]
       },
       "ReconfigureBasinResponse": {
         "type": "object",
