@@ -172,7 +172,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetBasinConfigResponse"
+                  "$ref": "#/components/schemas/BasinConfig"
                 }
               }
             }
@@ -260,7 +260,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateBasinResponse"
+                  "$ref": "#/components/schemas/BasinInfo"
                 }
               }
             }
@@ -403,7 +403,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReconfigureBasinResponse"
+                  "$ref": "#/components/schemas/BasinConfig"
                 }
               }
             }
@@ -556,7 +556,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetStreamConfigResponse"
+                  "$ref": "#/components/schemas/StreamConfig"
                 }
               }
             }
@@ -655,7 +655,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateStreamResponse"
+                  "$ref": "#/components/schemas/StreamInfo"
                 }
               }
             }
@@ -820,7 +820,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReconfigureStreamResponse"
+                  "$ref": "#/components/schemas/StreamConfig"
                 }
               }
             }
@@ -1033,7 +1033,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AppendRequest"
+                "$ref": "#/components/schemas/AppendInput"
               }
             }
           },
@@ -1045,7 +1045,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AppendResponse"
+                  "$ref": "#/components/schemas/AppendOutput"
                 }
               }
             }
@@ -1280,24 +1280,6 @@
           }
         }
       },
-      "AppendRequest": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/AppendInput",
-            "description": "Request parameters for an append."
-          }
-        ],
-        "description": "Append request."
-      },
-      "AppendResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/AppendOutput",
-            "description": "Response details for an append."
-          }
-        ],
-        "description": "Append response."
-      },
       "Assignment": {
         "oneOf": [
           {
@@ -1427,15 +1409,6 @@
           }
         }
       },
-      "CreateBasinResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/BasinInfo",
-            "description": "Information about the newly created basin."
-          }
-        ],
-        "description": "Create basin response."
-      },
       "CreateStreamRequest": {
         "type": "object",
         "description": "Create stream request.",
@@ -1453,15 +1426,6 @@
           }
         }
       },
-      "CreateStreamResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/StreamInfo",
-            "description": "Information about the newly created stream."
-          }
-        ],
-        "description": "Create stream response."
-      },
       "ErrorResponse": {
         "type": "object",
         "required": [
@@ -1472,24 +1436,6 @@
             "type": "string"
           }
         }
-      },
-      "GetBasinConfigResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/BasinConfig",
-            "description": "Basin configuration."
-          }
-        ],
-        "description": "Get basin configuration response."
-      },
-      "GetStreamConfigResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/StreamConfig",
-            "description": "Stream configuration."
-          }
-        ],
-        "description": "Get stream configuration response."
       },
       "Header": {
         "type": "object",
@@ -1632,36 +1578,6 @@
             }
           }
         ]
-      },
-      "ReconfigureBasinResponse": {
-        "type": "object",
-        "description": "Reconfigure basin response.",
-        "required": [
-          "config"
-        ],
-        "properties": {
-          "config": {
-            "$ref": "#/components/schemas/BasinConfig",
-            "description": "Basin configuration."
-          }
-        }
-      },
-      "ReconfigureStreamResponse": {
-        "type": "object",
-        "description": "Reconfigure stream response.",
-        "properties": {
-          "config": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "$ref": "#/components/schemas/StreamConfig",
-                "description": "Stream configuration."
-              }
-            ]
-          }
-        }
       },
       "RetentionPolicy": {
         "oneOf": [
