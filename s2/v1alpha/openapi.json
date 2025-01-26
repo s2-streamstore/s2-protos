@@ -87,36 +87,6 @@
               }
             }
           },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "500": {
             "description": "",
             "content": {
@@ -187,7 +157,7 @@
               }
             }
           },
-          "404": {
+          "401": {
             "description": "",
             "content": {
               "application/json": {
@@ -197,7 +167,7 @@
               }
             }
           },
-          "409": {
+          "404": {
             "description": "",
             "content": {
               "application/json": {
@@ -275,7 +245,7 @@
               }
             }
           },
-          "404": {
+          "401": {
             "description": "",
             "content": {
               "application/json": {
@@ -338,7 +308,7 @@
               }
             }
           },
-          "404": {
+          "401": {
             "description": "",
             "content": {
               "application/json": {
@@ -348,7 +318,7 @@
               }
             }
           },
-          "409": {
+          "404": {
             "description": "",
             "content": {
               "application/json": {
@@ -404,6 +374,46 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/BasinConfig"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -470,17 +480,7 @@
               }
             }
           },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "409": {
+          "401": {
             "description": "",
             "content": {
               "application/json": {
@@ -571,7 +571,7 @@
               }
             }
           },
-          "404": {
+          "401": {
             "description": "",
             "content": {
               "application/json": {
@@ -581,7 +581,7 @@
               }
             }
           },
-          "409": {
+          "404": {
             "description": "",
             "content": {
               "application/json": {
@@ -670,6 +670,16 @@
               }
             }
           },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "404": {
             "description": "",
             "content": {
@@ -744,7 +754,7 @@
               }
             }
           },
-          "404": {
+          "401": {
             "description": "",
             "content": {
               "application/json": {
@@ -754,7 +764,7 @@
               }
             }
           },
-          "409": {
+          "404": {
             "description": "",
             "content": {
               "application/json": {
@@ -826,6 +836,36 @@
             }
           },
           "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
             "description": "",
             "content": {
               "application/json": {
@@ -951,7 +991,7 @@
               }
             }
           },
-          "404": {
+          "401": {
             "description": "",
             "content": {
               "application/json": {
@@ -961,7 +1001,7 @@
               }
             }
           },
-          "409": {
+          "404": {
             "description": "",
             "content": {
               "application/json": {
@@ -1060,7 +1100,7 @@
               }
             }
           },
-          "404": {
+          "401": {
             "description": "",
             "content": {
               "application/json": {
@@ -1070,7 +1110,7 @@
               }
             }
           },
-          "409": {
+          "404": {
             "description": "",
             "content": {
               "application/json": {
@@ -1143,7 +1183,7 @@
               }
             }
           },
-          "404": {
+          "401": {
             "description": "",
             "content": {
               "application/json": {
@@ -1153,7 +1193,7 @@
               }
             }
           },
-          "409": {
+          "404": {
             "description": "",
             "content": {
               "application/json": {
