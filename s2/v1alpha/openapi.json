@@ -894,8 +894,8 @@
         "tags": [
           "stream"
         ],
-        "summary": "Retrieve a batch of records.",
-        "description": "Set `Accept: text/event-stream` to receive a stream of records through server-sent events.",
+        "summary": "Retrieve records.",
+        "description": "Retrieve a batch of records, or set `Accept: text/event-stream` to stream using server-sent events.",
         "operationId": "read",
         "parameters": [
           {
@@ -1039,7 +1039,8 @@
         "tags": [
           "stream"
         ],
-        "summary": "Append a batch of records.",
+        "summary": "Append records.",
+        "description": "Append a batch of records to a stream.",
         "operationId": "append",
         "parameters": [
           {
@@ -1151,6 +1152,7 @@
           "stream"
         ],
         "summary": "Check the tail.",
+        "description": "Check the sequence number that will be assigned to the next record on a stream.",
         "operationId": "check_tail",
         "parameters": [
           {
