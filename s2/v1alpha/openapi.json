@@ -895,6 +895,7 @@
           "stream"
         ],
         "summary": "Retrieve a batch of records.",
+        "description": "Set `Accept: text/event-stream` to receive a stream of records through server-sent events.",
         "operationId": "read",
         "parameters": [
           {
