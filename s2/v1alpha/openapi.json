@@ -1544,6 +1544,7 @@
         "oneOf": [
           {
             "type": "object",
+            "title": "Batch",
             "description": "Batch of records.\nThis batch can be empty only if a `ReadLimit` was provided in the associated read request, but the first record\nthat could have been returned would violate the limit.",
             "required": [
               "batch"
@@ -1557,6 +1558,7 @@
           },
           {
             "type": "object",
+            "title": "FirstSeqNum",
             "description": "Sequence number for the first record on this stream, in case the requested `start_seq_num` is smaller.\nIf returned in a streaming read session, this will be a terminal reply, to signal that there is uncertainty about whether some records may be omitted.\nThe client can re-establish the session starting at this sequence number.",
             "required": [
               "first_seq_num"
@@ -1572,6 +1574,7 @@
           },
           {
             "type": "object",
+            "title": "NextSeqNum",
             "description": "Sequence number for the next record on this stream, in case the requested `start_seq_num` was larger.\nIf returned in a streaming read session, this will be a terminal reply.",
             "required": [
               "next_seq_num"
@@ -1592,6 +1595,7 @@
         "oneOf": [
           {
             "type": "object",
+            "title": "Output",
             "required": [
               "event",
               "data"
@@ -1607,6 +1611,7 @@
           },
           {
             "type": "object",
+            "title": "Error",
             "required": [
               "event",
               "data"
@@ -1626,6 +1631,7 @@
         "oneOf": [
           {
             "type": "object",
+            "title": "Age",
             "description": "Age in seconds for automatic trimming of records older than this threshold.\nIf set to 0, the stream will have infinite retention.",
             "required": [
               "age"
