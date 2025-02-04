@@ -1327,6 +1327,7 @@
         "oneOf": [
           {
             "type": "object",
+            "title": "Scope",
             "description": "Basin scope. It should be formatted as \"{cloud}:{region}\", e.g. \"aws:us-east-1\".",
             "required": [
               "scope"
@@ -1340,6 +1341,7 @@
           },
           {
             "type": "object",
+            "title": "Cell",
             "description": "Explicit cell assignment, if it is owned by the account.",
             "required": [
               "cell"
