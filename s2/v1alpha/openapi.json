@@ -946,11 +946,7 @@
             "schema": {
               "oneOf": [
                 {
-                  "type": "string",
-                  "enum": [
-                    "json",
-                    "json-binsafe"
-                  ]
+                  "$ref": "#/components/schemas/FormatOption"
                 }
               ],
               "default": "json"
@@ -1051,11 +1047,7 @@
             "schema": {
               "oneOf": [
                 {
-                  "type": "string",
-                  "enum": [
-                    "json",
-                    "json-binsafe"
-                  ]
+                  "$ref": "#/components/schemas/FormatOption"
                 }
               ],
               "default": "json"
@@ -1481,6 +1473,13 @@
             "type": "string"
           }
         }
+      },
+      "FormatOption": {
+        "type": "string",
+        "enum": [
+          "json",
+          "json-binsafe"
+        ]
       },
       "Header": {
         "type": "object",
