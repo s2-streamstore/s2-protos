@@ -97,24 +97,6 @@
               }
             }
           }
-        },
-        "x-speakeasy-pagination": {
-          "inputs": [
-            {
-              "in": "parameters",
-              "name": "start_after",
-              "type": "cursor"
-            },
-            {
-              "in": "parameters",
-              "name": "limit",
-              "type": "limit"
-            }
-          ],
-          "outputs": {
-            "nextCursor": "$.basins[(@.length-1)].name"
-          },
-          "type": "cursor"
         }
       }
     },
@@ -511,25 +493,7 @@
               }
             }
           }
-        ],
-        "x-speakeasy-pagination": {
-          "inputs": [
-            {
-              "in": "parameters",
-              "name": "start_after",
-              "type": "cursor"
-            },
-            {
-              "in": "parameters",
-              "name": "limit",
-              "type": "limit"
-            }
-          ],
-          "outputs": {
-            "nextCursor": "$.streams[(@.length-1)].name"
-          },
-          "type": "cursor"
-        }
+        ]
       }
     },
     "/streams/{stream}": {
