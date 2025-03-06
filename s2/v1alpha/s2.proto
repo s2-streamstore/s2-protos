@@ -377,11 +377,16 @@ message ReadSessionRequest {
   // If no limit is specified, the session will remain open after catching up to the tail, and continue tailing as
   // new messages are written to the stream.
   ReadLimit limit = 3;
+  // Heartbeats can be enabled to monitor end-to-end session health.
+  // A heartbeat will be sent when the initial switch to real-time tailing happens,
+  // as well as when no records are available at a randomized interval between 5 and 15 seconds.
+  bool heartbeats = 4;
 }
 
 // Read session response.
 message ReadSessionResponse {
   // Response details for a read.
+  // This will not be set in case of a heartbeat message.
   ReadOutput output = 1;
 }
 
