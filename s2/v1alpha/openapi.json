@@ -1560,7 +1560,7 @@
         "oneOf": [
           {
             "type": "object",
-            "title": "Output",
+            "title": "message",
             "required": [
               "event",
               "data"
@@ -1570,13 +1570,16 @@
                 "$ref": "#/components/schemas/Output"
               },
               "event": {
-                "type": "string"
+                "type": "string",
+                "enum": [
+                  "message"
+                ]
               }
             }
           },
           {
             "type": "object",
-            "title": "Error",
+            "title": "error",
             "required": [
               "event",
               "data"
@@ -1586,7 +1589,25 @@
                 "type": "string"
               },
               "event": {
-                "type": "string"
+                "type": "string",
+                "enum": [
+                  "error"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "title": "ping",
+            "required": [
+              "event"
+            ],
+            "properties": {
+              "event": {
+                "type": "string",
+                "enum": [
+                  "ping"
+                ]
               }
             }
           }
