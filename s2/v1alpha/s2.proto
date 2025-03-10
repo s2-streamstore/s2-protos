@@ -121,14 +121,17 @@ message CreateBasinRequest {
   // It cannot begin or end with a hyphen.
   string basin = 1;
   // Basin configuration.
-  BasinConfig config = 2;
-  // Assignment of the basin to a cloud and region, or an explicit cell.
-  oneof assignment {
-    // Basin scope. It should be formatted as "{cloud}:{region}", e.g. "aws:us-east-1".
-    string scope = 3;
-    // Explicit cell assignment, if it is owned by the account.
-    string cell = 4;
-  }
+  BasinConfig config = 2;  
+  // Basin scope.
+  BasinScope scope = 3;
+}
+
+// Basin scope.
+enum BasinScope {
+    // Unspecified basin scope.
+    BASIN_SCOPE_UNSPECIFIED = 0;
+    // aws us-east-1 region.
+    BASIN_SCOPE_AWS_US_EAST_1 = 1;    
 }
 
 // Create basin response.
@@ -438,9 +441,7 @@ message BasinInfo {
   // Basin name.
   string name = 1;
   // Basin scope.
-  string scope = 2;
-  // Cell assignment.
-  string cell = 3;
+  BasinScope scope = 5;
   // Basin state.
   BasinState state = 4;
 }

@@ -1279,39 +1279,6 @@
           }
         }
       },
-      "Assignment": {
-        "oneOf": [
-          {
-            "type": "object",
-            "title": "Scope",
-            "description": "Basin scope. It should be formatted as \"{cloud}:{region}\", e.g. \"aws:us-east-1\".",
-            "required": [
-              "scope"
-            ],
-            "properties": {
-              "scope": {
-                "type": "string",
-                "description": "Basin scope. It should be formatted as \"{cloud}:{region}\", e.g. \"aws:us-east-1\"."
-              }
-            }
-          },
-          {
-            "type": "object",
-            "title": "Cell",
-            "description": "Explicit cell assignment, if it is owned by the account.",
-            "required": [
-              "cell"
-            ],
-            "properties": {
-              "cell": {
-                "type": "string",
-                "description": "Explicit cell assignment, if it is owned by the account."
-              }
-            }
-          }
-        ],
-        "description": "Assignment of the basin to a cloud and region, or an explicit cell."
-      },
       "BasinConfig": {
         "type": "object",
         "description": "Basin configuration.",
@@ -1335,20 +1302,15 @@
         "required": [
           "name",
           "scope",
-          "cell",
           "state"
         ],
         "properties": {
-          "cell": {
-            "type": "string",
-            "description": "Cell assignment."
-          },
           "name": {
             "type": "string",
             "description": "Basin name."
           },
           "scope": {
-            "type": "string",
+            "$ref": "#/components/schemas/BasinScope",
             "description": "Basin scope."
           },
           "state": {
@@ -1356,6 +1318,14 @@
             "description": "Basin state."
           }
         }
+      },
+      "BasinScope": {
+        "type": "string",
+        "description": "Basin scope.",
+        "enum": [
+          "unspecified",
+          "aws:us-east-1"
+        ]
       },
       "BasinState": {
         "type": "string",
@@ -1386,17 +1356,6 @@
         "type": "object",
         "description": "Create basin request.",
         "properties": {
-          "assignment": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "$ref": "#/components/schemas/Assignment",
-                "description": "Assignment of the basin to a cloud and region, or an explicit cell."
-              }
-            ]
-          },
           "config": {
             "oneOf": [
               {
@@ -1407,6 +1366,10 @@
                 "description": "Basin configuration."
               }
             ]
+          },
+          "scope": {
+            "$ref": "#/components/schemas/BasinScope",
+            "description": "Basin scope."
           }
         }
       },
