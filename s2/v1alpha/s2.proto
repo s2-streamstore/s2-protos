@@ -390,7 +390,7 @@ message ReadSessionRequest {
 message ReadSessionResponse {
   // Response details for a read.
   // This will not be set in case of a heartbeat message.
-  ReadOutput output = 1;
+  optional ReadOutput output = 1;
 }
 
 /// Common types ///
