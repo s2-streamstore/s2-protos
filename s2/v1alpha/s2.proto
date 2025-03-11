@@ -422,6 +422,9 @@ message StreamConfig {
 message BasinConfig {
   // Default stream configuration.
   StreamConfig default_stream_config = 1;
+  // Create stream on append if it doesn't exist,
+  // using the default stream configuration.
+  bool create_stream_on_append = 2;
 }
 
 // Current state of the basin.
