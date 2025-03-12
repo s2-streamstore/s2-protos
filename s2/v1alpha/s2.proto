@@ -121,17 +121,17 @@ message CreateBasinRequest {
   // It cannot begin or end with a hyphen.
   string basin = 1;
   // Basin configuration.
-  BasinConfig config = 2;  
+  BasinConfig config = 2;
   // Basin scope.
   BasinScope scope = 3;
 }
 
 // Basin scope.
 enum BasinScope {
-    // Unspecified basin scope.
-    BASIN_SCOPE_UNSPECIFIED = 0;
-    // aws us-east-1 region.
-    BASIN_SCOPE_AWS_US_EAST_1 = 1;    
+  // Unspecified basin scope.
+  BASIN_SCOPE_UNSPECIFIED = 0;
+  // aws us-east-1 region.
+  BASIN_SCOPE_AWS_US_EAST_1 = 1;
 }
 
 // Create basin response.
