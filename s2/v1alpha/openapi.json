@@ -1570,9 +1570,13 @@
             "type": "object",
             "title": "ping",
             "required": [
-              "event"
+              "event",
+              "data"
             ],
             "properties": {
+              "data": {
+                "type": "string"
+              },
               "event": {
                 "type": "string",
                 "enum": [
