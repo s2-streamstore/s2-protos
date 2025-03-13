@@ -1282,9 +1282,6 @@
       "BasinConfig": {
         "type": "object",
         "description": "Basin configuration.",
-        "required": [
-          "create_stream_on_append"
-        ],
         "properties": {
           "create_stream_on_append": {
             "type": "boolean",
@@ -1664,9 +1661,6 @@
       "StreamConfig": {
         "type": "object",
         "description": "Stream configuration.",
-        "required": [
-          "storage_class"
-        ],
         "properties": {
           "retention_policy": {
             "oneOf": [
