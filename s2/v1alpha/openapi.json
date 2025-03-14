@@ -1276,6 +1276,15 @@
               ]
             },
             "description": "Series of name-value pairs for this record."
+          },
+          "timestamp": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "format": "int64",
+            "description": "Timestamp for this record in milliseconds since Unix epoch.\nThe service ensures monotonicity by adjusting it up if necessary to the maximum observed timestamp.\nA timestamp detected to be in the future will be adjusted down.\nIf not provided, the semantics depend on the stream's `require_client_timestamps` config.",
+            "minimum": 0
           }
         }
       },
@@ -1610,6 +1619,7 @@
         "description": "Record retrieved from a stream.",
         "required": [
           "seq_num",
+          "timestamp",
           "headers",
           "body"
         ],
@@ -1628,7 +1638,13 @@
           "seq_num": {
             "type": "integer",
             "format": "int64",
-            "description": "Sequence number for this record.",
+            "description": "Sequence number assigned to this record.",
+            "minimum": 0
+          },
+          "timestamp": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Timestamp for this record in milliseconds since Unix epoch.",
             "minimum": 0
           }
         }
@@ -1662,6 +1678,13 @@
         "type": "object",
         "description": "Stream configuration.",
         "properties": {
+          "require_client_timestamps": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Record timestamp semantic when it is not provided by the client.\nIf this is false or not set, the record's arrival time will be assigned as its timestamp.\nIf this is true, such an append will be rejected as invalid."
+          },
           "retention_policy": {
             "oneOf": [
               {

@@ -416,6 +416,10 @@ message StreamConfig {
     // If set to 0, the stream will have infinite retention.
     uint64 age = 2;
   }
+  // Controls how to handle timestamps when they are not provided by the client.
+  // If this is false (or not set), the record's arrival time will be assigned as its timestamp.
+  // If this is true, then any append without a client-specified timestamp will be rejected as invalid.
+  optional bool require_client_timestamps = 3;
 }
 
 // Basin configuration.
@@ -460,6 +464,11 @@ message Header {
 
 // Record to be appended to a stream.
 message AppendRecord {
+  // Timestamp for this record in milliseconds since Unix epoch.
+  // The service ensures monotonicity by adjusting it up if necessary to the maximum observed timestamp.
+  // A timestamp detected to be in the future will be adjusted down.
+  // If not provided, the semantics depend on the stream's `require_client_timestamps` config.
+  optional uint64 timestamp = 3;
   // Series of name-value pairs for this record.
   repeated Header headers = 1;
   // Body of this record.
@@ -468,8 +477,10 @@ message AppendRecord {
 
 // Record retrieved from a stream.
 message SequencedRecord {
-  // Sequence number for this record.
+  // Sequence number assigned to this record.
   uint64 seq_num = 1;
+  // Timestamp for this record in milliseconds since Unix epoch.
+  uint64 timestamp = 4;
   // Series of name-value pairs for this record.
   repeated Header headers = 2;
   // Body of this record.
