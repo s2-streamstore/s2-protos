@@ -1683,7 +1683,7 @@
               "boolean",
               "null"
             ],
-            "description": "Record timestamp semantic when it is not provided by the client.\nIf this is false or not set, the record's arrival time will be assigned as its timestamp.\nIf this is true, such an append will be rejected as invalid."
+            "description": "Controls how to handle timestamps when they are not provided by the client.\nIf this is false (or not set), the record's arrival time will be assigned as its timestamp.\nIf this is true, then any append without a client-specified timestamp will be rejected as invalid."
           },
           "retention_policy": {
             "oneOf": [
