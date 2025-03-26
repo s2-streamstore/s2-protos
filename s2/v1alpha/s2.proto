@@ -352,7 +352,8 @@ message ReadRequest {
   string stream = 1;
   // Starting sequence number (inclusive).
   uint64 start_seq_num = 2;
-  // Limit on how many records can be returned upto a maximum of 1000, or 1MiB of metered bytes.
+  // Limit on how many records can be returned up to an implicit ceiling,
+  // which is a maximum of 1000 records or 1MiB of metered bytes.
   ReadLimit limit = 3;
 }
 
