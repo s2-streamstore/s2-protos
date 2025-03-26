@@ -1486,21 +1486,21 @@
           {
             "type": "object",
             "title": "Batch",
-            "description": "Batch of records.\nThis batch can be empty only if a `ReadLimit` was provided in the associated read request, but the first record\nthat could have been returned would violate the limit.",
+            "description": "Batch of records.\nThis batch can be empty only if a limit was specified in the associated read request,\nand either the first record that could have been retrieved would violate the limit,\nor the requested `start_seq_num` is the `next_seq_num` for the stream.",
             "required": [
               "batch"
             ],
             "properties": {
               "batch": {
                 "$ref": "#/components/schemas/SequencedRecordBatch",
-                "description": "Batch of records.\nThis batch can be empty only if a `ReadLimit` was provided in the associated read request, but the first record\nthat could have been returned would violate the limit."
+                "description": "Batch of records.\nThis batch can be empty only if a limit was specified in the associated read request,\nand either the first record that could have been retrieved would violate the limit,\nor the requested `start_seq_num` is the `next_seq_num` for the stream."
               }
             }
           },
           {
             "type": "object",
             "title": "FirstSeqNum",
-            "description": "Sequence number for the first record on this stream, in case the requested `start_seq_num` is smaller.\nIf returned in a streaming read session, this will be a terminal reply, to signal that there is uncertainty about whether some records may be omitted.\nThe client can re-establish the session starting at this sequence number.",
+            "description": "Sequence number for the first record on this stream,\nin case the requested `start_seq_num` was smaller.",
             "required": [
               "first_seq_num"
             ],
@@ -1508,7 +1508,7 @@
               "first_seq_num": {
                 "type": "integer",
                 "format": "int64",
-                "description": "Sequence number for the first record on this stream, in case the requested `start_seq_num` is smaller.\nIf returned in a streaming read session, this will be a terminal reply, to signal that there is uncertainty about whether some records may be omitted.\nThe client can re-establish the session starting at this sequence number.",
+                "description": "Sequence number for the first record on this stream,\nin case the requested `start_seq_num` was smaller.",
                 "minimum": 0
               }
             }
@@ -1516,7 +1516,7 @@
           {
             "type": "object",
             "title": "NextSeqNum",
-            "description": "Sequence number for the next record on this stream, in case the requested `start_seq_num` was larger.\nIf returned in a streaming read session, this will be a terminal reply.",
+            "description": "Sequence number for the next record on this stream,\nin case the requested `start_seq_num` was larger.",
             "required": [
               "next_seq_num"
             ],
@@ -1524,13 +1524,13 @@
               "next_seq_num": {
                 "type": "integer",
                 "format": "int64",
-                "description": "Sequence number for the next record on this stream, in case the requested `start_seq_num` was larger.\nIf returned in a streaming read session, this will be a terminal reply.",
+                "description": "Sequence number for the next record on this stream,\nin case the requested `start_seq_num` was larger.",
                 "minimum": 0
               }
             }
           }
         ],
-        "description": "Reply which can be a batch of records, or a sequence number if the request could not be satisfied."
+        "description": "Batch of records, or a sequence number if the read could not be satisfied.\nAn empty batch or a sequence number output will always be a terminal message, when returned in a session."
       },
       "ReadResponse": {
         "oneOf": [
@@ -1656,6 +1656,15 @@
           "records"
         ],
         "properties": {
+          "next_seq_num": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "format": "int64",
+            "description": "Sequence number that will be assigned to the next record in the stream.\nIt will only be present when reading recent records.",
+            "minimum": 0
+          },
           "records": {
             "type": "array",
             "items": {
