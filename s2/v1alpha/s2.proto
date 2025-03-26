@@ -329,19 +329,18 @@ message AppendSessionResponse {
 
 // Output from read response.
 message ReadOutput {
-  // Batch of records, or a sequence number if the read could not be satisfied.
-  // An empty batch or a sequence number output will always be a terminal message, when returned in a session.
+  // Reply which can be a batch of records, or a sequence number if the request could not be satisfied.
   oneof output {
     // Batch of records.
-    // This batch can be empty only if a limit was specified in the associated read request,
-    // and either the first record that could have been retrieved would violate the limit,
-    // or the requested `start_seq_num` is the `next_seq_num` for the stream.
+    // This batch can be empty only if a `ReadLimit` was provided in the associated read request, but the first record
+    // that could have been returned would violate the limit.
     SequencedRecordBatch batch = 1;
-    // Sequence number for the first record on this stream,
-    // in case the requested `start_seq_num` was smaller.
+    // Sequence number for the first record on this stream, in case the requested `start_seq_num` is smaller.
+    // If returned in a streaming read session, this will be a terminal reply, to signal that there is uncertainty about whether some records may be omitted.
+    // The client can re-establish the session starting at this sequence number.
     uint64 first_seq_num = 2;
-    // Sequence number for the next record on this stream,
-    // in case the requested `start_seq_num` was larger.
+    // Sequence number for the next record on this stream, in case the requested `start_seq_num` was larger.
+    // If returned in a streaming read session, this will be a terminal reply.
     uint64 next_seq_num = 3;
   }
 }
@@ -492,7 +491,4 @@ message SequencedRecord {
 message SequencedRecordBatch {
   // Batch of sequenced records.
   repeated SequencedRecord records = 1;
-  // Sequence number that will be assigned to the next record in the stream.
-  // It will only be present when reading recent records.
-  optional uint64 next_seq_num = 2;
 }
