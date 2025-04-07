@@ -35,6 +35,19 @@ service AccountService {
   rpc GetBasinConfig(GetBasinConfigRequest) returns (GetBasinConfigResponse) {
     option idempotency_level = NO_SIDE_EFFECTS;
   }
+
+  // Issue a new access token.
+  rpc IssueAccessToken(IssueAccessTokenRequest) returns (IssueAccessTokenResponse);
+
+  // Revoke an access token.
+  rpc RevokeAccessToken(RevokeAccessTokenRequest) returns (RevokeAccessTokenResponse) {
+    option idempotency_level = IDEMPOTENT;
+  }
+
+  // List access tokens.
+  rpc ListAccessTokens(ListAccessTokensRequest) returns (ListAccessTokensResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
 }
 
 // Operate on an S2 basin.
@@ -176,6 +189,144 @@ message ReconfigureBasinRequest {
 message ReconfigureBasinResponse {
   // Basin configuration.
   BasinConfig config = 1;
+}
+
+// Issue access token request.
+message IssueAccessTokenRequest {
+  // Access token information.
+  AccessTokenInfo info = 1;
+}
+
+// API operations.
+enum Operation {
+  // Unspecified operation.
+  OPERATION_UNSPECIFIED = 0;
+  // List basins.
+  OPERATION_LIST_BASINS = 1;
+  // Create a basin.
+  OPERATION_CREATE_BASIN = 2;
+  // Delete a basin.
+  OPERATION_DELETE_BASIN = 3;
+  // Update basin configuration.
+  OPERATION_RECONFIGURE_BASIN = 4;
+  // Get basin configuration.
+  OPERATION_GET_BASIN_CONFIG = 5;
+  // Issue an access token.
+  OPERATION_ISSUE_ACCESS_TOKEN = 6;
+  // Revoke an access token.
+  OPERATION_REVOKE_ACCESS_TOKEN = 7;
+  // List access tokens.
+  OPERATION_LIST_ACCESS_TOKENS = 8;
+  // List streams.
+  OPERATION_LIST_STREAMS = 9;
+  // Create a stream.
+  OPERATION_CREATE_STREAM = 10;
+  // Delete a stream.
+  OPERATION_DELETE_STREAM = 11;
+  // Get stream configuration.
+  OPERATION_GET_STREAM_CONFIG = 12;
+  // Update stream configuration.
+  OPERATION_RECONFIGURE_STREAM = 13;
+  // Check tail of a stream.
+  OPERATION_CHECK_TAIL = 14;
+  // Append records to a stream.
+  OPERATION_APPEND = 15;
+  // Read records from a stream.
+  OPERATION_READ = 16;
+}
+
+// Read/Write permissions.
+message ReadWritePermissions {
+  // Read permission.
+  bool read = 1;
+  // Write permission.
+  bool write = 2;
+}
+
+// Access permissions for a group.
+message PermittedOperationGroups {
+  // Access permissions at account level.
+  ReadWritePermissions account = 1;
+  // Access permissions at basin level.
+  ReadWritePermissions basin = 2;
+  // Access permissions at stream level.
+  ReadWritePermissions stream = 3;
+}
+
+// Revoke access token request.
+message RevokeAccessTokenRequest {
+  // Token to revoke.
+  string id = 1;
+}
+
+// Revoke access token response.
+message RevokeAccessTokenResponse {
+  // Access token information.
+  AccessTokenInfo info = 1;
+}
+
+// List access tokens request.
+message ListAccessTokensRequest {
+  // List access tokens that begin with this prefix.
+  string prefix = 1;
+  // Only return access tokens that lexicographically start after this token ID.
+  string start_after = 2;
+  // Number of results, up to a maximum of 1000.
+  optional uint64 limit = 3;
+}
+
+// List access tokens response.
+message ListAccessTokensResponse {
+  // Access tokens information.
+  repeated AccessTokenInfo tokens = 1;
+  // If set, indicates there are more results that can be listed with `start_after`.
+  bool has_more = 2;
+}
+
+// Access token information.
+message AccessTokenInfo {
+  // Access token ID.
+  string id = 1;
+  // Expiration time in seconds since Unix epoch.
+  optional uint32 expires_at = 2;
+  // Namespace streams based on the configured stream-level scope, which must be a prefix.
+  // Stream name arguments will be automatically prefixed, and the prefix will be stripped
+  // when listing streams.
+  bool auto_prefix_streams = 3;
+  // Access token scope.
+  AccessTokenScope scope = 4;
+}
+
+// Access token scope.
+message AccessTokenScope {
+  // Access permissions at basin level.
+  ResourceSet basins = 1;
+  // Access permissions at stream level.
+  ResourceSet streams = 2;
+  // Access permissions at token level.
+  ResourceSet tokens = 3;
+  // Access permissions at operation group level.
+  PermittedOperationGroups op_groups = 4;
+  // Operations allowed for the token.
+  // A union of allowed operations and groups is used as an effective set of allowed operations.
+  repeated Operation ops = 5;
+}
+
+// Set of named resources.
+message ResourceSet {
+  // Matching rule.
+  oneof matching {
+    // Match only the resource with this exact name.
+    string exact = 1;
+    // Match all resources that start with this prefix.
+    string prefix = 2;
+  }
+}
+
+// Issue access token response.
+message IssueAccessTokenResponse {
+  // Created token.
+  string token = 1;
 }
 
 /// BasinService ///
