@@ -233,6 +233,10 @@ enum Operation {
   OPERATION_APPEND = 15;
   // Read records from a stream.
   OPERATION_READ = 16;
+  // Trim records up to a sequence number.
+  OPERATION_TRIM = 17;
+  // Set a fencing token for a stream.
+  OPERATION_FENCE = 18;
 }
 
 // Read/Write permissions.
