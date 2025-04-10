@@ -303,14 +303,14 @@ message AccessTokenInfo {
 
 // Access token scope.
 message AccessTokenScope {
-  // Access permissions at basin level.
-  ResourceSet basins = 1;
-  // Access permissions at stream level.
-  ResourceSet streams = 2;
-  // Access permissions at token level.
-  ResourceSet tokens = 3;
+  // Basin name restrictions.
+  optional ResourceSet basins = 1;
+  // Stream name restrictions.
+  optional ResourceSet streams = 2;
+  // Token ID restrictions.
+  optional ResourceSet tokens = 3;
   // Access permissions at operation group level.
-  PermittedOperationGroups op_groups = 4;
+  optional PermittedOperationGroups op_groups = 4;
   // Operations allowed for the token.
   // A union of allowed operations and groups is used as an effective set of allowed operations.
   repeated Operation ops = 5;
