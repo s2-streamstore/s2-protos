@@ -290,8 +290,10 @@ message ListAccessTokensResponse {
 // Access token information.
 message AccessTokenInfo {
   // Access token ID.
+  // It must be unique to the account and between 1 and 50 characters.
   string id = 1;
   // Expiration time in seconds since Unix epoch.
+  // If not set, the expiration will be set to that of the requestor's token.
   optional uint32 expires_at = 2;
   // Namespace streams based on the configured stream-level scope, which must be a prefix.
   // Stream name arguments will be automatically prefixed, and the prefix will be stripped
@@ -303,14 +305,14 @@ message AccessTokenInfo {
 
 // Access token scope.
 message AccessTokenScope {
-  // Basin name restrictions.
-  optional ResourceSet basins = 1;
-  // Stream name restrictions.
-  optional ResourceSet streams = 2;
-  // Token ID restrictions.
-  optional ResourceSet tokens = 3;
+  // Basin names allowed.
+  ResourceSet basins = 1;
+  // Stream names allowed.
+  ResourceSet streams = 2;
+  // Token IDs allowed.
+  ResourceSet tokens = 3;
   // Access permissions at operation group level.
-  optional PermittedOperationGroups op_groups = 4;
+  PermittedOperationGroups op_groups = 4;
   // Operations allowed for the token.
   // A union of allowed operations and groups is used as an effective set of allowed operations.
   repeated Operation ops = 5;
@@ -321,8 +323,10 @@ message ResourceSet {
   // Matching rule.
   oneof matching {
     // Match only the resource with this exact name.
+    // Use an empty string to match no resources.
     string exact = 1;
     // Match all resources that start with this prefix.
+    // Use an empty string to match all resource.
     string prefix = 2;
   }
 }
