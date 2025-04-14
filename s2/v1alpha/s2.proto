@@ -588,6 +588,9 @@ message BasinConfig {
   // Create stream on append if it doesn't exist,
   // using the default stream configuration.
   bool create_stream_on_append = 2;
+  // Create stream on read if it doesn't exist,
+  // using the default stream configuration.
+  bool create_stream_on_read = 3;
 }
 
 // Current state of the basin.
