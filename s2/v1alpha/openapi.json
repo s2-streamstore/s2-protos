@@ -1296,6 +1296,10 @@
             "type": "boolean",
             "description": "Create stream on append if it doesn't exist,\nusing the default stream configuration."
           },
+          "create_stream_on_read": {
+            "type": "boolean",
+            "description": "Create stream on read if it doesn't exist,\nusing the default stream configuration."
+          },
           "default_stream_config": {
             "oneOf": [
               {
