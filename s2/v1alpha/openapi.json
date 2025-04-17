@@ -1490,37 +1490,21 @@
           {
             "type": "object",
             "title": "Batch",
-            "description": "Batch of records.\nIt can only be empty when not in a session context (which implies a limit),\nif the first record that could have been retrieved would violate the limit.",
+            "description": "Batch of records.\nIt can only be empty outside of a session context,\nif the request cannot be satisfied without violating its limit.",
             "required": [
               "batch"
             ],
             "properties": {
               "batch": {
                 "$ref": "#/components/schemas/SequencedRecordBatch",
-                "description": "Batch of records.\nIt can only be empty when not in a session context (which implies a limit),\nif the first record that could have been retrieved would violate the limit."
-              }
-            }
-          },
-          {
-            "type": "object",
-            "title": "FirstSeqNum",
-            "description": "Sequence number for the first record on this stream.\nTypically this will be returned when the requested `start_seq_num` was smaller.\nIt may also be returned during a session, if the stream gets concurrently trimmed.",
-            "required": [
-              "first_seq_num"
-            ],
-            "properties": {
-              "first_seq_num": {
-                "type": "integer",
-                "format": "int64",
-                "description": "Sequence number for the first record on this stream.\nTypically this will be returned when the requested `start_seq_num` was smaller.\nIt may also be returned during a session, if the stream gets concurrently trimmed.",
-                "minimum": 0
+                "description": "Batch of records.\nIt can only be empty outside of a session context,\nif the request cannot be satisfied without violating its limit."
               }
             }
           },
           {
             "type": "object",
             "title": "NextSeqNum",
-            "description": "Sequence number that will be assigned to the next record on this stream.\nThis will be returned either because the requested `start_seq_num` was larger,\nor in case of a limited read, equal to it.",
+            "description": "Tail of the stream, i.e. sequence number that will be assigned to the next record.\nIt will primarily be returned either because the requested starting point was larger,\nor only in case of a limited read, equal to the tail.\nIt will also be returned if there are no records on the stream between the requested\nstarting point and the tail.",
             "required": [
               "next_seq_num"
             ],
@@ -1528,13 +1512,13 @@
               "next_seq_num": {
                 "type": "integer",
                 "format": "int64",
-                "description": "Sequence number that will be assigned to the next record on this stream.\nThis will be returned either because the requested `start_seq_num` was larger,\nor in case of a limited read, equal to it.",
+                "description": "Tail of the stream, i.e. sequence number that will be assigned to the next record.\nIt will primarily be returned either because the requested starting point was larger,\nor only in case of a limited read, equal to the tail.\nIt will also be returned if there are no records on the stream between the requested\nstarting point and the tail.",
                 "minimum": 0
               }
             }
           }
         ],
-        "description": "Batch of records, or a sequence number if the read could not be satisfied.\nAn empty batch or a sequence number output will be a terminal message in a session."
+        "description": "Batch of records or the next sequence number on the stream."
       },
       "ReadResponse": {
         "oneOf": [
