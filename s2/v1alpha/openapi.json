@@ -1226,8 +1226,11 @@
         "description": "Output from append response.",
         "required": [
           "start_seq_num",
+          "start_timestamp",
           "end_seq_num",
-          "next_seq_num"
+          "end_timestamp",
+          "next_seq_num",
+          "last_timestamp"
         ],
         "properties": {
           "end_seq_num": {
@@ -1236,16 +1239,34 @@
             "description": "Sequence number of last record appended + 1.\n`end_seq_num - start_seq_num` will be the number of records in the batch.",
             "minimum": 0
           },
+          "end_timestamp": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Timestamp of the last record appended.",
+            "minimum": 0
+          },
+          "last_timestamp": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Timestamp of the last durable record on the stream.",
+            "minimum": 0
+          },
           "next_seq_num": {
             "type": "integer",
             "format": "int64",
-            "description": "Sequence number of last durable record on the stream + 1.\nThis can be greater than `end_seq_num` in case of concurrent appends.",
+            "description": "Tail of the stream, i.e. sequence number that will be assigned to the next record.\nThis can be greater than `end_seq_num` in case of concurrent appends.",
             "minimum": 0
           },
           "start_seq_num": {
             "type": "integer",
             "format": "int64",
             "description": "Sequence number of first record appended.",
+            "minimum": 0
+          },
+          "start_timestamp": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Timestamp of the first record appended.",
             "minimum": 0
           }
         }
@@ -1283,7 +1304,7 @@
               "null"
             ],
             "format": "int64",
-            "description": "Timestamp for this record in milliseconds since Unix epoch.\nThe service ensures monotonicity by adjusting it up if necessary to the maximum observed timestamp.\nA timestamp detected to be in the future will be adjusted down.\nIf not provided, the semantics depend on the stream's `require_client_timestamps` config.",
+            "description": "Timestamp for this record.\nThe service will always ensure monotonicity by adjusting it up if necessary to the maximum observed timestamp.\nRefer to the config documentation for `require_client_timestamps` and `uncapped_client_timestamps` to control whether client-specified timestamps are required, and whether they are allowed to exceed the arrival time.",
             "minimum": 0
           }
         }
@@ -1358,13 +1379,20 @@
         "type": "object",
         "description": "Check tail response.",
         "required": [
-          "next_seq_num"
+          "next_seq_num",
+          "last_timestamp"
         ],
         "properties": {
+          "last_timestamp": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Timestamp of the last durable record on the stream.\nIt starts out as 0 for a new stream.",
+            "minimum": 0
+          },
           "next_seq_num": {
             "type": "integer",
             "format": "int64",
-            "description": "Sequence number that will be assigned to the next record on the stream.",
+            "description": "Sequence number that will be assigned to the next record on the stream.\nIt will be 0 for a stream that has not been written to.",
             "minimum": 0
           }
         }
@@ -1490,21 +1518,21 @@
           {
             "type": "object",
             "title": "Batch",
-            "description": "Batch of records.\nIt can only be empty outside of a session context,\nif the request cannot be satisfied without violating its limit.",
+            "description": "Batch of records.\nIt can only be empty when not in a session context,\nif the request cannot be satisfied without violating its limit.",
             "required": [
               "batch"
             ],
             "properties": {
               "batch": {
                 "$ref": "#/components/schemas/SequencedRecordBatch",
-                "description": "Batch of records.\nIt can only be empty outside of a session context,\nif the request cannot be satisfied without violating its limit."
+                "description": "Batch of records.\nIt can only be empty when not in a session context,\nif the request cannot be satisfied without violating its limit."
               }
             }
           },
           {
             "type": "object",
             "title": "NextSeqNum",
-            "description": "Tail of the stream, i.e. sequence number that will be assigned to the next record.\nIt will primarily be returned either because the requested starting point was larger,\nor only in case of a limited read, equal to the tail.\nIt will also be returned if there are no records on the stream between the requested\nstarting point and the tail.",
+            "description": "Tail of the stream, i.e. sequence number that will be assigned to the next record.\nIt will be returned if the requested starting position is greater than the tail,\nor only in case of a limited read, equal to it.\nIt will also be returned if there are no records on the stream between the\nrequested starting position and the tail.",
             "required": [
               "next_seq_num"
             ],
@@ -1512,7 +1540,7 @@
               "next_seq_num": {
                 "type": "integer",
                 "format": "int64",
-                "description": "Tail of the stream, i.e. sequence number that will be assigned to the next record.\nIt will primarily be returned either because the requested starting point was larger,\nor only in case of a limited read, equal to the tail.\nIt will also be returned if there are no records on the stream between the requested\nstarting point and the tail.",
+                "description": "Tail of the stream, i.e. sequence number that will be assigned to the next record.\nIt will be returned if the requested starting position is greater than the tail,\nor only in case of a limited read, equal to it.\nIt will also be returned if there are no records on the stream between the\nrequested starting position and the tail.",
                 "minimum": 0
               }
             }
@@ -1632,7 +1660,7 @@
           "timestamp": {
             "type": "integer",
             "format": "int64",
-            "description": "Timestamp for this record in milliseconds since Unix epoch.",
+            "description": "Timestamp for this record.",
             "minimum": 0
           }
         }
@@ -1671,7 +1699,7 @@
               "boolean",
               "null"
             ],
-            "description": "Controls how to handle timestamps when they are not provided by the client.\nIf this is false (or not set), the record's arrival time will be assigned as its timestamp.\nIf this is true, then any append without a client-specified timestamp will be rejected as invalid."
+            "description": "Controls how to handle timestamps when they are not provided by the client.\nIf this is false (or not set), the record's arrival time in milliseconds since Unix epoch will be assigned as its timestamp.\nIf this is true, then any append without a client-specified timestamp will be rejected as invalid."
           },
           "retention_policy": {
             "oneOf": [
@@ -1687,6 +1715,13 @@
           "storage_class": {
             "$ref": "#/components/schemas/StorageClass",
             "description": "Storage class for recent writes. This is the main cost:performance knob in S2."
+          },
+          "uncapped_client_timestamps": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Allow client timestamps to exceed the arrival time in milliseconds since Unix epoch.\nIf this is false (or not set), client timestamps will be capped at the arrival time."
           }
         }
       },

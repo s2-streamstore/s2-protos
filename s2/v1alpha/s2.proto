@@ -434,7 +434,11 @@ message CheckTailRequest {
 // Check tail response.
 message CheckTailResponse {
   // Sequence number that will be assigned to the next record on the stream.
+  // It will be 0 for a stream that has not been written to.
   uint64 next_seq_num = 1;
+  // Timestamp of the last durable record on the stream.
+  // It starts out as 0 for a new stream.
+  uint64 last_timestamp = 2;
 }
 
 // Input for append requests.
@@ -454,12 +458,18 @@ message AppendInput {
 message AppendOutput {
   // Sequence number of first record appended.
   uint64 start_seq_num = 1;
+  // Timestamp of the first record appended.
+  uint64 start_timestamp = 4;
   // Sequence number of last record appended + 1.
   // `end_seq_num - start_seq_num` will be the number of records in the batch.
   uint64 end_seq_num = 2;
-  // Sequence number of last durable record on the stream + 1.
+  // Timestamp of the last record appended.
+  uint64 end_timestamp = 5;
+  // Tail of the stream, i.e. sequence number that will be assigned to the next record.
   // This can be greater than `end_seq_num` in case of concurrent appends.
   uint64 next_seq_num = 3;
+  // Timestamp of the last durable record on the stream.
+  uint64 last_timestamp = 6;
 }
 
 // Append request.
@@ -491,14 +501,14 @@ message ReadOutput {
   // Batch of records or the next sequence number on the stream.
   oneof output {
     // Batch of records.
-    // It can only be empty outside of a session context,
+    // It can only be empty when not in a session context,
     // if the request cannot be satisfied without violating its limit.
     SequencedRecordBatch batch = 1;
     // Tail of the stream, i.e. sequence number that will be assigned to the next record.
-    // It will primarily be returned either because the requested starting point was larger,
-    // or only in case of a limited read, equal to the tail.
-    // It will also be returned if there are no records on the stream between the requested
-    // starting point and the tail.
+    // It will be returned if the requested starting position is greater than the tail,
+    // or only in case of a limited read, equal to it.
+    // It will also be returned if there are no records on the stream between the
+    // requested starting position and the tail.
     uint64 next_seq_num = 3;
   }
   // first_seq_num.
@@ -509,8 +519,16 @@ message ReadOutput {
 message ReadRequest {
   // Stream name.
   string stream = 1;
-  // Starting sequence number (inclusive).
-  uint64 start_seq_num = 2;
+  // Starting position for records.
+  // Retrieved batches will start at the first record whose position is greater than or equal to it.
+  oneof start {
+    // Sequence number.
+    uint64 seq_num = 2;
+    // Timestamp.
+    uint64 timestamp = 4;
+    // Number of records before the tail, i.e. before the next sequence number.
+    uint64 tail_offset = 5;
+  }
   // Limit how many records can be returned.
   // This will get capped at the default limit,
   // which is up to 1000 records or 1MiB of metered bytes.
@@ -536,8 +554,16 @@ message ReadLimit {
 message ReadSessionRequest {
   // Stream name.
   string stream = 1;
-  // Starting sequence number (inclusive).
-  uint64 start_seq_num = 2;
+  // Starting position for records.
+  // Retrieved batches will start at the first record whose position is greater than or equal to it.
+  oneof start {
+    // Sequence number.
+    uint64 seq_num = 2;
+    // Timestamp.
+    uint64 timestamp = 5;
+    // Number of records before the tail, i.e. the next sequence number.
+    uint64 tail_offset = 6;
+  }
   // Limit on how many records can be returned. When a limit is specified, the session will be terminated as soon as
   // the limit is met, or when the current tail of the stream is reached -- whichever occurs first.
   // If no limit is specified, the session will remain open after catching up to the tail, and continue tailing as
@@ -580,9 +606,12 @@ message StreamConfig {
     uint64 age = 2;
   }
   // Controls how to handle timestamps when they are not provided by the client.
-  // If this is false (or not set), the record's arrival time will be assigned as its timestamp.
+  // If this is false (or not set), the record's arrival time in milliseconds since Unix epoch will be assigned as its timestamp.
   // If this is true, then any append without a client-specified timestamp will be rejected as invalid.
   optional bool require_client_timestamps = 3;
+  // Allow client timestamps to exceed the arrival time in milliseconds since Unix epoch.
+  // If this is false (or not set), client timestamps will be capped at the arrival time.
+  optional bool uncapped_client_timestamps = 4;
 }
 
 // Basin configuration.
@@ -630,10 +659,9 @@ message Header {
 
 // Record to be appended to a stream.
 message AppendRecord {
-  // Timestamp for this record in milliseconds since Unix epoch.
-  // The service ensures monotonicity by adjusting it up if necessary to the maximum observed timestamp.
-  // A timestamp detected to be in the future will be adjusted down.
-  // If not provided, the semantics depend on the stream's `require_client_timestamps` config.
+  // Timestamp for this record.
+  // The service will always ensure monotonicity by adjusting it up if necessary to the maximum observed timestamp.
+  // Refer to the config documentation for `require_client_timestamps` and `uncapped_client_timestamps` to control whether client-specified timestamps are required, and whether they are allowed to exceed the arrival time.
   optional uint64 timestamp = 3;
   // Series of name-value pairs for this record.
   repeated Header headers = 1;
@@ -645,7 +673,7 @@ message AppendRecord {
 message SequencedRecord {
   // Sequence number assigned to this record.
   uint64 seq_num = 1;
-  // Timestamp for this record in milliseconds since Unix epoch.
+  // Timestamp for this record.
   uint64 timestamp = 4;
   // Series of name-value pairs for this record.
   repeated Header headers = 2;
