@@ -33,7 +33,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "default": "\"\""
+              "default": ""
             }
           },
           {
@@ -43,7 +43,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "default": "\"\""
+              "default": ""
             }
           },
           {
@@ -383,7 +383,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "default": "\"\""
+              "default": ""
             }
           },
           {
@@ -393,7 +393,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "default": "\"\""
+              "default": ""
             }
           },
           {
@@ -795,7 +795,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "default": "\"\""
+              "default": ""
             }
           },
           {
@@ -805,7 +805,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "default": "\"\""
+              "default": ""
             }
           },
           {
