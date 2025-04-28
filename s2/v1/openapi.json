@@ -1,0 +1,1542 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "S2 API",
+    "description": "Serverless API for streaming data backed by object storage.",
+    "termsOfService": "https://s2.dev/terms",
+    "contact": {
+      "email": "hi@s2.dev"
+    },
+    "license": {
+      "name": "Apache 2.0"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://aws.s2.dev/v1"
+    }
+  ],
+  "paths": {
+    "/basins": {
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "List basins.",
+        "operationId": "list_basins",
+        "parameters": [
+          {
+            "name": "prefix",
+            "in": "query",
+            "description": "List basin names that begin with this prefix.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "\"\""
+            }
+          },
+          {
+            "name": "start_after",
+            "in": "query",
+            "description": "Only return basins names that lexicographically start after this name.\nThis can be the last basin name seen in a previous listing, to continue from there.\nIt must be greater than or equal to the prefix if specified.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "\"\""
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of results, up to a maximum of 1000.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": "1000",
+              "maximum": 1000,
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListBasinsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/basins/{basin}": {
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Get basin config.",
+        "operationId": "get_basin_config",
+        "parameters": [
+          {
+            "name": "basin",
+            "in": "path",
+            "description": "Basin name, which must be globally unique.\nThe name must be between 8 and 48 characters, comprising lowercase\nletters, numbers and hyphens. It cannot begin or end with a hyphen.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maximum": 48,
+              "minimum": 8,
+              "pattern": "^(?!-)[a-z0-9-]{8,48}(?<!-)$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BasinConfig"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Create or reconfigure a basin.",
+        "operationId": "create_or_reconfigure_basin",
+        "parameters": [
+          {
+            "name": "basin",
+            "in": "path",
+            "description": "Basin name, which must be globally unique.\nThe name must be between 8 and 48 characters, comprising lowercase\nletters, numbers and hyphens. It cannot begin or end with a hyphen.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maximum": 48,
+              "minimum": 8,
+              "pattern": "^(?!-)[a-z0-9-]{8,48}(?<!-)$"
+            }
+          },
+          {
+            "name": "s2-request-token",
+            "in": "header",
+            "description": "Provide a client request token header for idempotent retry behaviour.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBasinRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BasinInfo"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Delete a basin.",
+        "operationId": "delete_basin",
+        "responses": {
+          "202": {
+            "description": ""
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Reconfigure a basin.",
+        "operationId": "reconfigure_basin",
+        "parameters": [
+          {
+            "name": "basin",
+            "in": "path",
+            "description": "Basin name, which must be globally unique.\nThe name must be between 8 and 48 characters, comprising lowercase\nletters, numbers and hyphens. It cannot begin or end with a hyphen.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maximum": 48,
+              "minimum": 8,
+              "pattern": "^(?!-)[a-z0-9-]{8,48}(?<!-)$"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BasinReconfiguration"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BasinConfig"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/streams": {
+      "get": {
+        "tags": [
+          "streams"
+        ],
+        "summary": "List streams.",
+        "operationId": "list_streams",
+        "parameters": [
+          {
+            "name": "prefix",
+            "in": "query",
+            "description": "List stream names that begin with this prefix.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "\"\""
+            }
+          },
+          {
+            "name": "start_after",
+            "in": "query",
+            "description": "Only return stream names that lexicographically start after this name.\nThis can be the last stream name seen in a previous listing, to continue from there.\nIt must be greater than or equal to the prefix if specified.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "\"\""
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of results, up to a maximum of 1000.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": "1000",
+              "maximum": 1000,
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListStreamsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "https://{basin}.b.aws.s2.dev/v1",
+            "description": "Endpoint for the basin",
+            "variables": {
+              "basin": {
+                "default": "",
+                "description": "Basin name"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "/streams/{stream}": {
+      "get": {
+        "tags": [
+          "streams"
+        ],
+        "summary": "Get stream configuration.",
+        "operationId": "get_stream_config",
+        "parameters": [
+          {
+            "name": "stream",
+            "in": "path",
+            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string upto 512 characters.\nBackslash (`/`) is recommended as a delimiter for hierarchical naming.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamConfig"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "https://{basin}.b.aws.s2.dev/v1",
+            "description": "Endpoint for the basin",
+            "variables": {
+              "basin": {
+                "default": "",
+                "description": "Basin name"
+              }
+            }
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "streams"
+        ],
+        "summary": "Create or reconfigure a stream.",
+        "operationId": "create_or_reconfigure_stream",
+        "parameters": [
+          {
+            "name": "stream",
+            "in": "path",
+            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string upto 512 characters.\nBackslash (`/`) is recommended as a delimiter for hierarchical naming.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "s2-request-token",
+            "in": "header",
+            "description": "Provide a client request token header for idempotent retry behaviour.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StreamConfig"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamInfo"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "https://{basin}.b.aws.s2.dev/v1",
+            "description": "Endpoint for the basin",
+            "variables": {
+              "basin": {
+                "default": "",
+                "description": "Basin name"
+              }
+            }
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "streams"
+        ],
+        "summary": "Delete a stream.",
+        "operationId": "delete_stream",
+        "parameters": [
+          {
+            "name": "stream",
+            "in": "path",
+            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string upto 512 characters.\nBackslash (`/`) is recommended as a delimiter for hierarchical naming.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": ""
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "https://{basin}.b.aws.s2.dev/v1",
+            "description": "Endpoint for the basin",
+            "variables": {
+              "basin": {
+                "default": "",
+                "description": "Basin name"
+              }
+            }
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "streams"
+        ],
+        "summary": "Reconfigure a stream.",
+        "operationId": "reconfigure_stream",
+        "parameters": [
+          {
+            "name": "stream",
+            "in": "path",
+            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string upto 512 characters.\nBackslash (`/`) is recommended as a delimiter for hierarchical naming.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StreamReconfiguration"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamConfig"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "https://{basin}.b.aws.s2.dev/v1",
+            "description": "Endpoint for the basin",
+            "variables": {
+              "basin": {
+                "default": "",
+                "description": "Basin name"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "/tokens": {
+      "get": {
+        "tags": [
+          "tokens"
+        ],
+        "summary": "List access tokens.",
+        "operationId": "list_access_tokens",
+        "parameters": [
+          {
+            "name": "prefix",
+            "in": "query",
+            "description": "List access tokens that begin with this prefix.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "\"\""
+            }
+          },
+          {
+            "name": "start_after",
+            "in": "query",
+            "description": "Only return access tokens that lexicographically start after this name.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "\"\""
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of results, up to a maximum of 1000.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": "1000",
+              "maximum": 1000,
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListAccessTokensResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "tokens"
+        ],
+        "summary": "Issue a new access token.",
+        "operationId": "issue_access_token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccessTokenInfo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueAccessTokenResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tokens/{token}": {
+      "delete": {
+        "tags": [
+          "tokens"
+        ],
+        "summary": "Revoke an access token.",
+        "operationId": "revoke_access_token",
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccessTokenInfo": {
+        "type": "object",
+        "required": [
+          "id",
+          "scope"
+        ],
+        "properties": {
+          "auto_prefix_streams": {
+            "type": "boolean",
+            "description": "Namespace streams based on the configured stream-level scope, which must be a prefix.\nStream name arguments will be automatically prefixed, and the prefix will be stripped\nwhen listing streams.",
+            "default": "false"
+          },
+          "expires_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Expiration time in seconds since Unix epoch.\nIf not set, the expiration will be set to that of the requestor's token."
+          },
+          "id": {
+            "type": "string",
+            "description": "Access token ID.\nIt must be unique to the account and between 1 and 50 characters."
+          },
+          "scope": {
+            "$ref": "#/components/schemas/AccessTokenScope",
+            "description": "Access token scope."
+          }
+        }
+      },
+      "AccessTokenScope": {
+        "type": "object",
+        "properties": {
+          "basins": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ResourceSet",
+                "description": "Basin names allowed."
+              }
+            ]
+          },
+          "op_groups": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/PermittedOperationGroups",
+                "description": "Access permissions at operation group level."
+              }
+            ]
+          },
+          "ops": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/Operation"
+            },
+            "description": "Operations allowed for the token.\nA union of allowed operations and groups is used as an effective set of allowed operations.",
+            "default": "[]",
+            "maxItems": 18
+          },
+          "streams": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ResourceSet",
+                "description": "Stream names allowed."
+              }
+            ]
+          },
+          "tokens": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ResourceSet",
+                "description": "Token IDs allowed."
+              }
+            ]
+          }
+        }
+      },
+      "BasinConfig": {
+        "type": "object",
+        "properties": {
+          "create_stream_on_append": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Create stream on append if it doesn't exist,\nusing the default stream configuration."
+          },
+          "create_stream_on_read": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Create stream on read if it doesn't exist,\nusing the default stream configuration."
+          },
+          "default_stream_config": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/StreamConfig",
+                "description": "Default stream configuration."
+              }
+            ]
+          }
+        }
+      },
+      "BasinInfo": {
+        "type": "object",
+        "required": [
+          "name",
+          "scope",
+          "state"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Basin name."
+          },
+          "scope": {
+            "$ref": "#/components/schemas/BasinScope",
+            "description": "Basin scope."
+          },
+          "state": {
+            "$ref": "#/components/schemas/BasinState",
+            "description": "Basin state."
+          }
+        }
+      },
+      "BasinReconfiguration": {
+        "type": "object",
+        "properties": {
+          "create_stream_on_append": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Create a stream on append."
+          },
+          "create_stream_on_read": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Create a stream on read."
+          },
+          "default_stream_config": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/StreamReconfiguration",
+                "description": "Basin configuration."
+              }
+            ]
+          }
+        }
+      },
+      "BasinScope": {
+        "type": "string",
+        "enum": [
+          "aws:us-east-1"
+        ]
+      },
+      "BasinState": {
+        "type": "string",
+        "enum": [
+          "active",
+          "creating",
+          "deleting"
+        ]
+      },
+      "CreateBasinRequest": {
+        "type": "object",
+        "properties": {
+          "config": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/BasinConfig",
+                "description": "Basin configuration."
+              }
+            ]
+          },
+          "scope": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BasinScope",
+                "description": "Basin scope."
+              }
+            ],
+            "default": "aws:us-east-1"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "IssueAccessTokenResponse": {
+        "type": "object",
+        "required": [
+          "token"
+        ],
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Created token."
+          }
+        }
+      },
+      "ListAccessTokensResponse": {
+        "type": "object",
+        "required": [
+          "tokens",
+          "has_more"
+        ],
+        "properties": {
+          "has_more": {
+            "type": "boolean",
+            "description": "If set, indicates there are more results that can be listed with `start_after`."
+          },
+          "tokens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTokenInfo"
+            },
+            "description": "Access tokens information.",
+            "maxItems": 1000
+          }
+        }
+      },
+      "ListBasinsResponse": {
+        "type": "object",
+        "required": [
+          "basins",
+          "has_more"
+        ],
+        "properties": {
+          "basins": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BasinInfo"
+            },
+            "description": "Matching basins.",
+            "maxItems": 1000
+          },
+          "has_more": {
+            "type": "boolean",
+            "description": "If set, indicates there are more results that can be listed with `start_after`."
+          }
+        }
+      },
+      "ListStreamsResponse": {
+        "type": "object",
+        "required": [
+          "streams",
+          "has_more"
+        ],
+        "properties": {
+          "has_more": {
+            "type": "boolean",
+            "description": "If set, indicates there are more results that can be listed with `start_after`."
+          },
+          "streams": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StreamInfo"
+            },
+            "description": "Matching streams.",
+            "maxItems": 1000
+          }
+        }
+      },
+      "Operation": {
+        "type": "string",
+        "enum": [
+          "list-basins",
+          "create-basin",
+          "delete-basin",
+          "reconfigure-basin",
+          "get-basin-config",
+          "issue-access-token",
+          "revoke-access-token",
+          "list-access-tokens",
+          "list-streams",
+          "create-stream",
+          "delete-stream",
+          "get-stream-config",
+          "reconfigure-stream",
+          "check-tail",
+          "append",
+          "read",
+          "trim",
+          "fence"
+        ]
+      },
+      "PermittedOperationGroups": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ReadWritePermissions",
+                "description": "Access permissions at account level."
+              }
+            ]
+          },
+          "basin": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ReadWritePermissions",
+                "description": "Access permissions at basin level."
+              }
+            ]
+          },
+          "stream": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ReadWritePermissions",
+                "description": "Access permissions at stream level."
+              }
+            ]
+          }
+        }
+      },
+      "ReadWritePermissions": {
+        "type": "object",
+        "properties": {
+          "read": {
+            "type": "boolean",
+            "description": "Read permission.",
+            "default": "false"
+          },
+          "write": {
+            "type": "boolean",
+            "description": "Write permission.",
+            "default": "false"
+          }
+        }
+      },
+      "ResourceSet": {
+        "oneOf": [
+          {
+            "type": "object",
+            "title": "exact",
+            "description": "Match only the resource with this exact name.\nUse an empty string to match no resources.",
+            "required": [
+              "exact"
+            ],
+            "properties": {
+              "exact": {
+                "type": "string",
+                "description": "Match only the resource with this exact name.\nUse an empty string to match no resources."
+              }
+            }
+          },
+          {
+            "type": "object",
+            "title": "prefix",
+            "description": "Match all resources that start with this prefix.\nUse an empty string to match all resource.",
+            "required": [
+              "prefix"
+            ],
+            "properties": {
+              "prefix": {
+                "type": "string",
+                "description": "Match all resources that start with this prefix.\nUse an empty string to match all resource."
+              }
+            }
+          }
+        ]
+      },
+      "RetentionPolicy": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "age"
+            ],
+            "properties": {
+              "age": {
+                "type": "integer",
+                "format": "int64",
+                "minimum": 0
+              }
+            }
+          }
+        ]
+      },
+      "StorageClass": {
+        "type": "string",
+        "enum": [
+          "standard",
+          "express"
+        ]
+      },
+      "StreamConfig": {
+        "type": "object",
+        "properties": {
+          "require_client_timestamps": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Controls how to handle timestamps when they are not provided by the client.\n If this is false (or not set), the record's arrival time in milliseconds since Unix epoch\nwill be assigned as its timestamp. If this is true, then any append without a\nclient-specified timestamp will be rejected as invalid."
+          },
+          "retention_policy": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RetentionPolicy",
+                "description": "Retention policy for the stream.\nIf unspecified, the default is to retain records for 7 days."
+              }
+            ]
+          },
+          "storage_class": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/StorageClass",
+                "description": "Storage class for recent writes. This is the main cost:performance knob in S2."
+              }
+            ]
+          },
+          "uncapped_client_timestamps": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Allow client timestamps to exceed the arrival time in milliseconds since Unix epoch.\nIf this is false (or not set), client timestamps will be capped at the arrival time."
+          }
+        }
+      },
+      "StreamInfo": {
+        "type": "object",
+        "required": [
+          "name",
+          "created_at"
+        ],
+        "properties": {
+          "created_at": {
+            "type": "string",
+            "description": "Creation time in seconds since Unix epoch."
+          },
+          "deleted_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Deletion time in seconds since Unix epoch, if the stream is being deleted."
+          },
+          "name": {
+            "type": "string",
+            "description": "Stream name."
+          }
+        }
+      },
+      "StreamReconfiguration": {
+        "type": "object",
+        "properties": {
+          "require_client_timestamps": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Controls how to handle timestamps when they are not provided by the client.\nIf this is false (or not set), the record's arrival time in milliseconds since Unix epoch\nwill be assigned as its timestamp. If this is true, then any append without a\nclient-specified timestamp will be rejected as invalid."
+          },
+          "retention_policy": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RetentionPolicy",
+                "description": "Retention policy for the stream.\nIf unspecified, the default is to retain records for 7 days."
+              }
+            ]
+          },
+          "storage_class": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/StorageClass",
+                "description": "Storage class for recent writes. This is the main cost:performance knob in S2."
+              }
+            ]
+          },
+          "uncapped_client_timestamps": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Allow client timestamps to exceed the arrival time in milliseconds since Unix epoch.\nIf this is false (or not set), client timestamps will be capped at the arrival time."
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "account",
+      "description": "Manage basins"
+    },
+    {
+      "name": "tokens",
+      "description": "Manage access tokens"
+    },
+    {
+      "name": "streams",
+      "description": "Manage streams"
+    }
+  ]
+}
