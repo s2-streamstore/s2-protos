@@ -82,7 +82,7 @@ service BasinService {
 
 // Operate on an S2 stream.
 service StreamService {
-  // Check the sequence number that will be assigned to the next record on a stream.
+  // Check the tail of the stream.
   rpc CheckTail(CheckTailRequest) returns (CheckTailResponse) {
     option idempotency_level = NO_SIDE_EFFECTS;
   }
