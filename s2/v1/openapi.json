@@ -1539,7 +1539,7 @@
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
+      "access_token": {
         "type": "http",
         "scheme": "bearer"
       }
@@ -1547,7 +1547,7 @@
   },
   "security": [
     {
-      "bearerAuth": []
+      "access_token": []
     }
   ],
   "tags": [
