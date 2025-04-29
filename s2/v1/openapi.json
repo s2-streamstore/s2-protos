@@ -18,10 +18,198 @@
     }
   ],
   "paths": {
+    "/access-tokens": {
+      "get": {
+        "tags": [
+          "access-tokens"
+        ],
+        "summary": "List access tokens.",
+        "operationId": "list_access_tokens",
+        "parameters": [
+          {
+            "name": "prefix",
+            "in": "query",
+            "description": "List access tokens that begin with this prefix.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "start_after",
+            "in": "query",
+            "description": "Only return access tokens that lexicographically start after this ID.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of results, up to a maximum of 1000.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": "1000",
+              "maximum": 1000,
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListAccessTokensResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "access-tokens"
+        ],
+        "summary": "Issue a new access token.",
+        "operationId": "issue_access_token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccessTokenInfo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueAccessTokenResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/access-tokens/{access-token}": {
+      "delete": {
+        "tags": [
+          "access-tokens"
+        ],
+        "summary": "Revoke an access token.",
+        "operationId": "revoke_access_token",
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/basins": {
       "get": {
         "tags": [
-          "account"
+          "basins"
         ],
         "summary": "List basins.",
         "operationId": "list_basins",
@@ -106,7 +294,7 @@
     "/basins/{basin}": {
       "get": {
         "tags": [
-          "account"
+          "basins"
         ],
         "summary": "Get basin config.",
         "operationId": "get_basin_config",
@@ -169,7 +357,7 @@
       },
       "put": {
         "tags": [
-          "account"
+          "basins"
         ],
         "summary": "Create or reconfigure a basin.",
         "operationId": "create_or_reconfigure_basin",
@@ -254,7 +442,7 @@
       },
       "delete": {
         "tags": [
-          "account"
+          "basins"
         ],
         "summary": "Delete a basin.",
         "operationId": "delete_basin",
@@ -296,7 +484,7 @@
       },
       "patch": {
         "tags": [
-          "account"
+          "basins"
         ],
         "summary": "Reconfigure a basin.",
         "operationId": "reconfigure_basin",
@@ -779,194 +967,6 @@
           }
         ]
       }
-    },
-    "/tokens": {
-      "get": {
-        "tags": [
-          "tokens"
-        ],
-        "summary": "List access tokens.",
-        "operationId": "list_access_tokens",
-        "parameters": [
-          {
-            "name": "prefix",
-            "in": "query",
-            "description": "List access tokens that begin with this prefix.",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "default": ""
-            }
-          },
-          {
-            "name": "start_after",
-            "in": "query",
-            "description": "Only return access tokens that lexicographically start after this name.",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "default": ""
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Number of results, up to a maximum of 1000.",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "default": "1000",
-              "maximum": 1000,
-              "minimum": 0
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListAccessTokensResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "tokens"
-        ],
-        "summary": "Issue a new access token.",
-        "operationId": "issue_access_token",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AccessTokenInfo"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IssueAccessTokenResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/tokens/{token}": {
-      "delete": {
-        "tags": [
-          "tokens"
-        ],
-        "summary": "Revoke an access token.",
-        "operationId": "revoke_access_token",
-        "responses": {
-          "200": {
-            "description": ""
-          },
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
@@ -1003,6 +1003,17 @@
       "AccessTokenScope": {
         "type": "object",
         "properties": {
+          "access_tokens": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ResourceSet",
+                "description": "Token IDs allowed."
+              }
+            ]
+          },
           "basins": {
             "oneOf": [
               {
@@ -1045,17 +1056,6 @@
               {
                 "$ref": "#/components/schemas/ResourceSet",
                 "description": "Stream names allowed."
-              }
-            ]
-          },
-          "tokens": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "$ref": "#/components/schemas/ResourceSet",
-                "description": "Token IDs allowed."
               }
             ]
           }
@@ -1202,12 +1202,12 @@
       "IssueAccessTokenResponse": {
         "type": "object",
         "required": [
-          "token"
+          "access_token"
         ],
         "properties": {
-          "token": {
+          "access_token": {
             "type": "string",
-            "description": "Created token."
+            "description": "Created access token."
           }
         }
       },
@@ -1527,11 +1527,11 @@
   ],
   "tags": [
     {
-      "name": "account",
+      "name": "basins",
       "description": "Manage basins"
     },
     {
-      "name": "tokens",
+      "name": "access-tokens",
       "description": "Manage access tokens"
     },
     {

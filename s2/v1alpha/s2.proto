@@ -273,7 +273,7 @@ message RevokeAccessTokenResponse {
 message ListAccessTokensRequest {
   // List access tokens that begin with this prefix.
   string prefix = 1;
-  // Only return access tokens that lexicographically start after this token ID.
+  // Only return access tokens that lexicographically start after this ID.
   string start_after = 2;
   // Number of results, up to a maximum of 1000.
   optional uint64 limit = 3;
@@ -310,7 +310,7 @@ message AccessTokenScope {
   // Stream names allowed.
   ResourceSet streams = 2;
   // Token IDs allowed.
-  ResourceSet tokens = 3;
+  ResourceSet access_tokens = 3;
   // Access permissions at operation group level.
   PermittedOperationGroups op_groups = 4;
   // Operations allowed for the token.
@@ -333,8 +333,8 @@ message ResourceSet {
 
 // Issue access token response.
 message IssueAccessTokenResponse {
-  // Created token.
-  string token = 1;
+  // Created access token.
+  string access_token = 1;
 }
 
 /// BasinService ///
