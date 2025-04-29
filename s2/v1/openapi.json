@@ -53,7 +53,7 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "default": "1000",
+              "default": 1000,
               "maximum": 1000,
               "minimum": 0
             }
@@ -162,13 +162,24 @@
         }
       }
     },
-    "/access-tokens/{access-token}": {
+    "/access-tokens/{id}": {
       "delete": {
         "tags": [
           "access-tokens"
         ],
         "summary": "Revoke an access token.",
         "operationId": "revoke_access_token",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Access token ID.\nIt must be unique to the account and between 1 and 50 characters.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": ""
@@ -241,7 +252,7 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "default": "1000",
+              "default": 1000,
               "maximum": 1000,
               "minimum": 0
             }
@@ -446,6 +457,20 @@
         ],
         "summary": "Delete a basin.",
         "operationId": "delete_basin",
+        "parameters": [
+          {
+            "name": "basin",
+            "in": "path",
+            "description": "Basin name, which must be globally unique.\nThe name must be between 8 and 48 characters, comprising lowercase\nletters, numbers and hyphens. It cannot begin or end with a hyphen.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maximum": 48,
+              "minimum": 8,
+              "pattern": "^(?!-)[a-z0-9-]{8,48}(?<!-)$"
+            }
+          }
+        ],
         "responses": {
           "202": {
             "description": ""
@@ -591,7 +616,7 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "default": "1000",
+              "default": 1000,
               "maximum": 1000,
               "minimum": 0
             }
@@ -981,7 +1006,7 @@
           "auto_prefix_streams": {
             "type": "boolean",
             "description": "Namespace streams based on the configured stream-level scope, which must be a prefix.\nStream name arguments will be automatically prefixed, and the prefix will be stripped\nwhen listing streams.",
-            "default": "false"
+            "default": false
           },
           "expires_at": {
             "type": [
@@ -1341,12 +1366,12 @@
           "read": {
             "type": "boolean",
             "description": "Read permission.",
-            "default": "false"
+            "default": false
           },
           "write": {
             "type": "boolean",
             "description": "Write permission.",
-            "default": "false"
+            "default": false
           }
         }
       },
