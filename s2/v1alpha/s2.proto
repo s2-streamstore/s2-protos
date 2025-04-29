@@ -282,7 +282,7 @@ message ListAccessTokensRequest {
 // List access tokens response.
 message ListAccessTokensResponse {
   // Access tokens information.
-  repeated AccessTokenInfo tokens = 1;
+  repeated AccessTokenInfo access_tokens = 1;
   // If set, indicates there are more results that can be listed with `start_after`.
   bool has_more = 2;
 }

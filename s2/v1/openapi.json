@@ -1239,21 +1239,21 @@
       "ListAccessTokensResponse": {
         "type": "object",
         "required": [
-          "tokens",
+          "access_tokens",
           "has_more"
         ],
         "properties": {
-          "has_more": {
-            "type": "boolean",
-            "description": "If set, indicates there are more results that can be listed with `start_after`."
-          },
-          "tokens": {
+          "access_tokens": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AccessTokenInfo"
             },
             "description": "Access tokens information.",
             "maxItems": 1000
+          },
+          "has_more": {
+            "type": "boolean",
+            "description": "If set, indicates there are more results that can be listed with `start_after`."
           }
         }
       },
