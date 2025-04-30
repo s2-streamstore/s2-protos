@@ -992,6 +992,91 @@
           }
         ]
       }
+    },
+    "/streams/{stream}/records/tail": {
+      "get": {
+        "tags": [
+          "records"
+        ],
+        "summary": "Check the tail.",
+        "description": "Check the tail of a stream.",
+        "operationId": "check_tail",
+        "parameters": [
+          {
+            "name": "stream",
+            "in": "path",
+            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string upto 512 characters.\nBackslash (`/`) is recommended as a delimiter for hierarchical naming.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckTailResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "https://{basin}.b.aws.s2.dev/v1",
+            "description": "Endpoint for the basin",
+            "variables": {
+              "basin": {
+                "default": "",
+                "description": "Basin name"
+              }
+            }
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -1181,6 +1266,18 @@
           "creating",
           "deleting"
         ]
+      },
+      "CheckTailResponse": {
+        "type": "object",
+        "required": [
+          "tail"
+        ],
+        "properties": {
+          "tail": {
+            "$ref": "#/components/schemas/StreamPosition",
+            "description": "Sequence number that will be assigned to the next record on the stream,\nwith timestamp of the last record."
+          }
+        }
       },
       "CreateBasinRequest": {
         "type": "object",
@@ -1496,6 +1593,28 @@
           }
         }
       },
+      "StreamPosition": {
+        "type": "object",
+        "description": "Position of a record in a stream.",
+        "required": [
+          "seq_num",
+          "timestamp"
+        ],
+        "properties": {
+          "seq_num": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Sequence number assigned by the service.",
+            "minimum": 0
+          },
+          "timestamp": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Timestamp, which may be user-specified or assigned by the service.\nIf it is assigned by the service, it will represent milliseconds since Unix epoch.",
+            "minimum": 0
+          }
+        }
+      },
       "StreamReconfiguration": {
         "type": "object",
         "properties": {
@@ -1562,6 +1681,10 @@
     {
       "name": "streams",
       "description": "Manage streams"
+    },
+    {
+      "name": "records",
+      "description": "Manage records"
     }
   ]
 }
