@@ -290,7 +290,7 @@ message ListAccessTokensResponse {
 // Access token information.
 message AccessTokenInfo {
   // Access token ID.
-  // It must be unique to the account and between 1 and 50 characters.
+  // It must be unique to the account and between 1 and 96 characters.
   string id = 1;
   // Expiration time in seconds since Unix epoch.
   // If not set, the expiration will be set to that of the requestor's token.
