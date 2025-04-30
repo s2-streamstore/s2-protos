@@ -173,7 +173,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Access token ID.\nIt must be unique to the account and between 1 and 50 characters.",
+            "description": "Access token ID.\nIt must be unique to the account and between 1 and 96 characters.",
             "required": true,
             "schema": {
               "type": "string"
@@ -1102,7 +1102,7 @@
           },
           "id": {
             "type": "string",
-            "description": "Access token ID.\nIt must be unique to the account and between 1 and 50 characters."
+            "description": "Access token ID.\nIt must be unique to the account and between 1 and 96 characters."
           },
           "scope": {
             "$ref": "#/components/schemas/AccessTokenScope",
