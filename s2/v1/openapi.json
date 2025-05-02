@@ -1098,6 +1098,7 @@
               "string",
               "null"
             ],
+            "format": "time",
             "description": "Expiration time in seconds since Unix epoch.\nIf not set, the expiration will be set to that of the requestor's token."
           },
           "id": {
@@ -1578,6 +1579,7 @@
         "properties": {
           "created_at": {
             "type": "string",
+            "format": "time",
             "description": "Creation time in seconds since Unix epoch."
           },
           "deleted_at": {
@@ -1585,6 +1587,7 @@
               "string",
               "null"
             ],
+            "format": "time",
             "description": "Deletion time in seconds since Unix epoch, if the stream is being deleted."
           },
           "name": {
