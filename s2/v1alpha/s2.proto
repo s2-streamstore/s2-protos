@@ -586,7 +586,7 @@ message ReadSessionResponse {
 
 // Storage class for recent writes.
 enum StorageClass {
-  // Defaults to `STORAGE_CLASS_EXPRESS`.
+  // Unspecified, which is currently overridden to `STORAGE_CLASS_EXPRESS`.
   STORAGE_CLASS_UNSPECIFIED = 0;
   // Standard, which offers end-to-end latencies under 500 ms.
   STORAGE_CLASS_STANDARD = 1;
@@ -594,29 +594,9 @@ enum StorageClass {
   STORAGE_CLASS_EXPRESS = 2;
 }
 
-// Timestamping mode.
-// Note that arrival time is always in milliseconds since Unix epoch.
-enum TimestampingMode {
-  // Defaults to `TIMESTAMPING_MODE_CLIENT_PREFER`.
-  TIMESTAMPING_MODE_UNSPECIFIED = 0;
-  // Prefer client-specified timestamp if present otherwise use arrival time.
-  TIMESTAMPING_MODE_CLIENT_PREFER = 1;
-  // Require a client-specified timestamp and reject the append if it is missing.
-  TIMESTAMPING_MODE_CLIENT_REQUIRE = 2;
-  // Use the arrival time and ignore any client-specified timestamp.
-  TIMESTAMPING_MODE_ARRIVAL = 3;
-}
-
 // Stream configuration.
 message StreamConfig {
-  message Timestamping {
-    // Timestamping mode for appends that influences how timestamps are handled.
-    TimestampingMode mode = 1;
-    // Allow client-specified timestamps to exceed the arrival time.
-    // If this is false or not set, client timestamps will be capped at the arrival time.
-    optional bool uncapped = 2;
-  }
-  // Storage class for recent writes.
+  // Storage class for recent writes. This is the main cost:performance knob in S2.
   StorageClass storage_class = 1;
   // Retention policy for the stream.
   // If unspecified, the default is to retain records for 7 days.
@@ -625,10 +605,13 @@ message StreamConfig {
     // If set to 0, the stream will have infinite retention.
     uint64 age = 2;
   }
-  // Replaced with `timestamping`.
-  reserved 3, 4;
-  // Timestamping behavior.
-  Timestamping timestamping = 5;
+  // Controls how to handle timestamps when they are not provided by the client.
+  // If this is false (or not set), the record's arrival time in milliseconds since Unix epoch will be assigned as its timestamp.
+  // If this is true, then any append without a client-specified timestamp will be rejected as invalid.
+  optional bool require_client_timestamps = 3;
+  // Allow client timestamps to exceed the arrival time in milliseconds since Unix epoch.
+  // If this is false (or not set), client timestamps will be capped at the arrival time.
+  optional bool uncapped_client_timestamps = 4;
 }
 
 // Basin configuration.
@@ -677,7 +660,8 @@ message Header {
 // Record to be appended to a stream.
 message AppendRecord {
   // Timestamp for this record.
-  // Precise semantics depend on the stream's `timestamping` config.
+  // The service will always ensure monotonicity by adjusting it up if necessary to the maximum observed timestamp.
+  // Refer to the config documentation for `require_client_timestamps` and `uncapped_client_timestamps` to control whether client-specified timestamps are required, and whether they are allowed to exceed the arrival time.
   optional uint64 timestamp = 3;
   // Series of name-value pairs for this record.
   repeated Header headers = 1;
