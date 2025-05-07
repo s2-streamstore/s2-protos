@@ -1531,14 +1531,10 @@
       },
       "StreamConfig": {
         "type": "object",
+        "required": [
+          "timestamping"
+        ],
         "properties": {
-          "require_client_timestamps": {
-            "type": [
-              "boolean",
-              "null"
-            ],
-            "description": "Controls how to handle timestamps when they are not provided by the client.\n If this is false (or not set), the record's arrival time in milliseconds since Unix epoch\nwill be assigned as its timestamp. If this is true, then any append without a\nclient-specified timestamp will be rejected as invalid."
-          },
           "retention_policy": {
             "oneOf": [
               {
@@ -1557,16 +1553,13 @@
               },
               {
                 "$ref": "#/components/schemas/StorageClass",
-                "description": "Storage class for recent writes. This is the main cost:performance knob in S2."
+                "description": "Storage class for recent writes."
               }
             ]
           },
-          "uncapped_client_timestamps": {
-            "type": [
-              "boolean",
-              "null"
-            ],
-            "description": "Allow client timestamps to exceed the arrival time in milliseconds since Unix epoch.\nIf this is false (or not set), client timestamps will be capped at the arrival time."
+          "timestamping": {
+            "$ref": "#/components/schemas/TimestampingConfig",
+            "description": "Timestamping behavior."
           }
         }
       },
@@ -1620,14 +1613,10 @@
       },
       "StreamReconfiguration": {
         "type": "object",
+        "required": [
+          "timestamping"
+        ],
         "properties": {
-          "require_client_timestamps": {
-            "type": [
-              "boolean",
-              "null"
-            ],
-            "description": "Controls how to handle timestamps when they are not provided by the client.\nIf this is false (or not set), the record's arrival time in milliseconds since Unix epoch\nwill be assigned as its timestamp. If this is true, then any append without a\nclient-specified timestamp will be rejected as invalid."
-          },
           "retention_policy": {
             "oneOf": [
               {
@@ -1646,16 +1635,67 @@
               },
               {
                 "$ref": "#/components/schemas/StorageClass",
-                "description": "Storage class for recent writes. This is the main cost:performance knob in S2."
+                "description": "Storage class for recent writes."
               }
             ]
           },
-          "uncapped_client_timestamps": {
+          "timestamping": {
+            "$ref": "#/components/schemas/TimestampingReconfiguration",
+            "description": "Timestamping behavior."
+          }
+        }
+      },
+      "TimestampingConfig": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/TimestampingMode",
+                "description": "Timestamping mode for appends that influences how timestamps are handled."
+              }
+            ]
+          },
+          "uncapped": {
             "type": [
               "boolean",
               "null"
             ],
-            "description": "Allow client timestamps to exceed the arrival time in milliseconds since Unix epoch.\nIf this is false (or not set), client timestamps will be capped at the arrival time."
+            "description": "Allow client-specified timestamps to exceed the arrival time.\nIf this is false or not set, client timestamps will be capped at the arrival time."
+          }
+        }
+      },
+      "TimestampingMode": {
+        "type": "string",
+        "enum": [
+          "client-prefer",
+          "client-require",
+          "arrival"
+        ]
+      },
+      "TimestampingReconfiguration": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/TimestampingMode",
+                "description": "Timestamping mode for appends that influences how timestamps are handled."
+              }
+            ]
+          },
+          "uncapped": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Allow client-specified timestamps to exceed the arrival time."
           }
         }
       }
