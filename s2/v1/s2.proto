@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package s2.v1;
+
+option java_multiple_files = true;
+option java_package = "s2.v1";
+
+// Position of a record in a stream.
+message StreamPosition {
+  // Sequence number assigned by the service.
+  uint64 seq_num = 1;
+  // Timestamp, which may be user-specified or assigned by the service.
+  // If it is assigned by the service, it will represent milliseconds since Unix epoch.
+  uint64 timestamp = 2;
+}
+
+// Headers add structured information to a record as name-value pairs.
+message Header {
+  // Header name blob.
+  // The name cannot be empty, with the exception of an S2 command record.
+  bytes name = 1;
+  // Header value blob.
+  bytes value = 2;
+}
+
+// Record to be appended to a stream.
+message AppendRecord {
+  // Timestamp for this record.
+  // The service will always ensure monotonicity by adjusting it up if necessary to the maximum observed timestamp.
+  // Refer to stream configuration for some of the finer semantics around whether a timestamp is required,
+  // and whether it is interpreted and capped at the current time.
+  optional uint64 timestamp = 1;
+  // Series of name-value pairs for this record.
+  repeated Header headers = 2;
+  // Body of this record.
+  bytes body = 3;
+}
+
+// Payload of an Append request message.
+message AppendInput {
+  // Batch of records to append atomically, which must contain at least one record, and no more than 1000.
+  // The total size of a batch of records may not exceed 1MiB of metered bytes.
+  repeated AppendRecord records = 1;
+  // Enforce that the sequence number issued to the first record matches.
+  optional uint64 match_seq_num = 2;
+  // Enforce a fencing token which must have been previously set by a `fence` command record.
+  optional bytes fencing_token = 3;
+}
+
+// Success response message to an Append request.
+message AppendAck {
+  // Sequence number and timestamp of the first record that was appended.
+  StreamPosition start = 1;
+  // Sequence number of the last record that was appended + 1,
+  // and timestamp of the last record that was appended.
+  // The difference between `end.seq_num` and `start.seq_num`
+  // will be the number of records appended.
+  StreamPosition end = 2;
+  // Sequence number that will be assigned to the next record on the stream,
+  // and timestamp of the last record on the stream.
+  // This can be greater than the `end` position in case of concurrent appends.
+  StreamPosition tail = 3;
+}
+
+// Failure response (412) when an Append is aborted due to a failed condition.
+// Terminal status message in case of a session.
+message AppendConditionFailed {
+  // Condition that failed.
+  oneof cond {
+    // Fencing token did not match.
+    // The expected fencing token is returned.
+    bytes fencing_token_mismatch = 1;
+    // Sequence number did not match the tail of the stream.
+    // The expected next sequence number is returned.
+    uint64 seq_num_mismatch = 2;
+  }
+}
+
+// Record that is durably sequenced on a stream.
+message SequencedRecord {
+  // Sequence number assigned to this record.
+  uint64 seq_num = 1;
+  // Timestamp for this record.
+  uint64 timestamp = 2;
+  // Series of name-value pairs for this record.
+  repeated Header headers = 3;
+  // Body of this record.
+  bytes body = 4;
+}
+
+// Success response to a Read request.
+message ReadBatch {
+  // Records that are at or after the requested start position.
+  repeated SequencedRecord records = 1;
+  // Sequence number that will be assigned to the next record on the stream,
+  // with timestamp of the last record.
+  // This is returned only when consuming recent records,
+  // so its presence should not be relied on.
+  optional StreamPosition tail = 2;
+}
+
+// Success response to a CheckTail request.
+//
+// Failure response (416) to a Read request,
+// when the requested starting position is after the tail,
+// or at the tail if a limit was specified.
+message TailPosition {
+  // Sequence number that will be assigned to the next record on the stream,
+  // with timestamp of the last record.
+  StreamPosition tail = 1;
+}
