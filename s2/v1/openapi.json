@@ -1774,7 +1774,7 @@
           "created_at": {
             "type": "string",
             "format": "time",
-            "description": "Creation time in ISO8601 format."
+            "description": "Creation time in ISO 8601 format."
           },
           "deleted_at": {
             "type": [
@@ -1782,7 +1782,7 @@
               "null"
             ],
             "format": "time",
-            "description": "Deletion time in ISO8601 format, if the stream is being deleted."
+            "description": "Deletion time in ISO 8601 format, if the stream is being deleted."
           },
           "name": {
             "type": "string",
@@ -1838,8 +1838,15 @@
             ]
           },
           "timestamping": {
-            "$ref": "#/components/schemas/TimestampingReconfiguration",
-            "description": "Timestamping behavior."
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/TimestampingReconfiguration",
+                "description": "Timestamping behavior."
+              }
+            ]
           }
         }
       },
