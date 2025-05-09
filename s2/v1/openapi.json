@@ -1241,7 +1241,7 @@
               "null"
             ],
             "format": "time",
-            "description": "Expiration time in seconds in ISO8601 format.\nIf not set, the expiration will be set to that of the requestor's token."
+            "description": "Expiration time in ISO 8601 format.\nIf not set, the expiration will be set to that of the requestor's token."
           },
           "id": {
             "type": "string",
@@ -1774,7 +1774,7 @@
           "created_at": {
             "type": "string",
             "format": "time",
-            "description": "Creation time in seconds in ISO8601 format."
+            "description": "Creation time in ISO8601 format."
           },
           "deleted_at": {
             "type": [
@@ -1814,9 +1814,6 @@
       },
       "StreamReconfiguration": {
         "type": "object",
-        "required": [
-          "timestamping"
-        ],
         "properties": {
           "retention_policy": {
             "oneOf": [
