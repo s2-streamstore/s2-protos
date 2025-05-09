@@ -1241,7 +1241,7 @@
               "null"
             ],
             "format": "time",
-            "description": "Expiration time in seconds since Unix epoch.\nIf not set, the expiration will be set to that of the requestor's token."
+            "description": "Expiration time in seconds in ISO8601 format.\nIf not set, the expiration will be set to that of the requestor's token."
           },
           "id": {
             "type": "string",
@@ -1774,7 +1774,7 @@
           "created_at": {
             "type": "string",
             "format": "time",
-            "description": "Creation time in seconds since Unix epoch."
+            "description": "Creation time in seconds in ISO8601 format."
           },
           "deleted_at": {
             "type": [
@@ -1782,7 +1782,7 @@
               "null"
             ],
             "format": "time",
-            "description": "Deletion time in seconds since Unix epoch, if the stream is being deleted."
+            "description": "Deletion time in ISO8601 format, if the stream is being deleted."
           },
           "name": {
             "type": "string",
