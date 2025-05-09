@@ -300,6 +300,65 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "basins"
+        ],
+        "summary": "Create a basin.",
+        "operationId": "create_basin",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBasinRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BasinInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/basins/{basin}": {
@@ -374,6 +433,15 @@
         "operationId": "create_or_reconfigure_basin",
         "parameters": [
           {
+            "name": "s2-request-token",
+            "in": "header",
+            "description": "Provide a client request token header for idempotent retry behaviour.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "basin",
             "in": "path",
             "description": "Basin name, which must be globally unique.\nThe name must be between 8 and 48 characters, comprising lowercase\nletters, numbers and hyphens. It cannot begin or end with a hyphen.",
@@ -384,26 +452,23 @@
               "minimum": 8,
               "pattern": "^(?!-)[a-z0-9-]{8,48}(?<!-)$"
             }
-          },
-          {
-            "name": "s2-request-token",
-            "in": "header",
-            "description": "Provide a client request token header for idempotent retry behaviour.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateBasinRequest"
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CreateOrReconfigureBasinRequest"
+                  }
+                ]
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "201": {
@@ -676,6 +741,77 @@
             }
           }
         ]
+      },
+      "post": {
+        "tags": [
+          "streams"
+        ],
+        "summary": "Create a stream.",
+        "operationId": "create_stream",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStreamRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "https://{basin}.b.aws.s2.dev/v1",
+            "description": "Endpoint for the basin",
+            "variables": {
+              "basin": {
+                "default": "",
+                "description": "Basin name"
+              }
+            }
+          }
+        ]
       }
     },
     "/streams/{stream}": {
@@ -751,7 +887,7 @@
           }
         ]
       },
-      "post": {
+      "put": {
         "tags": [
           "streams"
         ],
@@ -781,11 +917,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StreamConfig"
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/StreamConfig"
+                  }
+                ]
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "201": {
@@ -1282,6 +1424,38 @@
       },
       "CreateBasinRequest": {
         "type": "object",
+        "required": [
+          "basin"
+        ],
+        "properties": {
+          "basin": {
+            "type": "string",
+            "description": "Basin name."
+          },
+          "config": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/BasinConfig",
+                "description": "Basin configuration."
+              }
+            ]
+          },
+          "scope": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BasinScope",
+                "description": "Basin scope."
+              }
+            ],
+            "default": "aws:us-east-1"
+          }
+        }
+      },
+      "CreateOrReconfigureBasinRequest": {
+        "type": "object",
         "properties": {
           "config": {
             "oneOf": [
@@ -1302,6 +1476,45 @@
               }
             ],
             "default": "aws:us-east-1"
+          }
+        }
+      },
+      "CreateStreamRequest": {
+        "type": "object",
+        "required": [
+          "stream",
+          "timestamping"
+        ],
+        "properties": {
+          "retention_policy": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RetentionPolicy",
+                "description": "Retention policy for the stream.\nIf unspecified, the default is to retain records for 7 days."
+              }
+            ]
+          },
+          "storage_class": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/StorageClass",
+                "description": "Storage class for recent writes."
+              }
+            ]
+          },
+          "stream": {
+            "type": "string",
+            "description": "Stream name."
+          },
+          "timestamping": {
+            "$ref": "#/components/schemas/TimestampingConfig",
+            "description": "Timestamping behavior."
           }
         }
       },
