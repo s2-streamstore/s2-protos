@@ -1482,39 +1482,23 @@
       "CreateStreamRequest": {
         "type": "object",
         "required": [
-          "stream",
-          "timestamping"
+          "stream"
         ],
         "properties": {
-          "retention_policy": {
+          "config": {
             "oneOf": [
               {
                 "type": "null"
               },
               {
-                "$ref": "#/components/schemas/RetentionPolicy",
-                "description": "Retention policy for the stream.\nIf unspecified, the default is to retain records for 7 days."
-              }
-            ]
-          },
-          "storage_class": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "$ref": "#/components/schemas/StorageClass",
-                "description": "Storage class for recent writes."
+                "$ref": "#/components/schemas/StreamConfig",
+                "description": "Stream configuration."
               }
             ]
           },
           "stream": {
             "type": "string",
             "description": "Stream name."
-          },
-          "timestamping": {
-            "$ref": "#/components/schemas/TimestampingConfig",
-            "description": "Timestamping behavior."
           }
         }
       },
@@ -1744,9 +1728,6 @@
       },
       "StreamConfig": {
         "type": "object",
-        "required": [
-          "timestamping"
-        ],
         "properties": {
           "retention_policy": {
             "oneOf": [
@@ -1771,8 +1752,15 @@
             ]
           },
           "timestamping": {
-            "$ref": "#/components/schemas/TimestampingConfig",
-            "description": "Timestamping behavior."
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/TimestampingConfig",
+                "description": "Timestamping behavior."
+              }
+            ]
           }
         }
       },
