@@ -238,7 +238,7 @@
           {
             "name": "start_after",
             "in": "query",
-            "description": "Only return basins names that lexicographically start after this name.\nThis can be the last basin name seen in a previous listing, to continue from there.\nIt must be greater than or equal to the prefix if specified.",
+            "description": "Only return basins names that lexicographically start after this name.\nThis can be the last basin name seen in a previous listing, to continue from there.\nIt must be greater than or equal to the `prefix` if that is specified.",
             "required": false,
             "schema": {
               "type": "string",
@@ -825,7 +825,7 @@
           {
             "name": "stream",
             "in": "path",
-            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string upto 512 characters.\nBackslash (`/`) is recommended as a delimiter for hierarchical naming.",
+            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string up to 512 characters.",
             "required": true,
             "schema": {
               "type": "string"
@@ -897,7 +897,7 @@
           {
             "name": "stream",
             "in": "path",
-            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string upto 512 characters.\nBackslash (`/`) is recommended as a delimiter for hierarchical naming.",
+            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string up to 512 characters.",
             "required": true,
             "schema": {
               "type": "string"
@@ -997,7 +997,7 @@
           {
             "name": "stream",
             "in": "path",
-            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string upto 512 characters.\nBackslash (`/`) is recommended as a delimiter for hierarchical naming.",
+            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string up to 512 characters.",
             "required": true,
             "schema": {
               "type": "string"
@@ -1062,7 +1062,7 @@
           {
             "name": "stream",
             "in": "path",
-            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string upto 512 characters.\nBackslash (`/`) is recommended as a delimiter for hierarchical naming.",
+            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string up to 512 characters.",
             "required": true,
             "schema": {
               "type": "string"
@@ -1147,7 +1147,7 @@
           {
             "name": "stream",
             "in": "path",
-            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string upto 512 characters.\nBackslash (`/`) is recommended as a delimiter for hierarchical naming.",
+            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string up to 512 characters.",
             "required": true,
             "schema": {
               "type": "string"
@@ -1316,10 +1316,6 @@
       },
       "BasinConfig": {
         "type": "object",
-        "required": [
-          "create_stream_on_append",
-          "create_stream_on_read"
-        ],
         "properties": {
           "create_stream_on_append": {
             "type": "boolean",
@@ -1470,7 +1466,7 @@
             "oneOf": [
               {
                 "$ref": "#/components/schemas/BasinScope",
-                "description": "Basin scope."
+                "description": "Basin scope.\nThis cannot be reconfigured."
               }
             ],
             "default": "aws:us-east-1"
@@ -1546,7 +1542,7 @@
           },
           "has_more": {
             "type": "boolean",
-            "description": "If set, indicates there are more results that can be listed with `start_after`."
+            "description": "Indicates that there are more results that can be listed with `start_after`."
           }
         }
       },
@@ -1567,7 +1563,7 @@
           },
           "has_more": {
             "type": "boolean",
-            "description": "If set, indicates there are more results that can be listed with `start_after`."
+            "description": "Indicates that there are more results that can be listed with `start_after`."
           }
         }
       },
@@ -1580,7 +1576,7 @@
         "properties": {
           "has_more": {
             "type": "boolean",
-            "description": "If set, indicates there are more results that can be listed with `start_after`."
+            "description": "Indicates that there are more results that can be listed with `start_after`."
           },
           "streams": {
             "type": "array",

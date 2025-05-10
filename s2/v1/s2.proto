@@ -93,9 +93,8 @@ message ReadBatch {
   // Records that are at or after the requested start position.
   repeated SequencedRecord records = 1;
   // Sequence number that will be assigned to the next record on the stream,
-  // with timestamp of the last record.
-  // This is returned only when consuming recent records,
-  // so its presence should not be relied on.
+  // and timestamp of the last record.
+  // This will only be present when consuming recent records.
   optional StreamPosition tail = 2;
 }
 
@@ -106,6 +105,6 @@ message ReadBatch {
 // or at the tail if a limit was specified.
 message TailPosition {
   // Sequence number that will be assigned to the next record on the stream,
-  // with timestamp of the last record.
+  // and timestamp of the last record.
   StreamPosition tail = 1;
 }
