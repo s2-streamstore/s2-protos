@@ -26,9 +26,7 @@ message Header {
 // Record to be appended to a stream.
 message AppendRecord {
   // Timestamp for this record.
-  // The service will always ensure monotonicity by adjusting it up if necessary to the maximum observed timestamp.
-  // Refer to stream configuration for some of the finer semantics around whether a timestamp is required,
-  // and whether it is interpreted and capped at the current time.
+  // Precise semantics depend on the stream's `timestamping` config.
   optional uint64 timestamp = 1;
   // Series of name-value pairs for this record.
   repeated Header headers = 2;
@@ -62,20 +60,6 @@ message AppendAck {
   StreamPosition tail = 3;
 }
 
-// Failure response (412) when an Append is aborted due to a failed condition.
-// Terminal status message in case of a session.
-message AppendConditionFailed {
-  // Condition that failed.
-  oneof cond {
-    // Fencing token did not match.
-    // The expected fencing token is returned.
-    bytes fencing_token_mismatch = 1;
-    // Sequence number did not match the tail of the stream.
-    // The expected next sequence number is returned.
-    uint64 seq_num_mismatch = 2;
-  }
-}
-
 // Record that is durably sequenced on a stream.
 message SequencedRecord {
   // Sequence number assigned to this record.
@@ -88,7 +72,7 @@ message SequencedRecord {
   bytes body = 4;
 }
 
-// Success response to a Read request.
+// Success response message to a Read request.
 message ReadBatch {
   // Records that are at or after the requested start position.
   repeated SequencedRecord records = 1;
@@ -96,15 +80,4 @@ message ReadBatch {
   // and timestamp of the last record.
   // This will only be present when consuming recent records.
   optional StreamPosition tail = 2;
-}
-
-// Success response to a CheckTail request.
-//
-// Failure response (416) to a Read request,
-// when the requested starting position is after the tail,
-// or at the tail if a limit was specified.
-message TailPosition {
-  // Sequence number that will be assigned to the next record on the stream,
-  // and timestamp of the last record.
-  StreamPosition tail = 1;
 }

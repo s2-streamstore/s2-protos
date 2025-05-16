@@ -80,17 +80,7 @@
               }
             }
           },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
+          "403": {
             "description": "",
             "content": {
               "application/json": {
@@ -139,7 +129,7 @@
               }
             }
           },
-          "401": {
+          "403": {
             "description": "",
             "content": {
               "application/json": {
@@ -149,7 +139,7 @@
               }
             }
           },
-          "500": {
+          "409": {
             "description": "",
             "content": {
               "application/json": {
@@ -194,17 +184,7 @@
               }
             }
           },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
+          "403": {
             "description": "",
             "content": {
               "application/json": {
@@ -279,17 +259,7 @@
               }
             }
           },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
+          "403": {
             "description": "",
             "content": {
               "application/json": {
@@ -348,7 +318,17 @@
               }
             }
           },
-          "500": {
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
             "description": "",
             "content": {
               "application/json": {
@@ -403,7 +383,7 @@
               }
             }
           },
-          "401": {
+          "403": {
             "description": "",
             "content": {
               "application/json": {
@@ -413,7 +393,7 @@
               }
             }
           },
-          "500": {
+          "404": {
             "description": "",
             "content": {
               "application/json": {
@@ -493,26 +473,6 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
           }
         }
       },
@@ -560,7 +520,17 @@
               }
             }
           },
-          "500": {
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
             "description": "",
             "content": {
               "application/json": {
@@ -623,7 +593,7 @@
               }
             }
           },
-          "401": {
+          "403": {
             "description": "",
             "content": {
               "application/json": {
@@ -633,7 +603,7 @@
               }
             }
           },
-          "500": {
+          "404": {
             "description": "",
             "content": {
               "application/json": {
@@ -708,7 +678,7 @@
               }
             }
           },
-          "401": {
+          "403": {
             "description": "",
             "content": {
               "application/json": {
@@ -718,7 +688,7 @@
               }
             }
           },
-          "500": {
+          "404": {
             "description": "",
             "content": {
               "application/json": {
@@ -779,7 +749,7 @@
               }
             }
           },
-          "401": {
+          "403": {
             "description": "",
             "content": {
               "application/json": {
@@ -789,7 +759,17 @@
               }
             }
           },
-          "500": {
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
             "description": "",
             "content": {
               "application/json": {
@@ -853,7 +833,7 @@
               }
             }
           },
-          "401": {
+          "403": {
             "description": "",
             "content": {
               "application/json": {
@@ -863,7 +843,17 @@
               }
             }
           },
-          "500": {
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
             "description": "",
             "content": {
               "application/json": {
@@ -953,7 +943,7 @@
               }
             }
           },
-          "401": {
+          "403": {
             "description": "",
             "content": {
               "application/json": {
@@ -963,7 +953,17 @@
               }
             }
           },
-          "500": {
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
             "description": "",
             "content": {
               "application/json": {
@@ -1018,7 +1018,7 @@
               }
             }
           },
-          "401": {
+          "403": {
             "description": "",
             "content": {
               "application/json": {
@@ -1028,7 +1028,7 @@
               }
             }
           },
-          "500": {
+          "404": {
             "description": "",
             "content": {
               "application/json": {
@@ -1100,12 +1100,313 @@
               }
             }
           },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "https://{basin}.b.aws.s2.dev/v1",
+            "description": "Endpoint for the basin",
+            "variables": {
+              "basin": {
+                "default": "",
+                "description": "Basin name"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "/streams/{stream}/records": {
+      "get": {
+        "tags": [
+          "records"
+        ],
+        "summary": "Retrieve records.",
+        "description": "Retrieve a batch of records, or set `Accept: text/event-stream` to stream using server-sent events.",
+        "operationId": "read",
+        "parameters": [
+          {
+            "name": "stream",
+            "in": "path",
+            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string up to 512 characters.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "s2-format",
+            "in": "header",
+            "description": "Recognized when the Content-Type is `application/json`.\njson: UTF-8 data\njson-binsafe: Base64-encoded binary data",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/S2Format"
+            }
+          },
+          {
+            "name": "seq_num",
+            "in": "query",
+            "description": "Start from a sequence number.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/u64"
+            }
+          },
+          {
+            "name": "timestamp",
+            "in": "query",
+            "description": "Start from a timestamp.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/u64"
+            }
+          },
+          {
+            "name": "tail_offset",
+            "in": "query",
+            "description": "Start from number of records before the tail, i.e. before the next sequence number.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Limit total records to return.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "bytes",
+            "in": "query",
+            "description": "Limit total metered bytes to return.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadBatch"
+                }
+              },
+              "text/event-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadEvent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "401": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "416": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TailResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "https://{basin}.b.aws.s2.dev/v1",
+            "description": "Endpoint for the basin",
+            "variables": {
+              "basin": {
+                "default": "",
+                "description": "Basin name"
+              }
+            }
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "records"
+        ],
+        "summary": "Append records.",
+        "description": "Append a batch of records to a stream.",
+        "operationId": "append",
+        "parameters": [
+          {
+            "name": "stream",
+            "in": "path",
+            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string up to 512 characters.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "s2-format",
+            "in": "header",
+            "description": "Recognized when the Content-Type is `application/json`.\njson: UTF-8 data\njson-binsafe: Base64-encoded binary data",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/S2Format"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppendInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppendAck"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppendConditionFailed"
                 }
               }
             }
@@ -1160,7 +1461,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CheckTailResponse"
+                  "$ref": "#/components/schemas/TailResponse"
                 }
               }
             }
@@ -1186,6 +1487,16 @@
             }
           },
           "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
             "description": "",
             "content": {
               "application/json": {
@@ -1314,6 +1625,126 @@
           }
         }
       },
+      "AppendAck": {
+        "type": "object",
+        "description": "Success response message to an Append request.",
+        "required": [
+          "start",
+          "end",
+          "tail"
+        ],
+        "properties": {
+          "end": {
+            "$ref": "#/components/schemas/StreamPosition",
+            "description": "Sequence number of the last record that was appended + 1,\nand timestamp of the last record that was appended.\nThe difference between `end.seq_num` and `start.seq_num`\nwill be the number of records appended."
+          },
+          "start": {
+            "$ref": "#/components/schemas/StreamPosition",
+            "description": "Sequence number and timestamp of the first record that was appended."
+          },
+          "tail": {
+            "$ref": "#/components/schemas/StreamPosition",
+            "description": "Sequence number that will be assigned to the next record on the stream,\nand timestamp of the last record on the stream.\nThis can be greater than the `end` position in case of concurrent appends."
+          }
+        }
+      },
+      "AppendConditionFailed": {
+        "oneOf": [
+          {
+            "type": "object",
+            "description": "Fencing token did not match.\nThe expected fencing token is returned.",
+            "required": [
+              "FencingTokenMismatch"
+            ],
+            "properties": {
+              "FencingTokenMismatch": {
+                "type": "string",
+                "description": "Fencing token did not match.\nThe expected fencing token is returned."
+              }
+            }
+          },
+          {
+            "type": "object",
+            "description": "Sequence number did not match the tail of the stream.\nThe expected next sequence number is returned.",
+            "required": [
+              "SeqNumMismatch"
+            ],
+            "properties": {
+              "SeqNumMismatch": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Sequence number did not match the tail of the stream.\nThe expected next sequence number is returned.",
+                "minimum": 0
+              }
+            }
+          }
+        ],
+        "description": "Failure response message when an Append is aborted due to a failed condition."
+      },
+      "AppendInput": {
+        "type": "object",
+        "description": "Payload of an Append request message.",
+        "required": [
+          "records"
+        ],
+        "properties": {
+          "fencing_token": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Enforce a fencing token which must have been previously set by a `fence` command record."
+          },
+          "match_seq_num": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/u64",
+                "description": "Enforce that the sequence number issued to the first record matches."
+              }
+            ]
+          },
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AppendRecord"
+            },
+            "description": "Batch of records to append atomically, which must contain at least one record, and no more\nthan 1000. The total size of a batch of records may not exceed 1MiB of metered bytes."
+          }
+        }
+      },
+      "AppendRecord": {
+        "type": "object",
+        "description": "Record to be appended to a stream.",
+        "properties": {
+          "body": {
+            "type": "string",
+            "description": "Body of the record.",
+            "default": ""
+          },
+          "headers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Header"
+            },
+            "description": "Series of name-value pairs for this record.",
+            "default": "[]"
+          },
+          "timestamp": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/u64",
+                "description": "Timestamp for this record.\nThe service will always ensure monotonicity by adjusting it up if necessary to the maximum\nobserved timestamp. Refer to stream configuration for some of the finer semantics\naround whether a timestamp is required, and whether it is interpreted and capped at the\ncurrent time."
+              }
+            ]
+          }
+        }
+      },
       "BasinConfig": {
         "type": "object",
         "properties": {
@@ -1403,18 +1834,6 @@
           "creating",
           "deleting"
         ]
-      },
-      "CheckTailResponse": {
-        "type": "object",
-        "required": [
-          "tail"
-        ],
-        "properties": {
-          "tail": {
-            "$ref": "#/components/schemas/StreamPosition",
-            "description": "Sequence number that will be assigned to the next record on the stream,\nwith timestamp of the last record."
-          }
-        }
       },
       "CreateBasinRequest": {
         "type": "object",
@@ -1510,6 +1929,24 @@
           },
           "message": {
             "type": "string"
+          }
+        }
+      },
+      "Header": {
+        "type": "object",
+        "description": "Headers add structured information to a record as name-value pairs.",
+        "required": [
+          "name",
+          "value"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Header name blob.\nThe name cannot be empty, with the exception of an S2 command record."
+          },
+          "value": {
+            "type": "string",
+            "description": "Header value blob."
           }
         }
       },
@@ -1649,6 +2086,72 @@
           }
         }
       },
+      "ReadBatch": {
+        "type": "object",
+        "required": [
+          "records"
+        ],
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SequencedRecord"
+            }
+          }
+        }
+      },
+      "ReadEvent": {
+        "oneOf": [
+          {
+            "type": "object",
+            "title": "batch",
+            "required": [
+              "event",
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/ReadBatch"
+              },
+              "event": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "title": "error",
+            "required": [
+              "event",
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "type": "string"
+              },
+              "event": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "title": "ping",
+            "required": [
+              "event",
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "type": "string"
+              },
+              "event": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
       "ReadWritePermissions": {
         "type": "object",
         "properties": {
@@ -1712,6 +2215,44 @@
             }
           }
         ]
+      },
+      "S2Format": {
+        "type": "string",
+        "enum": [
+          "json",
+          "json-binsafe"
+        ]
+      },
+      "SequencedRecord": {
+        "type": "object",
+        "description": "Record that is durably sequenced on a stream.",
+        "required": [
+          "seq_num",
+          "timestamp"
+        ],
+        "properties": {
+          "body": {
+            "type": "string",
+            "description": "Body of the record.",
+            "default": ""
+          },
+          "headers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Header"
+            },
+            "description": "Series of name-value pairs for this record.",
+            "default": "[]"
+          },
+          "seq_num": {
+            "$ref": "#/components/schemas/u64",
+            "description": "Sequence number assigned by the service."
+          },
+          "timestamp": {
+            "$ref": "#/components/schemas/u64",
+            "description": "Timestamp for this record."
+          }
+        }
       },
       "StorageClass": {
         "type": "string",
@@ -1844,6 +2385,18 @@
           }
         }
       },
+      "TailResponse": {
+        "type": "object",
+        "required": [
+          "tail"
+        ],
+        "properties": {
+          "tail": {
+            "$ref": "#/components/schemas/StreamPosition",
+            "description": "Sequence number that will be assigned to the next record on the stream,\nwith timestamp of the last record."
+          }
+        }
+      },
       "TimestampingConfig": {
         "type": "object",
         "properties": {
@@ -1897,6 +2450,11 @@
             "description": "Allow client-specified timestamps to exceed the arrival time."
           }
         }
+      },
+      "u64": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 0
       }
     },
     "securitySchemes": {
