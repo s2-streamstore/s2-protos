@@ -1608,9 +1608,7 @@
             "items": {
               "$ref": "#/components/schemas/Operation"
             },
-            "description": "Operations allowed for the token.\nA union of allowed operations and groups is used as an effective set of allowed operations.",
-            "default": "[]",
-            "maxItems": 18
+            "description": "Operations allowed for the token.\nA union of allowed operations and groups is used as an effective set of allowed operations."
           },
           "streams": {
             "oneOf": [
@@ -1721,16 +1719,14 @@
         "properties": {
           "body": {
             "type": "string",
-            "description": "Body of the record.",
-            "default": ""
+            "description": "Body of the record."
           },
           "headers": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Header"
             },
-            "description": "Series of name-value pairs for this record.",
-            "default": "[]"
+            "description": "Series of name-value pairs for this record."
           },
           "timestamp": {
             "oneOf": [
@@ -2233,16 +2229,14 @@
         "properties": {
           "body": {
             "type": "string",
-            "description": "Body of the record.",
-            "default": ""
+            "description": "Body of the record."
           },
           "headers": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Header"
             },
-            "description": "Series of name-value pairs for this record.",
-            "default": "[]"
+            "description": "Series of name-value pairs for this record."
           },
           "seq_num": {
             "$ref": "#/components/schemas/u64",
