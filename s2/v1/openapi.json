@@ -1929,22 +1929,14 @@
         }
       },
       "Header": {
-        "type": "object",
-        "description": "Headers add structured information to a record as name-value pairs.",
-        "required": [
-          "name",
-          "value"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Header name blob.\nThe name cannot be empty, with the exception of an S2 command record."
-          },
-          "value": {
-            "type": "string",
-            "description": "Header value blob."
-          }
-        }
+        "type": "array",
+        "items": {
+          "type": "string",
+          "description": "Headers add structured information to a record as name-value pairs.\n\nThe name cannot be empty, with the exception of an S2 command record."
+        },
+        "description": "Headers add structured information to a record as name-value pairs.\n\nThe name cannot be empty, with the exception of an S2 command record.",
+        "maxItems": 2,
+        "minItems": 2
       },
       "IssueAccessTokenResponse": {
         "type": "object",
