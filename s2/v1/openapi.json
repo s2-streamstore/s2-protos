@@ -1650,25 +1650,27 @@
         "oneOf": [
           {
             "type": "object",
-            "description": "Fencing token did not match.\nThe expected fencing token is returned.",
+            "title": "fencing token",
+            "description": "Fencing token did not match.\nThe expected fencing token is returned, encoded with base64.",
             "required": [
-              "FencingTokenMismatch"
+              "fencing-token-mismatch"
             ],
             "properties": {
-              "FencingTokenMismatch": {
+              "fencing-token-mismatch": {
                 "type": "string",
-                "description": "Fencing token did not match.\nThe expected fencing token is returned."
+                "description": "Fencing token did not match.\nThe expected fencing token is returned, encoded with base64."
               }
             }
           },
           {
             "type": "object",
+            "title": "seq num",
             "description": "Sequence number did not match the tail of the stream.\nThe expected next sequence number is returned.",
             "required": [
-              "SeqNumMismatch"
+              "seq-num-mismatch"
             ],
             "properties": {
-              "SeqNumMismatch": {
+              "seq-num-mismatch": {
                 "type": "integer",
                 "format": "int64",
                 "description": "Sequence number did not match the tail of the stream.\nThe expected next sequence number is returned.",
