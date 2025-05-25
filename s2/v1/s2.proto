@@ -42,7 +42,7 @@ message AppendInput {
   // Enforce that the sequence number issued to the first record matches.
   optional uint64 match_seq_num = 2;
   // Enforce a fencing token which must have been previously set by a `fence` command record.
-  optional bytes fencing_token = 3;
+  optional string fencing_token = 3;
 }
 
 // Success response message to an Append request.

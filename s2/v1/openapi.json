@@ -1166,7 +1166,7 @@
           {
             "name": "s2-format",
             "in": "header",
-            "description": "Recognized when the Content-Type is `application/json`.\njson: UTF-8 data\njson-binsafe: Base64-encoded binary data",
+            "description": "Define treatment of blob fields when using JSON content type:\n`raw` (default) or `base64`.",
             "required": false,
             "schema": {
               "$ref": "#/components/schemas/S2Format"
@@ -1333,7 +1333,7 @@
           {
             "name": "s2-format",
             "in": "header",
-            "description": "Recognized when the Content-Type is `application/json`.\njson: UTF-8 data\njson-binsafe: Base64-encoded binary data",
+            "description": "Define treatment of blob fields when using JSON content type:\n`raw` (default) or `base64`.",
             "required": false,
             "schema": {
               "$ref": "#/components/schemas/S2Format"
@@ -2209,8 +2209,8 @@
       "S2Format": {
         "type": "string",
         "enum": [
-          "json",
-          "json-binsafe"
+          "raw",
+          "base64"
         ]
       },
       "SequencedRecord": {
