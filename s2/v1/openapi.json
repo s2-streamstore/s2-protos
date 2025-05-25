@@ -163,7 +163,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Access token ID.\nIt must be unique to the account and between 1 and 96 characters.",
+            "description": "Access token ID that is unique to the account.\nIt can be between 1 and 96 bytes in length.",
             "required": true,
             "schema": {
               "type": "string"
@@ -352,7 +352,7 @@
           {
             "name": "basin",
             "in": "path",
-            "description": "Basin name, which must be globally unique.\nThe name must be between 8 and 48 characters, comprising lowercase\nletters, numbers and hyphens. It cannot begin or end with a hyphen.",
+            "description": "Basin name, which must be globally unique.\nIt can be between 8 and 48 characters in length,\nand comprise lowercase letters, numbers and hyphens.\nIt cannot begin or end with a hyphen.",
             "required": true,
             "schema": {
               "type": "string",
@@ -424,7 +424,7 @@
           {
             "name": "basin",
             "in": "path",
-            "description": "Basin name, which must be globally unique.\nThe name must be between 8 and 48 characters, comprising lowercase\nletters, numbers and hyphens. It cannot begin or end with a hyphen.",
+            "description": "Basin name, which must be globally unique.\nIt can be between 8 and 48 characters in length,\nand comprise lowercase letters, numbers and hyphens.\nIt cannot begin or end with a hyphen.",
             "required": true,
             "schema": {
               "type": "string",
@@ -486,7 +486,7 @@
           {
             "name": "basin",
             "in": "path",
-            "description": "Basin name, which must be globally unique.\nThe name must be between 8 and 48 characters, comprising lowercase\nletters, numbers and hyphens. It cannot begin or end with a hyphen.",
+            "description": "Basin name, which must be globally unique.\nIt can be between 8 and 48 characters in length,\nand comprise lowercase letters, numbers and hyphens.\nIt cannot begin or end with a hyphen.",
             "required": true,
             "schema": {
               "type": "string",
@@ -552,7 +552,7 @@
           {
             "name": "basin",
             "in": "path",
-            "description": "Basin name, which must be globally unique.\nThe name must be between 8 and 48 characters, comprising lowercase\nletters, numbers and hyphens. It cannot begin or end with a hyphen.",
+            "description": "Basin name, which must be globally unique.\nIt can be between 8 and 48 characters in length,\nand comprise lowercase letters, numbers and hyphens.\nIt cannot begin or end with a hyphen.",
             "required": true,
             "schema": {
               "type": "string",
@@ -805,7 +805,7 @@
           {
             "name": "stream",
             "in": "path",
-            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string up to 512 characters.",
+            "description": "Stream name that is unique to the basin.\nIt can be between 1 and 512 bytes in length.",
             "required": true,
             "schema": {
               "type": "string"
@@ -887,7 +887,7 @@
           {
             "name": "stream",
             "in": "path",
-            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string up to 512 characters.",
+            "description": "Stream name that is unique to the basin.\nIt can be between 1 and 512 bytes in length.",
             "required": true,
             "schema": {
               "type": "string"
@@ -997,7 +997,7 @@
           {
             "name": "stream",
             "in": "path",
-            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string up to 512 characters.",
+            "description": "Stream name that is unique to the basin.\nIt can be between 1 and 512 bytes in length.",
             "required": true,
             "schema": {
               "type": "string"
@@ -1062,7 +1062,7 @@
           {
             "name": "stream",
             "in": "path",
-            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string up to 512 characters.",
+            "description": "Stream name that is unique to the basin.\nIt can be between 1 and 512 bytes in length.",
             "required": true,
             "schema": {
               "type": "string"
@@ -1157,7 +1157,7 @@
           {
             "name": "stream",
             "in": "path",
-            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string up to 512 characters.",
+            "description": "Stream name that is unique to the basin.\nIt can be between 1 and 512 bytes in length.",
             "required": true,
             "schema": {
               "type": "string"
@@ -1166,7 +1166,7 @@
           {
             "name": "s2-format",
             "in": "header",
-            "description": "Define treatment of blob fields when using JSON content type:\n`raw` (default) or `base64`.",
+            "description": "Define treatment of blob fields when exchanging records as JSON.\nThe default is `raw`.",
             "required": false,
             "schema": {
               "$ref": "#/components/schemas/S2Format"
@@ -1324,7 +1324,7 @@
           {
             "name": "stream",
             "in": "path",
-            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string up to 512 characters.",
+            "description": "Stream name that is unique to the basin.\nIt can be between 1 and 512 bytes in length.",
             "required": true,
             "schema": {
               "type": "string"
@@ -1333,7 +1333,7 @@
           {
             "name": "s2-format",
             "in": "header",
-            "description": "Define treatment of blob fields when using JSON content type:\n`raw` (default) or `base64`.",
+            "description": "Define treatment of blob fields when exchanging records as JSON.\nThe default is `raw`.",
             "required": false,
             "schema": {
               "$ref": "#/components/schemas/S2Format"
@@ -1448,7 +1448,7 @@
           {
             "name": "stream",
             "in": "path",
-            "description": "Stream name, which must be unique within the basin.\nIt can be an arbitrary string up to 512 characters.",
+            "description": "Stream name that is unique to the basin.\nIt can be between 1 and 512 bytes in length.",
             "required": true,
             "schema": {
               "type": "string"
@@ -1556,7 +1556,7 @@
           },
           "id": {
             "type": "string",
-            "description": "Access token ID.\nIt must be unique to the account and between 1 and 96 characters."
+            "description": "Access token ID.\nIt must be unique to the account and between 1 and 96 bytes in length."
           },
           "scope": {
             "$ref": "#/components/schemas/AccessTokenScope",
