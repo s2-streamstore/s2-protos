@@ -237,6 +237,12 @@ enum Operation {
   OPERATION_TRIM = 17;
   // Set a fencing token for a stream.
   OPERATION_FENCE = 18;
+  // Retrieve account-level metrics.
+  OPERATION_ACCOUNT_METRICS = 19;
+  // Retrieve basin-level metrics.
+  OPERATION_BASIN_METRICS = 20;
+  // Retrieve stream-level metrics.
+  OPERATION_STREAM_METRICS = 21;
 }
 
 // Read/Write permissions.

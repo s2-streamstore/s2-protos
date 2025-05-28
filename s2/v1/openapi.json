@@ -616,6 +616,259 @@
         }
       }
     },
+    "/metrics": {
+      "get": {
+        "tags": [
+          "metrics"
+        ],
+        "summary": "Get account level metrics.",
+        "operationId": "account_metrics",
+        "parameters": [
+          {
+            "name": "metric_set",
+            "in": "path",
+            "description": "Metric type to return.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/AccountMetricSet"
+            }
+          },
+          {
+            "name": "start",
+            "in": "path",
+            "description": "Start timestamp, in Unix epoch seconds, if applicable for metric set.",
+            "required": true,
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "end",
+            "in": "path",
+            "description": "End timestamp, in Unix epoch seconds, if applicable for metric set.",
+            "required": true,
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "interval",
+            "in": "path",
+            "description": "For timeseries metric sets, the interval to aggregate over.",
+            "required": true,
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/components/schemas/TimeseriesInterval"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetricSetResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/{basin}": {
+      "get": {
+        "tags": [
+          "metrics"
+        ],
+        "summary": "Get metrics for a basin.",
+        "operationId": "basin_metrics",
+        "parameters": [
+          {
+            "name": "metric_set",
+            "in": "path",
+            "description": "Metric type to return.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/BasinMetricSet"
+            }
+          },
+          {
+            "name": "start",
+            "in": "path",
+            "description": "Start timestamp, in Unix epoch seconds, if applicable for metric set.",
+            "required": true,
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "end",
+            "in": "path",
+            "description": "End timestamp, in Unix epoch seconds, if applicable for metric set.",
+            "required": true,
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "interval",
+            "in": "path",
+            "description": "For timeseries metric sets, the interval to aggregate over.",
+            "required": true,
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/components/schemas/TimeseriesInterval"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetricSetResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/{basin}/{stream}": {
+      "get": {
+        "tags": [
+          "metrics"
+        ],
+        "summary": "Get metrics for a stream.",
+        "operationId": "stream_metrics",
+        "parameters": [
+          {
+            "name": "basin_name",
+            "in": "path",
+            "description": "Basin name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "stream_name",
+            "in": "path",
+            "description": "Stream name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetricSetResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/streams": {
       "get": {
         "tags": [
@@ -1623,6 +1876,48 @@
           }
         }
       },
+      "AccumulationTimeseries": {
+        "type": "object",
+        "required": [
+          "name",
+          "unit",
+          "bucket_length",
+          "values"
+        ],
+        "properties": {
+          "bucket_length": {
+            "$ref": "#/components/schemas/TimeseriesInterval",
+            "description": "The duration of bucket for the accumulation."
+          },
+          "name": {
+            "type": "string",
+            "description": "Timeseries name."
+          },
+          "unit": {
+            "$ref": "#/components/schemas/MetricUnit",
+            "description": "Unit of the metric."
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": false,
+              "prefixItems": [
+                {
+                  "type": "integer",
+                  "format": "int32",
+                  "minimum": 0
+                },
+                {
+                  "type": "number",
+                  "format": "double"
+                }
+              ]
+            },
+            "description": "Timeseries values.\n\nEach element is a tuple containing the seconds since Unix epoch, followed by the data\npoint.\n\nThe data point represented the accumulated value for a bucket of time, starting\nat the provided epoch, lasting for the duration of the `bucket_length` parameter above."
+          }
+        }
+      },
       "AppendAck": {
         "type": "object",
         "description": "Success response message to an Append request.",
@@ -1930,6 +2225,43 @@
           }
         }
       },
+      "GaugeTimeseries": {
+        "type": "object",
+        "required": [
+          "name",
+          "unit",
+          "values"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Timeseries name."
+          },
+          "unit": {
+            "$ref": "#/components/schemas/MetricUnit",
+            "description": "Unit of the metric."
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": false,
+              "prefixItems": [
+                {
+                  "type": "integer",
+                  "format": "int32",
+                  "minimum": 0
+                },
+                {
+                  "type": "number",
+                  "format": "double"
+                }
+              ]
+            },
+            "description": "Timeseries values.\n\nEach element is a tuple containing the seconds since Unix epoch, followed by the data\npoint.\n\nThe data point represents the value at the instant of the epoch."
+          }
+        }
+      },
       "Header": {
         "type": "array",
         "items": {
@@ -1949,6 +2281,26 @@
           "access_token": {
             "type": "string",
             "description": "Created access token."
+          }
+        }
+      },
+      "LabelMetric": {
+        "type": "object",
+        "required": [
+          "name",
+          "values"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Label name."
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Label values."
           }
         }
       },
@@ -2015,6 +2367,84 @@
           }
         }
       },
+      "Metric": {
+        "oneOf": [
+          {
+            "type": "object",
+            "description": "A single named value.",
+            "required": [
+              "scalar"
+            ],
+            "properties": {
+              "scalar": {
+                "$ref": "#/components/schemas/ScalarMetric",
+                "description": "A single named value."
+              }
+            }
+          },
+          {
+            "type": "object",
+            "description": "A named series of (timestamp, value) points representing an accumulation over a specified\nbucket.",
+            "required": [
+              "accumulation_timeseries"
+            ],
+            "properties": {
+              "accumulation_timeseries": {
+                "$ref": "#/components/schemas/AccumulationTimeseries",
+                "description": "A named series of (timestamp, value) points representing an accumulation over a specified\nbucket."
+              }
+            }
+          },
+          {
+            "type": "object",
+            "description": "A named series of (timestamp, value) points each representing an instantaneous value.",
+            "required": [
+              "gauge_timeseries"
+            ],
+            "properties": {
+              "gauge_timeseries": {
+                "$ref": "#/components/schemas/GaugeTimeseries",
+                "description": "A named series of (timestamp, value) points each representing an instantaneous value."
+              }
+            }
+          },
+          {
+            "type": "object",
+            "description": "A set of string labels.",
+            "required": [
+              "label"
+            ],
+            "properties": {
+              "label": {
+                "$ref": "#/components/schemas/LabelMetric",
+                "description": "A set of string labels."
+              }
+            }
+          }
+        ]
+      },
+      "MetricSetResponse": {
+        "type": "object",
+        "required": [
+          "values"
+        ],
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Metric"
+            },
+            "description": "Metrics comprising the set."
+          }
+        }
+      },
+      "MetricUnit": {
+        "type": "string",
+        "enum": [
+          "bytes",
+          "operations"
+        ]
+      },
       "Operation": {
         "type": "string",
         "enum": [
@@ -2035,7 +2465,10 @@
           "append",
           "read",
           "trim",
-          "fence"
+          "fence",
+          "account-metrics",
+          "basin-metrics",
+          "stream-metrics"
         ]
       },
       "PermittedOperationGroups": {
@@ -2240,6 +2673,29 @@
           "base64"
         ]
       },
+      "ScalarMetric": {
+        "type": "object",
+        "required": [
+          "name",
+          "unit",
+          "value"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Metric name."
+          },
+          "unit": {
+            "$ref": "#/components/schemas/MetricUnit",
+            "description": "Unit of the metric."
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "description": "Metric value."
+          }
+        }
+      },
       "SequencedRecord": {
         "type": "object",
         "description": "Record that is durably sequenced on a stream.",
@@ -2411,6 +2867,14 @@
             "description": "Sequence number that will be assigned to the next record on the stream,\nwith timestamp of the last record."
           }
         }
+      },
+      "TimeseriesInterval": {
+        "type": "string",
+        "enum": [
+          "minute",
+          "hour",
+          "day"
+        ]
       },
       "TimestampingConfig": {
         "type": "object",
