@@ -1946,14 +1946,14 @@
           {
             "type": "object",
             "title": "fencing token",
-            "description": "Fencing token did not match.\nThe expected fencing token is returned, encoded with base64.",
+            "description": "Fencing token did not match.\nThe expected fencing token is returned.",
             "required": [
               "fencing_token_mismatch"
             ],
             "properties": {
               "fencing_token_mismatch": {
                 "type": "string",
-                "description": "Fencing token did not match.\nThe expected fencing token is returned, encoded with base64."
+                "description": "Fencing token did not match.\nThe expected fencing token is returned."
               }
             }
           },
