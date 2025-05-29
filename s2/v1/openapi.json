@@ -626,7 +626,7 @@
         "parameters": [
           {
             "name": "metric_set",
-            "in": "path",
+            "in": "query",
             "description": "Metric type to return.",
             "required": true,
             "schema": {
@@ -635,46 +635,33 @@
           },
           {
             "name": "start",
-            "in": "path",
+            "in": "query",
             "description": "Start timestamp, in Unix epoch seconds, if applicable for metric set.",
-            "required": true,
+            "required": false,
             "schema": {
-              "type": [
-                "integer",
-                "null"
-              ],
+              "type": "integer",
               "format": "int32",
               "minimum": 0
             }
           },
           {
             "name": "end",
-            "in": "path",
+            "in": "query",
             "description": "End timestamp, in Unix epoch seconds, if applicable for metric set.",
-            "required": true,
+            "required": false,
             "schema": {
-              "type": [
-                "integer",
-                "null"
-              ],
+              "type": "integer",
               "format": "int32",
               "minimum": 0
             }
           },
           {
             "name": "interval",
-            "in": "path",
+            "in": "query",
             "description": "For timeseries metric sets, the interval to aggregate over.",
-            "required": true,
+            "required": false,
             "schema": {
-              "oneOf": [
-                {
-                  "type": "null"
-                },
-                {
-                  "$ref": "#/components/schemas/TimeseriesInterval"
-                }
-              ]
+              "$ref": "#/components/schemas/TimeseriesInterval"
             }
           }
         ],
@@ -722,7 +709,7 @@
         "parameters": [
           {
             "name": "metric_set",
-            "in": "path",
+            "in": "query",
             "description": "Metric type to return.",
             "required": true,
             "schema": {
@@ -731,46 +718,45 @@
           },
           {
             "name": "start",
-            "in": "path",
+            "in": "query",
             "description": "Start timestamp, in Unix epoch seconds, if applicable for metric set.",
-            "required": true,
+            "required": false,
             "schema": {
-              "type": [
-                "integer",
-                "null"
-              ],
+              "type": "integer",
               "format": "int32",
               "minimum": 0
             }
           },
           {
             "name": "end",
-            "in": "path",
+            "in": "query",
             "description": "End timestamp, in Unix epoch seconds, if applicable for metric set.",
-            "required": true,
+            "required": false,
             "schema": {
-              "type": [
-                "integer",
-                "null"
-              ],
+              "type": "integer",
               "format": "int32",
               "minimum": 0
             }
           },
           {
             "name": "interval",
-            "in": "path",
+            "in": "query",
             "description": "For timeseries metric sets, the interval to aggregate over.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/TimeseriesInterval"
+            }
+          },
+          {
+            "name": "basin",
+            "in": "path",
+            "description": "Basin name.",
             "required": true,
             "schema": {
-              "oneOf": [
-                {
-                  "type": "null"
-                },
-                {
-                  "$ref": "#/components/schemas/TimeseriesInterval"
-                }
-              ]
+              "type": "string",
+              "maximum": 48,
+              "minimum": 8,
+              "pattern": "^(?!-)[a-z0-9-]{8,48}(?<!-)$"
             }
           }
         ],
@@ -817,18 +803,21 @@
         "operationId": "stream_metrics",
         "parameters": [
           {
-            "name": "basin_name",
+            "name": "basin",
             "in": "path",
-            "description": "Basin name",
+            "description": "Basin name.",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "maximum": 48,
+              "minimum": 8,
+              "pattern": "^(?!-)[a-z0-9-]{8,48}(?<!-)$"
             }
           },
           {
-            "name": "stream_name",
+            "name": "stream",
             "in": "path",
-            "description": "Stream name",
+            "description": "Stream name.",
             "required": true,
             "schema": {
               "type": "string"
@@ -1876,6 +1865,13 @@
           }
         }
       },
+      "AccountMetricSet": {
+        "type": "string",
+        "enum": [
+          "active_basins",
+          "account_ops"
+        ]
+      },
       "AccumulationTimeseries": {
         "type": "object",
         "required": [
@@ -2083,6 +2079,17 @@
             "description": "Basin state."
           }
         }
+      },
+      "BasinMetricSet": {
+        "type": "string",
+        "enum": [
+          "storage",
+          "append_ops",
+          "read_ops",
+          "read_throughput",
+          "append_throughput",
+          "basin_ops"
+        ]
       },
       "BasinReconfiguration": {
         "type": "object",
@@ -2564,6 +2571,24 @@
           },
           {
             "type": "object",
+            "required": [
+              "event",
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/TailResponse"
+              },
+              "event": {
+                "type": "string",
+                "enum": [
+                  "tail"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
             "title": "error",
             "required": [
               "event",
@@ -2949,6 +2974,10 @@
     }
   ],
   "tags": [
+    {
+      "name": "metrics",
+      "description": "Usage metrics and data."
+    },
     {
       "name": "basins",
       "description": "Manage basins"
