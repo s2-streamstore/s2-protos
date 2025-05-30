@@ -625,7 +625,7 @@
         "operationId": "account_metrics",
         "parameters": [
           {
-            "name": "metric_set",
+            "name": "set",
             "in": "query",
             "description": "Metric type to return.",
             "required": true,
@@ -708,7 +708,7 @@
         "operationId": "basin_metrics",
         "parameters": [
           {
-            "name": "metric_set",
+            "name": "set",
             "in": "query",
             "description": "Metric type to return.",
             "required": true,
@@ -1872,7 +1872,7 @@
           "account_ops"
         ]
       },
-      "AccumulationTimeseries": {
+      "Accumulation": {
         "type": "object",
         "required": [
           "name",
@@ -2232,7 +2232,7 @@
           }
         }
       },
-      "GaugeTimeseries": {
+      "Gauge": {
         "type": "object",
         "required": [
           "name",
@@ -2291,7 +2291,7 @@
           }
         }
       },
-      "LabelMetric": {
+      "Label": {
         "type": "object",
         "required": [
           "name",
@@ -2384,7 +2384,7 @@
             ],
             "properties": {
               "scalar": {
-                "$ref": "#/components/schemas/ScalarMetric",
+                "$ref": "#/components/schemas/Scalar",
                 "description": "A single named value."
               }
             }
@@ -2393,11 +2393,11 @@
             "type": "object",
             "description": "A named series of (timestamp, value) points representing an accumulation over a specified\nbucket.",
             "required": [
-              "accumulation_timeseries"
+              "accumulation"
             ],
             "properties": {
-              "accumulation_timeseries": {
-                "$ref": "#/components/schemas/AccumulationTimeseries",
+              "accumulation": {
+                "$ref": "#/components/schemas/Accumulation",
                 "description": "A named series of (timestamp, value) points representing an accumulation over a specified\nbucket."
               }
             }
@@ -2406,11 +2406,11 @@
             "type": "object",
             "description": "A named series of (timestamp, value) points each representing an instantaneous value.",
             "required": [
-              "gauge_timeseries"
+              "gauge"
             ],
             "properties": {
-              "gauge_timeseries": {
-                "$ref": "#/components/schemas/GaugeTimeseries",
+              "gauge": {
+                "$ref": "#/components/schemas/Gauge",
                 "description": "A named series of (timestamp, value) points each representing an instantaneous value."
               }
             }
@@ -2423,7 +2423,7 @@
             ],
             "properties": {
               "label": {
-                "$ref": "#/components/schemas/LabelMetric",
+                "$ref": "#/components/schemas/Label",
                 "description": "A set of string labels."
               }
             }
@@ -2698,7 +2698,7 @@
           "base64"
         ]
       },
-      "ScalarMetric": {
+      "Scalar": {
         "type": "object",
         "required": [
           "name",
