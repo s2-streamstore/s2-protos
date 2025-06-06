@@ -539,6 +539,10 @@ message ReadRequest {
   // This will get capped at the default limit,
   // which is up to 1000 records or 1MiB of metered bytes.
   ReadLimit limit = 3;
+  // Exclusive timestamp to read until.
+  // If provided, this is applied as an additional constraint on top of the `limit`,
+  // and will guarantee that all records returned have timestamps < the provided `until`.
+  optional uint64 until = 6;
 }
 
 // Read response.
@@ -579,6 +583,10 @@ message ReadSessionRequest {
   // A heartbeat will be sent when the initial switch to real-time tailing happens,
   // as well as when no records are available at a randomized interval between 5 and 15 seconds.
   bool heartbeats = 4;
+  // Exclusive timestamp to read until.
+  // If provided, this is applied as an additional constraint on top of the `limit`,
+  // and will guarantee that all records returned have timestamps < the provided `until`.
+  optional uint64 until = 7;
 }
 
 // Read session response.

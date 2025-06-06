@@ -1463,6 +1463,15 @@
               "type": "integer",
               "minimum": 0
             }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "Exclusive timestamp to read until.\nIf provided, this is applied as an additional constraint on top of the `limit`,\nand will guarantee that all records returned have timestamps < the provided `until`.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/u64"
+            }
           }
         ],
         "responses": {
