@@ -74,10 +74,11 @@ message SequencedRecord {
 
 // Success response message to a Read request.
 message ReadBatch {
-  // Records that are at or after the requested start position.
+  // Records that are durably sequenced on the stream,
+  // retrieved based on the requested criteria.
   repeated SequencedRecord records = 1;
   // Sequence number that will be assigned to the next record on the stream,
   // and timestamp of the last record.
-  // This will only be present when consuming recent records.
+  // This will only be present when reading recent records.
   optional StreamPosition tail = 2;
 }

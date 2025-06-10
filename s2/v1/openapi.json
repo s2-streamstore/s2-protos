@@ -1446,7 +1446,7 @@
           {
             "name": "count",
             "in": "query",
-            "description": "Limit total records to return.",
+            "description": "Limit total records to return.\nIf this is provided, tailing will be disabled.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -1457,7 +1457,7 @@
           {
             "name": "bytes",
             "in": "query",
-            "description": "Limit total metered bytes to return.",
+            "description": "Limit total metered bytes to return.\nIf this is provided, tailing will be disabled.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -1467,7 +1467,7 @@
           {
             "name": "until",
             "in": "query",
-            "description": "Exclusive timestamp to read until.\nIf provided, this is applied as an additional constraint on top of the `limit`,\nand will guarantee that all records returned have timestamps < the provided `until`.",
+            "description": "Exclusive timestamp to read until.\nIf this is provided, tailing will be disabled.",
             "required": false,
             "schema": {
               "$ref": "#/components/schemas/u64"
@@ -2548,7 +2548,19 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/SequencedRecord"
-            }
+            },
+            "description": "Records that are durably sequenced on the stream,\nretrieved based on the requested criteria."
+          },
+          "tail": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/StreamPosition",
+                "description": "Sequence number that will be assigned to the next record on the stream,\nand timestamp of the last record.\nThis will only be present when reading recent records."
+              }
+            ]
           }
         }
       },
