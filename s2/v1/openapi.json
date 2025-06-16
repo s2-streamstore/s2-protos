@@ -2699,6 +2699,7 @@
         "oneOf": [
           {
             "type": "object",
+            "description": "Age in seconds for automatic trimming of records older than this threshold.\nIf set to 0, the stream will have infinite retention.",
             "required": [
               "age"
             ],
@@ -2706,6 +2707,7 @@
               "age": {
                 "type": "integer",
                 "format": "int64",
+                "description": "Age in seconds for automatic trimming of records older than this threshold.\nIf set to 0, the stream will have infinite retention.",
                 "minimum": 0
               }
             }
