@@ -29,7 +29,7 @@
           {
             "name": "prefix",
             "in": "query",
-            "description": "List access tokens that begin with this prefix.",
+            "description": "Filter to access tokens whose ID begins with this prefix.",
             "required": false,
             "schema": {
               "type": "string",
@@ -39,7 +39,7 @@
           {
             "name": "start_after",
             "in": "query",
-            "description": "Only return access tokens that lexicographically start after this ID.",
+            "description": "Filter to access tokens whose ID lexicographically starts after this string.",
             "required": false,
             "schema": {
               "type": "string",
@@ -208,7 +208,7 @@
           {
             "name": "prefix",
             "in": "query",
-            "description": "List basin names that begin with this prefix.",
+            "description": "Filter to basins whose names begin with this prefix.",
             "required": false,
             "schema": {
               "type": "string",
@@ -218,7 +218,7 @@
           {
             "name": "start_after",
             "in": "query",
-            "description": "Only return basins names that lexicographically start after this name.\nThis can be the last basin name seen in a previous listing, to continue from there.\nIt must be greater than or equal to the `prefix` if that is specified.",
+            "description": "Filter to basins whose names lexicographically start after this string.\nIt must be greater than or equal to the `prefix` if specified.",
             "required": false,
             "schema": {
               "type": "string",
@@ -346,7 +346,7 @@
         "tags": [
           "basins"
         ],
-        "summary": "Get basin config.",
+        "summary": "Get basin configuration.",
         "operationId": "get_basin_config",
         "parameters": [
           {
@@ -415,7 +415,7 @@
           {
             "name": "s2-request-token",
             "in": "header",
-            "description": "Provide a client request token header for idempotent retry behaviour.",
+            "description": "Client-specified request token for idempotent retries.",
             "required": false,
             "schema": {
               "type": "string"
@@ -621,13 +621,13 @@
         "tags": [
           "metrics"
         ],
-        "summary": "Get account level metrics.",
+        "summary": "Account-level metrics.",
         "operationId": "account_metrics",
         "parameters": [
           {
             "name": "set",
             "in": "query",
-            "description": "Metric type to return.",
+            "description": "Metric set to return.",
             "required": true,
             "schema": {
               "$ref": "#/components/schemas/AccountMetricSet"
@@ -636,7 +636,7 @@
           {
             "name": "start",
             "in": "query",
-            "description": "Start timestamp, in Unix epoch seconds, if applicable for metric set.",
+            "description": "Start timestamp as Unix epoch seconds, if applicable for the metric set.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -647,7 +647,7 @@
           {
             "name": "end",
             "in": "query",
-            "description": "End timestamp, in Unix epoch seconds, if applicable for metric set.",
+            "description": "End timestamp as Unix epoch seconds, if applicable for the metric set.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -658,7 +658,7 @@
           {
             "name": "interval",
             "in": "query",
-            "description": "For timeseries metric sets, the interval to aggregate over.",
+            "description": "Interval to aggregate over for timeseries metric sets.",
             "required": false,
             "schema": {
               "$ref": "#/components/schemas/TimeseriesInterval"
@@ -704,13 +704,13 @@
         "tags": [
           "metrics"
         ],
-        "summary": "Get metrics for a basin.",
+        "summary": "Basin-level metrics.",
         "operationId": "basin_metrics",
         "parameters": [
           {
             "name": "set",
             "in": "query",
-            "description": "Metric type to return.",
+            "description": "Metric set to return.",
             "required": true,
             "schema": {
               "$ref": "#/components/schemas/BasinMetricSet"
@@ -719,7 +719,7 @@
           {
             "name": "start",
             "in": "query",
-            "description": "Start timestamp, in Unix epoch seconds, if applicable for metric set.",
+            "description": "Start timestamp as Unix epoch seconds, if applicable for the metric set.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -730,7 +730,7 @@
           {
             "name": "end",
             "in": "query",
-            "description": "End timestamp, in Unix epoch seconds, if applicable for metric set.",
+            "description": "End timestamp as Unix epoch seconds, if applicable for the metric set.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -741,7 +741,7 @@
           {
             "name": "interval",
             "in": "query",
-            "description": "For timeseries metric sets, the interval to aggregate over.",
+            "description": "Interval to aggregate over for timeseries metric sets.",
             "required": false,
             "schema": {
               "$ref": "#/components/schemas/TimeseriesInterval"
@@ -799,7 +799,7 @@
         "tags": [
           "metrics"
         ],
-        "summary": "Get metrics for a stream.",
+        "summary": "Stream-level metrics.",
         "operationId": "stream_metrics",
         "parameters": [
           {
@@ -869,7 +869,7 @@
           {
             "name": "prefix",
             "in": "query",
-            "description": "List stream names that begin with this prefix.",
+            "description": "Filter to streams whose name begins with this prefix.",
             "required": false,
             "schema": {
               "type": "string",
@@ -879,7 +879,7 @@
           {
             "name": "start_after",
             "in": "query",
-            "description": "Only return stream names that lexicographically start after this name.\nThis can be the last stream name seen in a previous listing, to continue from there.\nIt must be greater than or equal to the prefix if specified.",
+            "description": "Filter to streams whose name begins with this prefix.\nIt must be greater than or equal to the `prefix` if specified.",
             "required": false,
             "schema": {
               "type": "string",
@@ -1138,7 +1138,7 @@
           {
             "name": "s2-request-token",
             "in": "header",
-            "description": "Provide a client request token header for idempotent retry behaviour.",
+            "description": "Client-specified request token for idempotent retries.",
             "required": false,
             "schema": {
               "type": "string"
@@ -1392,8 +1392,7 @@
         "tags": [
           "records"
         ],
-        "summary": "Retrieve records.",
-        "description": "Retrieve a batch of records, or set `Accept: text/event-stream` to stream using server-sent events.",
+        "summary": "Read records.",
         "operationId": "read",
         "parameters": [
           {
@@ -1408,7 +1407,7 @@
           {
             "name": "s2-format",
             "in": "header",
-            "description": "Define treatment of blob fields when exchanging records as JSON.\nThe default is `raw`.",
+            "description": "Defines the treatment of blob fields when exchanging records as JSON.\nUse `raw` (default) if you are working with Unicode data — storage will be in UTF-8.\nUse `base64` for safe transmission and efficient storage of binary data.",
             "required": false,
             "schema": {
               "$ref": "#/components/schemas/S2Format"
@@ -1435,7 +1434,7 @@
           {
             "name": "tail_offset",
             "in": "query",
-            "description": "Start from number of records before the tail, i.e. before the next sequence number.",
+            "description": "Start from number of records before the next sequence number.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -1569,7 +1568,6 @@
           "records"
         ],
         "summary": "Append records.",
-        "description": "Append a batch of records to a stream.",
         "operationId": "append",
         "parameters": [
           {
@@ -1584,7 +1582,7 @@
           {
             "name": "s2-format",
             "in": "header",
-            "description": "Define treatment of blob fields when exchanging records as JSON.\nThe default is `raw`.",
+            "description": "Defines the treatment of blob fields when exchanging records as JSON.\nUse `raw` (default) if you are working with Unicode data — storage will be in UTF-8.\nUse `base64` for safe transmission and efficient storage of binary data.",
             "required": false,
             "schema": {
               "$ref": "#/components/schemas/S2Format"
@@ -1693,7 +1691,6 @@
           "records"
         ],
         "summary": "Check the tail.",
-        "description": "Check the tail of a stream.",
         "operationId": "check_tail",
         "parameters": [
           {
@@ -1794,7 +1791,7 @@
         "properties": {
           "auto_prefix_streams": {
             "type": "boolean",
-            "description": "Namespace streams based on the configured stream-level scope, which must be a prefix.\nStream name arguments will be automatically prefixed, and the prefix will be stripped\nwhen listing streams.",
+            "description": "Namespace streams based on the configured stream-level scope, which must be a prefix.\nStream name arguments will be automatically prefixed, and the prefix will be stripped when listing streams.",
             "default": false
           },
           "expires_at": {
@@ -1877,8 +1874,8 @@
       "AccountMetricSet": {
         "type": "string",
         "enum": [
-          "active_basins",
-          "account_ops"
+          "active-basins",
+          "account-ops"
         ]
       },
       "Accumulation": {
@@ -1919,13 +1916,13 @@
                 }
               ]
             },
-            "description": "Timeseries values.\n\nEach element is a tuple containing the seconds since Unix epoch, followed by the data\npoint.\n\nThe data point represented the accumulated value for a bucket of time, starting\nat the provided epoch, lasting for the duration of the `bucket_length` parameter above."
+            "description": "Timeseries values.\nEach element is a tuple of a timestamp in Unix epoch seconds and a data point.\nThe data point represents the accumulated value for a bucket of time starting at the provided timestamp, lasting for the duration of the `bucket_length` parameter."
           }
         }
       },
       "AppendAck": {
         "type": "object",
-        "description": "Success response message to an Append request.",
+        "description": "Success response to an `append` request.",
         "required": [
           "start",
           "end",
@@ -1934,7 +1931,7 @@
         "properties": {
           "end": {
             "$ref": "#/components/schemas/StreamPosition",
-            "description": "Sequence number of the last record that was appended + 1,\nand timestamp of the last record that was appended.\nThe difference between `end.seq_num` and `start.seq_num`\nwill be the number of records appended."
+            "description": "Sequence number of the last record that was appended `+ 1`, and timestamp of the last record that was appended.\nThe difference between `end.seq_num` and `start.seq_num` will be the number of records appended."
           },
           "start": {
             "$ref": "#/components/schemas/StreamPosition",
@@ -1942,7 +1939,7 @@
           },
           "tail": {
             "$ref": "#/components/schemas/StreamPosition",
-            "description": "Sequence number that will be assigned to the next record on the stream,\nand timestamp of the last record on the stream.\nThis can be greater than the `end` position in case of concurrent appends."
+            "description": "Sequence number that will be assigned to the next record on the stream, and timestamp of the last record on the stream.\nThis can be greater than the `end` position in case of concurrent appends."
           }
         }
       },
@@ -1979,11 +1976,11 @@
             }
           }
         ],
-        "description": "Failure response message when an Append is aborted due to a failed condition."
+        "description": "Aborted due to a failed condition."
       },
       "AppendInput": {
         "type": "object",
-        "description": "Payload of an Append request message.",
+        "description": "Payload of an `append` request.",
         "required": [
           "records"
         ],
@@ -1993,7 +1990,7 @@
               "string",
               "null"
             ],
-            "description": "Enforce a fencing token which must have been previously set by a `fence` command record."
+            "description": "Enforce a fencing token, which starts out as an empty string that can be overridden by a `fence` command record."
           },
           "match_seq_num": {
             "oneOf": [
@@ -2002,7 +1999,7 @@
               },
               {
                 "$ref": "#/components/schemas/u64",
-                "description": "Enforce that the sequence number issued to the first record matches."
+                "description": "Enforce that the sequence number assigned to the first record matches."
               }
             ]
           },
@@ -2011,7 +2008,7 @@
             "items": {
               "$ref": "#/components/schemas/AppendRecord"
             },
-            "description": "Batch of records to append atomically, which must contain at least one record, and no more\nthan 1000. The total size of a batch of records may not exceed 1MiB of metered bytes."
+            "description": "Batch of records to append atomically, which must contain at least one record, and no more than 1000.\nThe total size of a batch of records may not exceed 1 MiB of metered bytes."
           }
         }
       },
@@ -2037,7 +2034,7 @@
               },
               {
                 "$ref": "#/components/schemas/u64",
-                "description": "Timestamp for this record.\nThe service will always ensure monotonicity by adjusting it up if necessary to the maximum\nobserved timestamp. Refer to stream configuration for some of the finer semantics\naround whether a timestamp is required, and whether it is interpreted and capped at the\ncurrent time."
+                "description": "Timestamp for this record.\nThe service will always ensure monotonicity by adjusting it up if necessary to the maximum observed timestamp.\nRefer to stream timestamping configuration for the finer semantics around whether a client-specified timestamp is required, and whether it will be capped at the arrival time."
               }
             ]
           }
@@ -2048,11 +2045,11 @@
         "properties": {
           "create_stream_on_append": {
             "type": "boolean",
-            "description": "Create stream on append if it doesn't exist,\nusing the default stream configuration."
+            "description": "Create stream on append if it doesn't exist, using the default stream configuration."
           },
           "create_stream_on_read": {
             "type": "boolean",
-            "description": "Create stream on read if it doesn't exist,\nusing the default stream configuration."
+            "description": "Create stream on read if it doesn't exist, using the default stream configuration."
           },
           "default_stream_config": {
             "oneOf": [
@@ -2093,11 +2090,11 @@
         "type": "string",
         "enum": [
           "storage",
-          "append_ops",
-          "read_ops",
-          "read_throughput",
-          "append_throughput",
-          "basin_ops"
+          "append-ops",
+          "read-ops",
+          "read-throughput",
+          "append-throughput",
+          "basin-ops"
         ]
       },
       "BasinReconfiguration": {
@@ -2152,7 +2149,7 @@
         "properties": {
           "basin": {
             "type": "string",
-            "description": "Basin name which must be globally unique.\nIt can be between 8 and 48 characters in length,\nand comprise lowercase letters, numbers and hyphens.\nIt cannot begin or end with a hyphen."
+            "description": "Basin name which must be globally unique.\nIt can be between 8 and 48 characters in length, and comprise lowercase letters, numbers and hyphens.\nIt cannot begin or end with a hyphen."
           },
           "config": {
             "oneOf": [
@@ -2274,7 +2271,7 @@
                 }
               ]
             },
-            "description": "Timeseries values.\n\nEach element is a tuple containing the seconds since Unix epoch, followed by the data\npoint.\n\nThe data point represents the value at the instant of the epoch."
+            "description": "Timeseries values.\nEach element is a tuple of a timestamp in Unix epoch seconds and a data point.\nThe data point represents the value at the instant of the timestamp."
           }
         }
       },
@@ -2332,12 +2329,12 @@
             "items": {
               "$ref": "#/components/schemas/AccessTokenInfo"
             },
-            "description": "Access tokens information.",
+            "description": "Matching access tokens.",
             "maxItems": 1000
           },
           "has_more": {
             "type": "boolean",
-            "description": "Indicates that there are more results that can be listed with `start_after`."
+            "description": "Indicates that there are more access tokens that match the criteria."
           }
         }
       },
@@ -2358,7 +2355,7 @@
           },
           "has_more": {
             "type": "boolean",
-            "description": "Indicates that there are more results that can be listed with `start_after`."
+            "description": "Indicates that there are more basins that match the criteria."
           }
         }
       },
@@ -2371,7 +2368,7 @@
         "properties": {
           "has_more": {
             "type": "boolean",
-            "description": "Indicates that there are more results that can be listed with `start_after`."
+            "description": "Indicates that there are more results that match the criteria."
           },
           "streams": {
             "type": "array",
@@ -2387,53 +2384,53 @@
         "oneOf": [
           {
             "type": "object",
-            "description": "A single named value.",
+            "description": "Single named value.",
             "required": [
               "scalar"
             ],
             "properties": {
               "scalar": {
                 "$ref": "#/components/schemas/Scalar",
-                "description": "A single named value."
+                "description": "Single named value."
               }
             }
           },
           {
             "type": "object",
-            "description": "A named series of (timestamp, value) points representing an accumulation over a specified\nbucket.",
+            "description": "Named series of `(timestamp, value)` points representing an accumulation over a specified\nbucket.",
             "required": [
               "accumulation"
             ],
             "properties": {
               "accumulation": {
                 "$ref": "#/components/schemas/Accumulation",
-                "description": "A named series of (timestamp, value) points representing an accumulation over a specified\nbucket."
+                "description": "Named series of `(timestamp, value)` points representing an accumulation over a specified\nbucket."
               }
             }
           },
           {
             "type": "object",
-            "description": "A named series of (timestamp, value) points each representing an instantaneous value.",
+            "description": "Named series of `(timestamp, value)` points each representing an instantaneous value.",
             "required": [
               "gauge"
             ],
             "properties": {
               "gauge": {
                 "$ref": "#/components/schemas/Gauge",
-                "description": "A named series of (timestamp, value) points each representing an instantaneous value."
+                "description": "Named series of `(timestamp, value)` points each representing an instantaneous value."
               }
             }
           },
           {
             "type": "object",
-            "description": "A set of string labels.",
+            "description": "Set of string labels.",
             "required": [
               "label"
             ],
             "properties": {
               "label": {
                 "$ref": "#/components/schemas/Label",
-                "description": "A set of string labels."
+                "description": "Set of string labels."
               }
             }
           }
@@ -2497,7 +2494,7 @@
               },
               {
                 "$ref": "#/components/schemas/ReadWritePermissions",
-                "description": "Access permissions at account level."
+                "description": "Account-level access permissions."
               }
             ]
           },
@@ -2508,7 +2505,7 @@
               },
               {
                 "$ref": "#/components/schemas/ReadWritePermissions",
-                "description": "Access permissions at basin level."
+                "description": "Basin-level access permissions."
               }
             ]
           },
@@ -2519,7 +2516,7 @@
               },
               {
                 "$ref": "#/components/schemas/ReadWritePermissions",
-                "description": "Access permissions at stream level."
+                "description": "Stream-level access permissions."
               }
             ]
           }
@@ -2533,7 +2530,7 @@
         "properties": {
           "timestamp": {
             "type": "integer",
-            "format": "int32",
+            "format": "int64",
             "minimum": 0
           }
         }
@@ -2549,7 +2546,7 @@
             "items": {
               "$ref": "#/components/schemas/SequencedRecord"
             },
-            "description": "Records that are durably sequenced on the stream,\nretrieved based on the requested criteria."
+            "description": "Records that are durably sequenced on the stream, retrieved based on the requested criteria."
           },
           "tail": {
             "oneOf": [
@@ -2558,7 +2555,7 @@
               },
               {
                 "$ref": "#/components/schemas/StreamPosition",
-                "description": "Sequence number that will be assigned to the next record on the stream,\nand timestamp of the last record.\nThis will only be present when reading recent records."
+                "description": "Sequence number that will be assigned to the next record on the stream, and timestamp of the last record.\nThis will only be present when reading recent records."
               }
             ]
           }
@@ -2699,7 +2696,7 @@
         "oneOf": [
           {
             "type": "object",
-            "description": "Age in seconds for automatic trimming of records older than this threshold.\nIf set to 0, the stream will have infinite retention.",
+            "description": "Age in seconds for automatic trimming of records older than this threshold.\nIf this is set to 0, the stream will have infinite retention.",
             "required": [
               "age"
             ],
@@ -2707,7 +2704,7 @@
               "age": {
                 "type": "integer",
                 "format": "int64",
-                "description": "Age in seconds for automatic trimming of records older than this threshold.\nIf set to 0, the stream will have infinite retention.",
+                "description": "Age in seconds for automatic trimming of records older than this threshold.\nIf this is set to 0, the stream will have infinite retention.",
                 "minimum": 0
               }
             }
@@ -2861,7 +2858,7 @@
           "timestamp": {
             "type": "integer",
             "format": "int64",
-            "description": "Timestamp, which may be user-specified or assigned by the service.\nIf it is assigned by the service, it will represent milliseconds since Unix epoch.",
+            "description": "Timestamp, which may be client-specified or assigned by the service.\nIf it is assigned by the service, it will represent milliseconds since Unix epoch.",
             "minimum": 0
           }
         }
@@ -2912,7 +2909,7 @@
         "properties": {
           "tail": {
             "$ref": "#/components/schemas/StreamPosition",
-            "description": "Sequence number that will be assigned to the next record on the stream,\nwith timestamp of the last record."
+            "description": "Sequence number that will be assigned to the next record on the stream, and timestamp of the last record."
           }
         }
       },
@@ -2943,7 +2940,7 @@
               "boolean",
               "null"
             ],
-            "description": "Allow client-specified timestamps to exceed the arrival time.\nIf this is false or not set, client timestamps will be capped at the arrival time."
+            "description": "Allow client-specified timestamps to exceed the arrival time.\nIf this is `false` or not set, client timestamps will be capped at the arrival time."
           }
         }
       },
