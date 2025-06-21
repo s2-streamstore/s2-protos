@@ -49,13 +49,10 @@ message AppendInput {
 message AppendAck {
   // Sequence number and timestamp of the first record that was appended.
   StreamPosition start = 1;
-  // Sequence number of the last record that was appended + 1,
-  // and timestamp of the last record that was appended.
-  // The difference between `end.seq_num` and `start.seq_num`
-  // will be the number of records appended.
+  // Sequence number of the last record that was appended + 1, and timestamp of the last record that was appended.
+  // The difference between `end.seq_num` and `start.seq_num` will be the number of records appended.
   StreamPosition end = 2;
-  // Sequence number that will be assigned to the next record on the stream,
-  // and timestamp of the last record on the stream.
+  // Sequence number that will be assigned to the next record on the stream, and timestamp of the last record on the stream.
   // This can be greater than the `end` position in case of concurrent appends.
   StreamPosition tail = 3;
 }
@@ -74,11 +71,10 @@ message SequencedRecord {
 
 // Success response message to a Read request.
 message ReadBatch {
-  // Records that are durably sequenced on the stream,
-  // retrieved based on the requested criteria.
+  // Records that are durably sequenced on the stream, retrieved based on the requested criteria.
+  // This can only be empty in response to a regular (non-S2S) read, if the request cannot be satisfied without violating an explicit limit.
   repeated SequencedRecord records = 1;
-  // Sequence number that will be assigned to the next record on the stream,
-  // and timestamp of the last record.
-  // This will only be present when reading recent records.
+  // Sequence number that will be assigned to the next record on the stream, and timestamp of the last record.
+  // It will only be present when reading recent records.
   optional StreamPosition tail = 2;
 }

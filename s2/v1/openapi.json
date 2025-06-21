@@ -1407,7 +1407,7 @@
           {
             "name": "s2-format",
             "in": "header",
-            "description": "Defines the treatment of blob fields when exchanging records as JSON.\nUse `raw` (default) if you are working with Unicode data — storage will be in UTF-8.\nUse `base64` for safe transmission and efficient storage of binary data.",
+            "description": "Defines the interpretation of record data (header name, header value, and body) with the JSON content type.\nUse `raw` (default) for efficient transmission and storage of Unicode data — storage will be in UTF-8.\nUse `base64` for safe transmission with efficient storage of binary data.",
             "required": false,
             "schema": {
               "$ref": "#/components/schemas/S2Format"
@@ -1582,7 +1582,7 @@
           {
             "name": "s2-format",
             "in": "header",
-            "description": "Defines the treatment of blob fields when exchanging records as JSON.\nUse `raw` (default) if you are working with Unicode data — storage will be in UTF-8.\nUse `base64` for safe transmission and efficient storage of binary data.",
+            "description": "Defines the interpretation of record data (header name, header value, and body) with the JSON content type.\nUse `raw` (default) for efficient transmission and storage of Unicode data — storage will be in UTF-8.\nUse `base64` for safe transmission with efficient storage of binary data.",
             "required": false,
             "schema": {
               "$ref": "#/components/schemas/S2Format"
@@ -2546,7 +2546,7 @@
             "items": {
               "$ref": "#/components/schemas/SequencedRecord"
             },
-            "description": "Records that are durably sequenced on the stream, retrieved based on the requested criteria."
+            "description": "Records that are durably sequenced on the stream, retrieved based on the requested criteria.\nThis can only be empty in response to a regular (non-SSE) read, if the request cannot be satisfied without violating an explicit limit."
           },
           "tail": {
             "oneOf": [
@@ -2584,24 +2584,6 @@
               "id": {
                 "type": "string",
                 "pattern": "^[0-9]+,[0-9]+,[0-9]+$"
-              }
-            }
-          },
-          {
-            "type": "object",
-            "required": [
-              "event",
-              "data"
-            ],
-            "properties": {
-              "data": {
-                "$ref": "#/components/schemas/TailResponse"
-              },
-              "event": {
-                "type": "string",
-                "enum": [
-                  "tail"
-                ]
               }
             }
           },
