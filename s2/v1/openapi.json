@@ -288,6 +288,16 @@
           "required": true
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BasinInfo"
+                }
+              }
+            }
+          },
           "201": {
             "description": "",
             "content": {
@@ -451,6 +461,16 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BasinInfo"
+                }
+              }
+            }
+          },
           "201": {
             "description": "",
             "content": {
@@ -802,6 +822,46 @@
         "summary": "Stream-level metrics.",
         "operationId": "stream_metrics",
         "parameters": [
+          {
+            "name": "set",
+            "in": "query",
+            "description": "Metric set to return.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/StreamMetricSet"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Start timestamp as Unix epoch seconds, if applicable for the metric set.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "End timestamp as Unix epoch seconds, if applicable for metric set.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "description": "Interval to aggregate over for timeseries metric sets.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/TimeseriesInterval"
+            }
+          },
           {
             "name": "basin",
             "in": "path",
@@ -2822,6 +2882,12 @@
             "description": "Stream name."
           }
         }
+      },
+      "StreamMetricSet": {
+        "type": "string",
+        "enum": [
+          "storage"
+        ]
       },
       "StreamPosition": {
         "type": "object",
