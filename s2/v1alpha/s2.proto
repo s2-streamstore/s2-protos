@@ -543,6 +543,8 @@ message ReadRequest {
   // If provided, this is applied as an additional constraint on top of the `limit`,
   // and will guarantee that all records returned have timestamps < the provided `until`.
   optional uint64 until = 6;
+  // Clamp the start position at the tail position.
+  bool clamp = 7;
 }
 
 // Read response.
@@ -587,6 +589,8 @@ message ReadSessionRequest {
   // If provided, this is applied as an additional constraint on top of the `limit`,
   // and will guarantee that all records returned have timestamps < the provided `until`.
   optional uint64 until = 7;
+  // Clamp the start position at the tail position.
+  bool clamp = 8;
 }
 
 // Read session response.

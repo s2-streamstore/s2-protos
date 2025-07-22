@@ -1531,6 +1531,15 @@
             "schema": {
               "$ref": "#/components/schemas/u64"
             }
+          },
+          {
+            "name": "clamp",
+            "in": "query",
+            "description": "Clamp the start position at the tail position.",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
