@@ -2290,6 +2290,31 @@
           }
         }
       },
+      "DeleteOnEmptyConfig": {
+        "type": "object",
+        "properties": {
+          "min_age_secs": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Minimum age in seconds before an empty stream can be deleted.\nSet to 0 (default) to disable delete-on-empty (don't delete automatically).",
+            "minimum": 0
+          }
+        }
+      },
+      "DeleteOnEmptyReconfiguration": {
+        "type": "object",
+        "properties": {
+          "min_age_secs": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "format": "int64",
+            "description": "Minimum age in seconds before an empty stream can be deleted.\nSet to 0 to disable delete-on-empty (don't delete automatically).",
+            "minimum": 0
+          }
+        }
+      },
       "ErrorResponse": {
         "type": "object",
         "required": [
@@ -2831,6 +2856,17 @@
       "StreamConfig": {
         "type": "object",
         "properties": {
+          "delete_on_empty": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/DeleteOnEmptyConfig",
+                "description": "Delete-on-empty configuration."
+              }
+            ]
+          },
           "retention_policy": {
             "oneOf": [
               {
@@ -2923,6 +2959,17 @@
       "StreamReconfiguration": {
         "type": "object",
         "properties": {
+          "delete_on_empty": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/DeleteOnEmptyReconfiguration",
+                "description": "Delete-on-empty configuration."
+              }
+            ]
+          },
           "retention_policy": {
             "oneOf": [
               {
