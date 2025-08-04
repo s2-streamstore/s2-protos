@@ -1535,7 +1535,7 @@
           {
             "name": "clamp",
             "in": "query",
-            "description": "Clamp the start position at the tail position.",
+            "description": "Clamp the start position at the tail position.\nIf set, the read will start at the tail of the stream if the requested position is greater than it.",
             "required": false,
             "schema": {
               "type": "boolean"

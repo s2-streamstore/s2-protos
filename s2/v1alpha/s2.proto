@@ -544,6 +544,7 @@ message ReadRequest {
   // and will guarantee that all records returned have timestamps < the provided `until`.
   optional uint64 until = 6;
   // Clamp the start position at the tail position.
+  // If set, the read will start at the tail of the stream if the requested position is greater than it.
   bool clamp = 7;
 }
 
