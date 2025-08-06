@@ -3088,7 +3088,8 @@
     "securitySchemes": {
       "access_token": {
         "type": "http",
-        "scheme": "bearer"
+        "scheme": "bearer",
+        "description": "Bearer authentication header of the form Bearer <token>, where <token> is your access token."
       }
     }
   },
