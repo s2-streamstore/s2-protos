@@ -3089,7 +3089,7 @@
       "access_token": {
         "type": "http",
         "scheme": "bearer",
-        "description": "Bearer authentication header of the form Bearer <token>, where <token> is your access token."
+        "description": "Bearer authentication header of the form `Bearer <token>`, where `<token>` is your access token."
       }
     }
   },
