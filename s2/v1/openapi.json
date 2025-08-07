@@ -2772,7 +2772,7 @@
         "oneOf": [
           {
             "type": "object",
-            "description": "Age in seconds for automatic trimming of records older than this threshold.\nIf this is set to 0, the stream will have infinite retention.",
+            "description": "Age in seconds for automatic trimming of records older than this threshold.\nIf this is set to 0, the stream will have infinite retention.\n(While S2 is in public preview, this is capped at 28 days. Let us know if you'd like the cap removed.)",
             "required": [
               "age"
             ],
@@ -2780,7 +2780,7 @@
               "age": {
                 "type": "integer",
                 "format": "int64",
-                "description": "Age in seconds for automatic trimming of records older than this threshold.\nIf this is set to 0, the stream will have infinite retention.",
+                "description": "Age in seconds for automatic trimming of records older than this threshold.\nIf this is set to 0, the stream will have infinite retention.\n(While S2 is in public preview, this is capped at 28 days. Let us know if you'd like the cap removed.)",
                 "minimum": 0
               }
             }

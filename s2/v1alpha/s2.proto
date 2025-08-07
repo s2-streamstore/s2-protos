@@ -646,7 +646,8 @@ message StreamConfig {
   // If unspecified, the default is to retain records for 7 days.
   oneof retention_policy {
     // Age in seconds for automatic trimming of records older than this threshold.
-    // If set to 0, the stream will have infinite retention.
+    // If this is set to 0, the stream will have infinite retention.
+    // (While S2 is in public preview, this is capped at 28 days. Let us know if you'd like the cap removed.)
     uint64 age = 2;
   }
   // Replaced with `timestamping`.
