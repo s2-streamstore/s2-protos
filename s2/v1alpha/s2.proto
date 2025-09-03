@@ -640,15 +640,17 @@ message StreamConfig {
     // Set to 0 (default) to disable (don't delete automatically).
     uint64 min_age_secs = 1;
   }
+  message InfiniteRetention {}
   // Storage class for recent writes.
   StorageClass storage_class = 1;
   // Retention policy for the stream.
   // If unspecified, the default is to retain records for 7 days.
   oneof retention_policy {
     // Age in seconds for automatic trimming of records older than this threshold.
-    // If this is set to 0, the stream will have infinite retention.
     // (While S2 is in public preview, this is capped at 28 days. Let us know if you'd like the cap removed.)
     uint64 age = 2;
+    // Retain records unless explicitly trimmed.
+    InfiniteRetention infinite = 7;
   }
   // Replaced with `timestamping`.
   reserved 3, 4;

@@ -2379,6 +2379,9 @@
         "maxItems": 2,
         "minItems": 2
       },
+      "InfiniteRetention": {
+        "type": "object"
+      },
       "IssueAccessTokenResponse": {
         "type": "object",
         "required": [
@@ -2782,6 +2785,19 @@
                 "format": "int64",
                 "description": "Age in seconds for automatic trimming of records older than this threshold.\nIf this is set to 0, the stream will have infinite retention.\n(While S2 is in public preview, this is capped at 28 days. Let us know if you'd like the cap removed.)",
                 "minimum": 0
+              }
+            }
+          },
+          {
+            "type": "object",
+            "description": "Retain records unless explicitly trimmed.",
+            "required": [
+              "infinite"
+            ],
+            "properties": {
+              "infinite": {
+                "$ref": "#/components/schemas/InfiniteRetention",
+                "description": "Retain records unless explicitly trimmed."
               }
             }
           }
