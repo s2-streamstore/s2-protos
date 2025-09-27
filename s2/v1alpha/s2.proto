@@ -543,8 +543,8 @@ message ReadRequest {
   // If provided, this is applied as an additional constraint on top of the `limit`,
   // and will guarantee that all records returned have timestamps < the provided `until`.
   optional uint64 until = 6;
-  // Clamp the start position at the tail position.
-  // If set, the read will start at the tail of the stream if the requested position is greater than it.
+  // Start reading from the tail if the requested position is beyond it.
+  // Otherwise, the next sequence number will be returned.
   bool clamp = 7;
 }
 
@@ -579,18 +579,19 @@ message ReadSessionRequest {
   }
   // Limit on how many records can be returned. When a limit is specified, the session will be terminated as soon as
   // the limit is met, or when the current tail of the stream is reached -- whichever occurs first.
-  // If no limit is specified, the session will remain open after catching up to the tail, and continue tailing as
-  // new messages are written to the stream.
+  // If no limit is specified, the session will remain open after catching up to the tail, and continue following
+  // in real-time as new messages are written to the stream.
   ReadLimit limit = 3;
   // Heartbeats can be enabled to monitor end-to-end session health.
-  // A heartbeat will be sent when the initial switch to real-time tailing happens,
+  // A heartbeat will be sent when the initial switch to following in real-time happens,
   // as well as when no records are available at a randomized interval between 5 and 15 seconds.
   bool heartbeats = 4;
   // Exclusive timestamp to read until.
   // If provided, this is applied as an additional constraint on top of the `limit`,
   // and will guarantee that all records returned have timestamps < the provided `until`.
   optional uint64 until = 7;
-  // Clamp the start position at the tail position.
+  // Start reading from the tail if the requested position is beyond it.
+  // Otherwise, the next sequence number will be returned.
   bool clamp = 8;
 }
 

@@ -1503,9 +1503,18 @@
             }
           },
           {
+            "name": "clamp",
+            "in": "query",
+            "description": "Start reading from the tail if the requested position is beyond it.\nOtherwise, a `416 Range Not Satisfiable` response is returned.",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
             "name": "count",
             "in": "query",
-            "description": "Limit total records to return.\nIf this is provided, tailing will be disabled.",
+            "description": "Record count limit.\nNon-streaming reads are capped by the default limit of 1000 records.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -1516,7 +1525,7 @@
           {
             "name": "bytes",
             "in": "query",
-            "description": "Limit total metered bytes to return.\nIf this is provided, tailing will be disabled.",
+            "description": "Metered bytes limit.\nNon-streaming reads are capped by the default limit of 1 MiB.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -1526,19 +1535,21 @@
           {
             "name": "until",
             "in": "query",
-            "description": "Exclusive timestamp to read until.\nIf this is provided, tailing will be disabled.",
+            "description": "Exclusive timestamp to read until.",
             "required": false,
             "schema": {
               "$ref": "#/components/schemas/u64"
             }
           },
           {
-            "name": "clamp",
+            "name": "wait",
             "in": "query",
-            "description": "Clamp the start position at the tail position.\nIf set, the read will start at the tail of the stream if the requested position is greater than it.",
+            "description": "Duration in seconds to wait for new records.\nThe default duration is 0 if there is a bound on `count`, `bytes`, or `until`, and otherwise infinite.\nNon-streaming reads are always bounded on `count` and `bytes`, so you can achieve long poll semantics by specifying a non-zero duration up to 60 seconds.\nIn the context of an SSE or S2S streaming read, the duration will bound how much time can elapse between records throughout the lifetime of the session.",
             "required": false,
             "schema": {
-              "type": "boolean"
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0
             }
           }
         ],
