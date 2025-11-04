@@ -166,7 +166,7 @@
             "description": "Access token ID.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/AccessTokenIdStr"
+              "type": "string"
             }
           }
         ],
@@ -277,17 +277,6 @@
         ],
         "summary": "Create a basin.",
         "operationId": "create_basin",
-        "parameters": [
-          {
-            "name": "s2-request-token",
-            "in": "header",
-            "description": "Client-specified request token for idempotent retries.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -366,7 +355,10 @@
             "description": "Basin name.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/BasinNameStr"
+              "type": "string",
+              "maximum": 48,
+              "minimum": 8,
+              "pattern": "^(?!-)[a-z0-9-]{8,48}(?<!-)$"
             }
           }
         ],
@@ -435,7 +427,10 @@
             "description": "Basin name.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/BasinNameStr"
+              "type": "string",
+              "maximum": 48,
+              "minimum": 8,
+              "pattern": "^(?!-)[a-z0-9-]{8,48}(?<!-)$"
             }
           }
         ],
@@ -504,7 +499,10 @@
             "description": "Basin name.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/BasinNameStr"
+              "type": "string",
+              "maximum": 48,
+              "minimum": 8,
+              "pattern": "^(?!-)[a-z0-9-]{8,48}(?<!-)$"
             }
           }
         ],
@@ -557,7 +555,10 @@
             "description": "Basin name.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/BasinNameStr"
+              "type": "string",
+              "maximum": 48,
+              "minimum": 8,
+              "pattern": "^(?!-)[a-z0-9-]{8,48}(?<!-)$"
             }
           }
         ],
@@ -752,7 +753,10 @@
             "description": "Basin name.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/BasinNameStr"
+              "type": "string",
+              "maximum": 48,
+              "minimum": 8,
+              "pattern": "^(?!-)[a-z0-9-]{8,48}(?<!-)$"
             }
           }
         ],
@@ -844,7 +848,10 @@
             "description": "Basin name.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/BasinNameStr"
+              "type": "string",
+              "maximum": 48,
+              "minimum": 8,
+              "pattern": "^(?!-)[a-z0-9-]{8,48}(?<!-)$"
             }
           },
           {
@@ -853,7 +860,7 @@
             "description": "Stream name.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/StreamNameStr"
+              "type": "string"
             }
           }
         ],
@@ -993,17 +1000,6 @@
         ],
         "summary": "Create a stream.",
         "operationId": "create_stream",
-        "parameters": [
-          {
-            "name": "s2-request-token",
-            "in": "header",
-            "description": "Client-specified request token for idempotent retries.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1094,7 +1090,7 @@
             "description": "Stream name.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/StreamNameStr"
+              "type": "string"
             }
           }
         ],
@@ -1176,7 +1172,7 @@
             "description": "Stream name.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/StreamNameStr"
+              "type": "string"
             }
           },
           {
@@ -1286,7 +1282,7 @@
             "description": "Stream name.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/StreamNameStr"
+              "type": "string"
             }
           }
         ],
@@ -1351,7 +1347,7 @@
             "description": "Stream name.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/StreamNameStr"
+              "type": "string"
             }
           }
         ],
@@ -1445,7 +1441,7 @@
             "description": "Stream name.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/StreamNameStr"
+              "type": "string"
             }
           },
           {
@@ -1630,7 +1626,7 @@
             "description": "Stream name.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/StreamNameStr"
+              "type": "string"
             }
           },
           {
@@ -1743,7 +1739,7 @@
             "description": "Stream name.",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/StreamNameStr"
+              "type": "string"
             }
           }
         ],
@@ -1816,11 +1812,6 @@
   },
   "components": {
     "schemas": {
-      "AccessTokenIdStr": {
-        "type": "string",
-        "maxLength": 96,
-        "minLength": 1
-      },
       "AccessTokenInfo": {
         "type": "object",
         "required": [
@@ -1842,7 +1833,7 @@
             "description": "Expiration time in ISO 8601 format.\nIf not set, the expiration will be set to that of the requestor's token."
           },
           "id": {
-            "$ref": "#/components/schemas/AccessTokenIdStr",
+            "type": "string",
             "description": "Access token ID.\nIt must be unique to the account and between 1 and 96 bytes in length."
           },
           "scope": {
@@ -1860,7 +1851,7 @@
                 "type": "null"
               },
               {
-                "$ref": "#/components/schemas/ResourceSet_AccessTokenIdStr_AccessTokenIdStr",
+                "$ref": "#/components/schemas/ResourceSet",
                 "description": "Token IDs allowed."
               }
             ]
@@ -1871,7 +1862,7 @@
                 "type": "null"
               },
               {
-                "$ref": "#/components/schemas/ResourceSet_BasinNameStr_BasinNameStr",
+                "$ref": "#/components/schemas/ResourceSet",
                 "description": "Basin names allowed."
               }
             ]
@@ -1903,7 +1894,7 @@
                 "type": "null"
               },
               {
-                "$ref": "#/components/schemas/ResourceSet_StreamNameStr_StreamNameStr",
+                "$ref": "#/components/schemas/ResourceSet",
                 "description": "Stream names allowed."
               }
             ]
@@ -1917,7 +1908,7 @@
           "account-ops"
         ]
       },
-      "AccumulationMetric": {
+      "Accumulation": {
         "type": "object",
         "required": [
           "name",
@@ -1993,7 +1984,7 @@
             ],
             "properties": {
               "fencing_token_mismatch": {
-                "$ref": "#/components/schemas/FencingToken",
+                "type": "string",
                 "description": "Fencing token did not match.\nThe expected fencing token is returned."
               }
             }
@@ -2007,8 +1998,10 @@
             ],
             "properties": {
               "seq_num_mismatch": {
-                "$ref": "#/components/schemas/u64",
-                "description": "Sequence number did not match the tail of the stream.\nThe expected next sequence number is returned."
+                "type": "integer",
+                "format": "int64",
+                "description": "Sequence number did not match the tail of the stream.\nThe expected next sequence number is returned.",
+                "minimum": 0
               }
             }
           }
@@ -2023,15 +2016,11 @@
         ],
         "properties": {
           "fencing_token": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "$ref": "#/components/schemas/FencingToken",
-                "description": "Enforce a fencing token, which starts out as an empty string that can be overridden by a `fence` command record."
-              }
-            ]
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Enforce a fencing token, which starts out as an empty string that can be overridden by a `fence` command record."
           },
           "match_seq_num": {
             "oneOf": [
@@ -2114,7 +2103,7 @@
         ],
         "properties": {
           "name": {
-            "$ref": "#/components/schemas/BasinNameStr",
+            "type": "string",
             "description": "Basin name."
           },
           "scope": {
@@ -2137,11 +2126,6 @@
           "append-throughput",
           "basin-ops"
         ]
-      },
-      "BasinNameStr": {
-        "type": "string",
-        "maxLength": 48,
-        "minLength": 1
       },
       "BasinReconfiguration": {
         "type": "object",
@@ -2194,7 +2178,7 @@
         ],
         "properties": {
           "basin": {
-            "$ref": "#/components/schemas/BasinNameStr",
+            "type": "string",
             "description": "Basin name which must be globally unique.\nIt can be between 8 and 48 characters in length, and comprise lowercase letters, numbers and hyphens.\nIt cannot begin or end with a hyphen."
           },
           "config": {
@@ -2262,7 +2246,7 @@
             ]
           },
           "stream": {
-            "$ref": "#/components/schemas/StreamNameStr",
+            "type": "string",
             "description": "Stream name that is unique to the basin.\nIt can be between 1 and 512 bytes in length."
           }
         }
@@ -2307,11 +2291,7 @@
           }
         }
       },
-      "FencingToken": {
-        "type": "string",
-        "maxLength": 36
-      },
-      "GaugeMetric": {
+      "Gauge": {
         "type": "object",
         "required": [
           "name",
@@ -2373,7 +2353,7 @@
           }
         }
       },
-      "LabelMetric": {
+      "Label": {
         "type": "object",
         "required": [
           "name",
@@ -2466,7 +2446,7 @@
             ],
             "properties": {
               "scalar": {
-                "$ref": "#/components/schemas/ScalarMetric",
+                "$ref": "#/components/schemas/Scalar",
                 "description": "Single named value."
               }
             }
@@ -2479,7 +2459,7 @@
             ],
             "properties": {
               "accumulation": {
-                "$ref": "#/components/schemas/AccumulationMetric",
+                "$ref": "#/components/schemas/Accumulation",
                 "description": "Named series of `(timestamp, value)` points representing an accumulation over a specified\nbucket."
               }
             }
@@ -2492,7 +2472,7 @@
             ],
             "properties": {
               "gauge": {
-                "$ref": "#/components/schemas/GaugeMetric",
+                "$ref": "#/components/schemas/Gauge",
                 "description": "Named series of `(timestamp, value)` points each representing an instantaneous value."
               }
             }
@@ -2505,7 +2485,7 @@
             ],
             "properties": {
               "label": {
-                "$ref": "#/components/schemas/LabelMetric",
+                "$ref": "#/components/schemas/Label",
                 "description": "Set of string labels."
               }
             }
@@ -2718,71 +2698,7 @@
           }
         }
       },
-      "ResourceSet_AccessTokenIdStr_AccessTokenIdStr": {
-        "oneOf": [
-          {
-            "type": "object",
-            "title": "exact",
-            "description": "Match only the resource with this exact name.\nUse an empty string to match no resources.",
-            "required": [
-              "exact"
-            ],
-            "properties": {
-              "exact": {
-                "type": "string",
-                "description": "Match only the resource with this exact name.\nUse an empty string to match no resources."
-              }
-            }
-          },
-          {
-            "type": "object",
-            "title": "prefix",
-            "description": "Match all resources that start with this prefix.\nUse an empty string to match all resource.",
-            "required": [
-              "prefix"
-            ],
-            "properties": {
-              "prefix": {
-                "type": "string",
-                "description": "Match all resources that start with this prefix.\nUse an empty string to match all resource."
-              }
-            }
-          }
-        ]
-      },
-      "ResourceSet_BasinNameStr_BasinNameStr": {
-        "oneOf": [
-          {
-            "type": "object",
-            "title": "exact",
-            "description": "Match only the resource with this exact name.\nUse an empty string to match no resources.",
-            "required": [
-              "exact"
-            ],
-            "properties": {
-              "exact": {
-                "type": "string",
-                "description": "Match only the resource with this exact name.\nUse an empty string to match no resources."
-              }
-            }
-          },
-          {
-            "type": "object",
-            "title": "prefix",
-            "description": "Match all resources that start with this prefix.\nUse an empty string to match all resource.",
-            "required": [
-              "prefix"
-            ],
-            "properties": {
-              "prefix": {
-                "type": "string",
-                "description": "Match all resources that start with this prefix.\nUse an empty string to match all resource."
-              }
-            }
-          }
-        ]
-      },
-      "ResourceSet_StreamNameStr_StreamNameStr": {
+      "ResourceSet": {
         "oneOf": [
           {
             "type": "object",
@@ -2818,7 +2734,7 @@
         "oneOf": [
           {
             "type": "object",
-            "description": "Age in seconds for automatic trimming of records older than this threshold.\nThis must be set to a value greater than 0 seconds.",
+            "description": "Age in seconds for automatic trimming of records older than this threshold.\nThis must be set to a value greater than 0 seconds.\n(While S2 is in public preview, this is capped at 28 days. Let us know if you'd like the cap removed.)",
             "required": [
               "age"
             ],
@@ -2826,7 +2742,7 @@
               "age": {
                 "type": "integer",
                 "format": "int64",
-                "description": "Age in seconds for automatic trimming of records older than this threshold.\nThis must be set to a value greater than 0 seconds.",
+                "description": "Age in seconds for automatic trimming of records older than this threshold.\nThis must be set to a value greater than 0 seconds.\n(While S2 is in public preview, this is capped at 28 days. Let us know if you'd like the cap removed.)",
                 "minimum": 0
               }
             }
@@ -2853,7 +2769,7 @@
           "base64"
         ]
       },
-      "ScalarMetric": {
+      "Scalar": {
         "type": "object",
         "required": [
           "name",
@@ -2982,7 +2898,7 @@
             "description": "Deletion time in ISO 8601 format, if the stream is being deleted."
           },
           "name": {
-            "$ref": "#/components/schemas/StreamNameStr",
+            "type": "string",
             "description": "Stream name."
           }
         }
@@ -2993,11 +2909,6 @@
           "storage"
         ]
       },
-      "StreamNameStr": {
-        "type": "string",
-        "maxLength": 512,
-        "minLength": 1
-      },
       "StreamPosition": {
         "type": "object",
         "description": "Position of a record in a stream.",
@@ -3007,12 +2918,16 @@
         ],
         "properties": {
           "seq_num": {
-            "$ref": "#/components/schemas/u64",
-            "description": "Sequence number assigned by the service."
+            "type": "integer",
+            "format": "int64",
+            "description": "Sequence number assigned by the service.",
+            "minimum": 0
           },
           "timestamp": {
-            "$ref": "#/components/schemas/u64",
-            "description": "Timestamp, which may be client-specified or assigned by the service.\nIf it is assigned by the service, it will represent milliseconds since Unix epoch."
+            "type": "integer",
+            "format": "int64",
+            "description": "Timestamp, which may be client-specified or assigned by the service.\nIf it is assigned by the service, it will represent milliseconds since Unix epoch.",
+            "minimum": 0
           }
         }
       },
