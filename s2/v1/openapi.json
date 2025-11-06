@@ -1860,7 +1860,7 @@
                 "type": "null"
               },
               {
-                "$ref": "#/components/schemas/ResourceSet_AccessTokenIdStr_AccessTokenIdStr",
+                "$ref": "#/components/schemas/ResourceSet",
                 "description": "Token IDs allowed."
               }
             ]
@@ -1871,7 +1871,7 @@
                 "type": "null"
               },
               {
-                "$ref": "#/components/schemas/ResourceSet_BasinNameStr_BasinNameStr",
+                "$ref": "#/components/schemas/ResourceSet",
                 "description": "Basin names allowed."
               }
             ]
@@ -1903,7 +1903,7 @@
                 "type": "null"
               },
               {
-                "$ref": "#/components/schemas/ResourceSet_StreamNameStr_StreamNameStr",
+                "$ref": "#/components/schemas/ResourceSet",
                 "description": "Stream names allowed."
               }
             ]
@@ -2718,71 +2718,7 @@
           }
         }
       },
-      "ResourceSet_AccessTokenIdStr_AccessTokenIdStr": {
-        "oneOf": [
-          {
-            "type": "object",
-            "title": "exact",
-            "description": "Match only the resource with this exact name.\nUse an empty string to match no resources.",
-            "required": [
-              "exact"
-            ],
-            "properties": {
-              "exact": {
-                "type": "string",
-                "description": "Match only the resource with this exact name.\nUse an empty string to match no resources."
-              }
-            }
-          },
-          {
-            "type": "object",
-            "title": "prefix",
-            "description": "Match all resources that start with this prefix.\nUse an empty string to match all resource.",
-            "required": [
-              "prefix"
-            ],
-            "properties": {
-              "prefix": {
-                "type": "string",
-                "description": "Match all resources that start with this prefix.\nUse an empty string to match all resource."
-              }
-            }
-          }
-        ]
-      },
-      "ResourceSet_BasinNameStr_BasinNameStr": {
-        "oneOf": [
-          {
-            "type": "object",
-            "title": "exact",
-            "description": "Match only the resource with this exact name.\nUse an empty string to match no resources.",
-            "required": [
-              "exact"
-            ],
-            "properties": {
-              "exact": {
-                "type": "string",
-                "description": "Match only the resource with this exact name.\nUse an empty string to match no resources."
-              }
-            }
-          },
-          {
-            "type": "object",
-            "title": "prefix",
-            "description": "Match all resources that start with this prefix.\nUse an empty string to match all resource.",
-            "required": [
-              "prefix"
-            ],
-            "properties": {
-              "prefix": {
-                "type": "string",
-                "description": "Match all resources that start with this prefix.\nUse an empty string to match all resource."
-              }
-            }
-          }
-        ]
-      },
-      "ResourceSet_StreamNameStr_StreamNameStr": {
+      "ResourceSet": {
         "oneOf": [
           {
             "type": "object",
