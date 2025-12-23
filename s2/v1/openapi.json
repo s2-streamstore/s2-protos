@@ -2048,8 +2048,8 @@
               "string",
               "null"
             ],
-            "format": "time",
-            "description": "Expiration time in ISO 8601 format.\nIf not set, the expiration will be set to that of the requestor's token."
+            "format": "date-time",
+            "description": "Expiration time in RFC 3339 format.\nIf not set, the expiration will be set to that of the requestor's token."
           },
           "id": {
             "$ref": "#/components/schemas/AccessTokenIdStr",
@@ -2351,7 +2351,7 @@
       "BasinNameStr": {
         "type": "string",
         "maxLength": 48,
-        "minLength": 1
+        "minLength": 8
       },
       "BasinReconfiguration": {
         "type": "object",
@@ -3116,16 +3116,16 @@
         "properties": {
           "created_at": {
             "type": "string",
-            "format": "time",
-            "description": "Creation time in ISO 8601 format."
+            "format": "date-time",
+            "description": "Creation time in RFC 3339 format."
           },
           "deleted_at": {
             "type": [
               "string",
               "null"
             ],
-            "format": "time",
-            "description": "Deletion time in ISO 8601 format, if the stream is being deleted."
+            "format": "date-time",
+            "description": "Deletion time in RFC 3339 format, if the stream is being deleted."
           },
           "name": {
             "$ref": "#/components/schemas/StreamNameStr",
