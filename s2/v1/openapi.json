@@ -2319,7 +2319,6 @@
         "type": "object",
         "required": [
           "name",
-          "scope",
           "state"
         ],
         "properties": {
@@ -2328,8 +2327,15 @@
             "description": "Basin name."
           },
           "scope": {
-            "$ref": "#/components/schemas/BasinScope",
-            "description": "Basin scope."
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/BasinScope",
+                "description": "Basin scope."
+              }
+            ]
           },
           "state": {
             "$ref": "#/components/schemas/BasinState",
@@ -2421,11 +2427,13 @@
           "scope": {
             "oneOf": [
               {
+                "type": "null"
+              },
+              {
                 "$ref": "#/components/schemas/BasinScope",
                 "description": "Basin scope."
               }
-            ],
-            "default": "aws:us-east-1"
+            ]
           }
         }
       },
@@ -2446,11 +2454,13 @@
           "scope": {
             "oneOf": [
               {
+                "type": "null"
+              },
+              {
                 "$ref": "#/components/schemas/BasinScope",
                 "description": "Basin scope.\nThis cannot be reconfigured."
               }
-            ],
-            "default": "aws:us-east-1"
+            ]
           }
         }
       },
