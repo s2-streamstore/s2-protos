@@ -2132,13 +2132,13 @@
         "required": [
           "name",
           "unit",
-          "bucket_length",
+          "interval",
           "values"
         ],
         "properties": {
-          "bucket_length": {
+          "interval": {
             "$ref": "#/components/schemas/TimeseriesInterval",
-            "description": "The duration of bucket for the accumulation."
+            "description": "The interval at which data points are accumulated."
           },
           "name": {
             "type": "string",
@@ -2165,7 +2165,7 @@
                 }
               ]
             },
-            "description": "Timeseries values.\nEach element is a tuple of a timestamp in Unix epoch seconds and a data point.\nThe data point represents the accumulated value for a bucket of time starting at the provided timestamp, lasting for the duration of the `bucket_length` parameter."
+            "description": "Timeseries values.\nEach element is a tuple of a timestamp in Unix epoch seconds and a data point.\nThe data point represents the accumulated value for the time period starting at the timestamp,\nspanning one `interval`."
           }
         }
       },
@@ -2693,14 +2693,14 @@
           },
           {
             "type": "object",
-            "description": "Named series of `(timestamp, value)` points representing an accumulation over a specified\nbucket.",
+            "description": "Named series of `(timestamp, value)` points representing an accumulation over a specified\ninterval.",
             "required": [
               "accumulation"
             ],
             "properties": {
               "accumulation": {
                 "$ref": "#/components/schemas/AccumulationMetric",
-                "description": "Named series of `(timestamp, value)` points representing an accumulation over a specified\nbucket."
+                "description": "Named series of `(timestamp, value)` points representing an accumulation over a specified\ninterval."
               }
             }
           },
