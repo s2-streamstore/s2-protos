@@ -481,15 +481,6 @@
         "operationId": "create_or_reconfigure_basin",
         "parameters": [
           {
-            "name": "s2-request-token",
-            "in": "header",
-            "description": "Client-specified request token for idempotent retries.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "basin",
             "in": "path",
             "description": "Basin name.",
@@ -1328,15 +1319,6 @@
             "schema": {
               "$ref": "#/components/schemas/StreamNameStr"
             }
-          },
-          {
-            "name": "s2-request-token",
-            "in": "header",
-            "description": "Client-specified request token for idempotent retries.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "requestBody": {
@@ -1634,7 +1616,7 @@
             "description": "Defines the interpretation of record data (header name, header value, and body) with the JSON content type.\nUse `raw` (default) for efficient transmission and storage of Unicode data — storage will be in UTF-8.\nUse `base64` for safe transmission with efficient storage of binary data.",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/S2Format"
+              "$ref": "#/components/schemas/Format"
             }
           },
           {
@@ -1829,7 +1811,7 @@
             "description": "Defines the interpretation of record data (header name, header value, and body) with the JSON content type.\nUse `raw` (default) for efficient transmission and storage of Unicode data — storage will be in UTF-8.\nUse `base64` for safe transmission with efficient storage of binary data.",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/S2Format"
+              "$ref": "#/components/schemas/Format"
             }
           }
         ],
@@ -2531,6 +2513,13 @@
         "type": "string",
         "maxLength": 36
       },
+      "Format": {
+        "type": "string",
+        "enum": [
+          "raw",
+          "base64"
+        ]
+      },
       "GaugeMetric": {
         "type": "object",
         "required": [
@@ -3000,13 +2989,6 @@
               }
             }
           }
-        ]
-      },
-      "S2Format": {
-        "type": "string",
-        "enum": [
-          "raw",
-          "base64"
         ]
       },
       "ScalarMetric": {
