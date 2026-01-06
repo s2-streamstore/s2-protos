@@ -1003,6 +1003,18 @@
       }
     },
     "/streams": {
+      "servers": [
+        {
+          "url": "https://{basin}.b.aws.s2.dev/v1",
+          "description": "Endpoint for the basin",
+          "variables": {
+            "basin": {
+              "default": "",
+              "description": "Basin name"
+            }
+          }
+        }
+      ],
       "get": {
         "tags": [
           "streams"
@@ -1094,19 +1106,7 @@
               }
             }
           }
-        },
-        "servers": [
-          {
-            "url": "https://{basin}.b.aws.s2.dev/v1",
-            "description": "Endpoint for the basin",
-            "variables": {
-              "basin": {
-                "default": "",
-                "description": "Basin name"
-              }
-            }
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -1196,22 +1196,22 @@
               }
             }
           }
-        },
-        "servers": [
-          {
-            "url": "https://{basin}.b.aws.s2.dev/v1",
-            "description": "Endpoint for the basin",
-            "variables": {
-              "basin": {
-                "default": "",
-                "description": "Basin name"
-              }
-            }
-          }
-        ]
+        }
       }
     },
     "/streams/{stream}": {
+      "servers": [
+        {
+          "url": "https://{basin}.b.aws.s2.dev/v1",
+          "description": "Endpoint for the basin",
+          "variables": {
+            "basin": {
+              "default": "",
+              "description": "Basin name"
+            }
+          }
+        }
+      ],
       "get": {
         "tags": [
           "streams"
@@ -1290,19 +1290,7 @@
               }
             }
           }
-        },
-        "servers": [
-          {
-            "url": "https://{basin}.b.aws.s2.dev/v1",
-            "description": "Endpoint for the basin",
-            "variables": {
-              "basin": {
-                "default": "",
-                "description": "Basin name"
-              }
-            }
-          }
-        ]
+        }
       },
       "put": {
         "tags": [
@@ -1401,19 +1389,7 @@
               }
             }
           }
-        },
-        "servers": [
-          {
-            "url": "https://{basin}.b.aws.s2.dev/v1",
-            "description": "Endpoint for the basin",
-            "variables": {
-              "basin": {
-                "default": "",
-                "description": "Basin name"
-              }
-            }
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [
@@ -1476,19 +1452,7 @@
               }
             }
           }
-        },
-        "servers": [
-          {
-            "url": "https://{basin}.b.aws.s2.dev/v1",
-            "description": "Endpoint for the basin",
-            "variables": {
-              "basin": {
-                "default": "",
-                "description": "Basin name"
-              }
-            }
-          }
-        ]
+        }
       },
       "patch": {
         "tags": [
@@ -1578,22 +1542,22 @@
               }
             }
           }
-        },
-        "servers": [
-          {
-            "url": "https://{basin}.b.aws.s2.dev/v1",
-            "description": "Endpoint for the basin",
-            "variables": {
-              "basin": {
-                "default": "",
-                "description": "Basin name"
-              }
-            }
-          }
-        ]
+        }
       }
     },
     "/streams/{stream}/records": {
+      "servers": [
+        {
+          "url": "https://{basin}.b.aws.s2.dev/v1",
+          "description": "Endpoint for the basin",
+          "variables": {
+            "basin": {
+              "default": "",
+              "description": "Basin name"
+            }
+          }
+        }
+      ],
       "get": {
         "tags": [
           "records"
@@ -1775,19 +1739,7 @@
               }
             }
           }
-        },
-        "servers": [
-          {
-            "url": "https://{basin}.b.aws.s2.dev/v1",
-            "description": "Endpoint for the basin",
-            "variables": {
-              "basin": {
-                "default": "",
-                "description": "Basin name"
-              }
-            }
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -1896,22 +1848,22 @@
               }
             }
           }
-        },
-        "servers": [
-          {
-            "url": "https://{basin}.b.aws.s2.dev/v1",
-            "description": "Endpoint for the basin",
-            "variables": {
-              "basin": {
-                "default": "",
-                "description": "Basin name"
-              }
-            }
-          }
-        ]
+        }
       }
     },
     "/streams/{stream}/records/tail": {
+      "servers": [
+        {
+          "url": "https://{basin}.b.aws.s2.dev/v1",
+          "description": "Endpoint for the basin",
+          "variables": {
+            "basin": {
+              "default": "",
+              "description": "Basin name"
+            }
+          }
+        }
+      ],
       "get": {
         "tags": [
           "records"
@@ -1990,19 +1942,7 @@
               }
             }
           }
-        },
-        "servers": [
-          {
-            "url": "https://{basin}.b.aws.s2.dev/v1",
-            "description": "Endpoint for the basin",
-            "variables": {
-              "basin": {
-                "default": "",
-                "description": "Basin name"
-              }
-            }
-          }
-        ]
+        }
       }
     }
   },
