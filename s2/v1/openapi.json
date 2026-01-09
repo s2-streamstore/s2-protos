@@ -324,7 +324,7 @@
             "description": "Client-specified request token for idempotent retries.",
             "required": false,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/RequestToken"
             }
           }
         ],
@@ -526,9 +526,6 @@
                 }
               }
             }
-          },
-          "204": {
-            "description": ""
           },
           "400": {
             "description": "",
@@ -1121,7 +1118,7 @@
             "description": "Client-specified request token for idempotent retries.",
             "required": false,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/RequestToken"
             }
           }
         ],
@@ -1326,7 +1323,7 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
@@ -1336,8 +1333,15 @@
               }
             }
           },
-          "204": {
-            "description": ""
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamInfo"
+                }
+              }
+            }
           },
           "400": {
             "description": "",
@@ -2866,6 +2870,10 @@
             "default": false
           }
         }
+      },
+      "RequestToken": {
+        "type": "string",
+        "maxLength": 36
       },
       "ResourceSet": {
         "oneOf": [
